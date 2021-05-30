@@ -1,0 +1,18 @@
+## Interface: 20501
+## Title: Tank Buddy
+## Author: SabreValkyrn (BCC >=2.5.1)
+## Version: 3.0.1
+## Notes: Notices Party/Raid members when you use last stand, challenging shout/roar, shield wall, lifegiving gem or when your taunt/growl/mocking blow fails. It can also remove chosen buffs automatically, either always or only in defensive stance/bear form.
+## OptionalDeps: Ace3
+## SavedVariables: TankBuddyDB
+## X-Credits: Kane, Kolthor, Raespark
+## X-Embeds: Ace3
+
+embeds.xml
+
+######################
+# Localization Files #
+######################
+locale\locales.xml
+
+TankBuddy.lua

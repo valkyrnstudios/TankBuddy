@@ -1,3 +1,11 @@
 {
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "Lua.diagnostics.globals": [
+    "LibStub",
+    "DEFAULT_CHAT_FRAME"
+  ],
+  "Lua.diagnostics.disable": [
+    "undefined-global",
+    "lowercase-global"
+  ]
 }
