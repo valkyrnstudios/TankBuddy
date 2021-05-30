@@ -32,15 +32,15 @@ L["RD"] = "D\195\169fense vertueuse";
 L["RF"] = "Fureur vertueuse";
 L["Parry"] = "Parry";
 L["EnterNewText"] = {
-    [L["Taunt"]] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la provocation:",
-    [L["MB"]] = "Annonce personnalis\195\169e pour Coup Railleur \195\169chou\195\169:",
-    [L["LS"]] = "Annonce personnalis\195\169e pour Dernier Rempart:",
-    [L["SW"]] = "Annonce personnalis\195\169e pour Mur Protecteur:",
-    [L["LG"]] = "Annonce personnalis\195\169e pour Gemme donneuse de vie:",
-    [L["CS"]] = "Annonce personnalis\195\169e pour Cri de d\195\169fi:",
-    [L["Growl"]] = "Annonce personnalis\195\169e pour les 'r\195\169siste' au Grondement:",
-    [L["CR"]] = "Annonce personnalis\195\169e pour Rugissement provocateur:",
-    [L["RD"]] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la D\195\169fense vertueuse:"
+    ["Taunt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la provocation:",
+    ["MB"] = "Annonce personnalis\195\169e pour Coup Railleur \195\169chou\195\169:",
+    ["LS"] = "Annonce personnalis\195\169e pour Dernier Rempart:",
+    ["SW"] = "Annonce personnalis\195\169e pour Mur Protecteur:",
+    ["LG"] = "Annonce personnalis\195\169e pour Gemme donneuse de vie:",
+    ["CS"] = "Annonce personnalis\195\169e pour Cri de d\195\169fi:",
+    ["Growl"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' au Grondement:",
+    ["CR"] = "Annonce personnalis\195\169e pour Rugissement provocateur:",
+    ["RD"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la D\195\169fense vertueuse:"
 }
 L["EnterNewMBRecoveryText"] =
     "Entrez un nouveau texte d'annonce pour les provocations rat\195\169es mais r\195\169cup\195\169r\195\169es:";
@@ -68,15 +68,15 @@ L["Channel_Say"] = "Dire";
 L["Channel_Custom"] = "Personnalise";
 
 L["defaultText"] = {
-    [L["Taunt"]] = "- $tn a r\195\169sist\195\169 \195\160 ma provocation ! -",
-    [L["MB"]] = "- Mon coup railleur a \195\169chou\195\169 contre  $tn -",
-    [L["LS"]] = "- J'ai activ\195\169 Dernier Rempart ! Dans $sec secondes, je perds $hp PV! -",
-    [L["SW"]] = "- J'ai activ\195\169 Mur Protecteur pour $sec secondes! R\195\169duction des d\195\169gats de 75% -",
-    [L["LG"]] = "- J'ai activ\195\169 la Gemme donneuse de vie ! Dans $sec secondes, je perds $hp PV! -",
-    [L["CS"]] = "- J'ai activ\195\169 cri de d\195\169fi ! Mass heal sur moi pendant $sec secondes! -",
-    [L["Growl"]] = "- $tn a r\195\169sist\195\169 \195\160 mon grondement ! -",
-    [L["CR"]] = "- J'ai activ\195\169 rugissement provocateur ! Mass heal sur moi pendant $sec secondes! -",
-    [L["RD"]] = "- $tn a r\195\169sist\195\169 \195\160 ma D\195\169fense vertueuse ! -"
+    ["Taunt"] = "- $tn a r\195\169sist\195\169 \195\160 ma provocation ! -",
+    ["MB"] = "- Mon coup railleur a \195\169chou\195\169 contre  $tn -",
+    ["LS"] = "- J'ai activ\195\169 Dernier Rempart ! Dans $sec secondes, je perds $hp PV! -",
+    ["SW"] = "- J'ai activ\195\169 Mur Protecteur pour $sec secondes! R\195\169duction des d\195\169gats de 75% -",
+    ["LG"] = "- J'ai activ\195\169 la Gemme donneuse de vie ! Dans $sec secondes, je perds $hp PV! -",
+    ["CS"] = "- J'ai activ\195\169 cri de d\195\169fi ! Mass heal sur moi pendant $sec secondes! -",
+    ["Growl"] = "- $tn a r\195\169sist\195\169 \195\160 mon grondement ! -",
+    ["CR"] = "- J'ai activ\195\169 rugissement provocateur ! Mass heal sur moi pendant $sec secondes! -",
+    ["RD"] = "- $tn a r\195\169sist\195\169 \195\160 ma D\195\169fense vertueuse ! -"
 }
 L["defaultText_r"] =
     "- Ma provocation a \195\169chou\195\169e mais mon coup railleur a fonctionn\195\169! Pas de panique -";

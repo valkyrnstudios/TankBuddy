@@ -37,16 +37,16 @@ L["RF"] = "Righteous Fury";
 L["Parry"] = "Parry";
 
 L["EnterNewText"] = {
-    [L["Taunt"]] = "Enter new announcement text for resisted taunts:",
-    [L["MB"]] = "Enter new announcement text for failed mocking blows:",
-    [L["LS"]] = "Enter new announcement text for using last stand:",
-    [L["SW"]] = "Enter new announcement text for using shield wall:",
-    [L["LG"]] = "Enter new announcement text for using lifegiving gem:",
-    [L["CS"]] = "Enter new announcement text for using challenging shout:",
-    [L["Growl"]] = "Enter new announcement text for resisted growls:",
-    [L["CR"]] = "Enter new announcement text for using challenging roar:",
-    [L["RD"]] = "Enter new announcement text for resisted Righteous Defense:",
-    [L["Parry"]] = "Enter new announcement text for boss parry:"
+    ["Taunt"] = "Enter new announcement text for resisted taunts:",
+    ["MB"] = "Enter new announcement text for failed mocking blows:",
+    ["LS"] = "Enter new announcement text for using last stand:",
+    ["SW"] = "Enter new announcement text for using shield wall:",
+    ["LG"] = "Enter new announcement text for using lifegiving gem:",
+    ["CS"] = "Enter new announcement text for using challenging shout:",
+    ["Growl"] = "Enter new announcement text for resisted growls:",
+    ["CR"] = "Enter new announcement text for using challenging roar:",
+    ["RD"] = "Enter new announcement text for resisted Righteous Defense:",
+    ["Parry"] = "Enter new announcement text for boss parry:"
 }
 L["EnterNewMBRecoveryText"] =
     "Enter new announcement text for recovered taunts:";
@@ -74,16 +74,16 @@ L["Channel_Say"] = "Say";
 L["Channel_Custom"] = "Custom";
 
 L["defaultText"] = {
-    [L["Taunt"]] = "- My Taunt has been resisted by $tn! -",
-    [L["MB"]] = "- My Mocking Blow failed against $tn! -",
-    [L["LS"]] = "- I activated Last Stand! In $sec seconds I will lose $hpHP! -",
-    [L["SW"]] = "- I activated Shield Wall and will be taking 75% less damage for $sec seconds! -",
-    [L["LG"]] = "- I activated Lifegiving Gem! In $sec seconds I will lose $hpHP! -",
-    [L["CS"]] = "- I activated Challenging Shout! I will need a lot of healing for $sec seconds! -",
-    [L["Growl"]] = "- My Growl has been resisted by $tn! -",
-    [L["CR"]] = "- I activated Challenging Roar! I will need a lot of healing for $sec seconds! -",
-    [L["RD"]] = "- My Righteous Defense has been resisted by $tn! -",
-    [L["Parry"]] = " - Your $skill has been parried, get behind the boss! = "
+    ["Taunt"] = "- My Taunt has been resisted by $tn! -",
+    ["MB"] = "- My Mocking Blow failed against $tn! -",
+    ["LS"] = "- I activated Last Stand! In $sec seconds I will lose $hpHP! -",
+    ["SW"] = "- I activated Shield Wall and will be taking 75% less damage for $sec seconds! -",
+    ["LG"] = "- I activated Lifegiving Gem! In $sec seconds I will lose $hpHP! -",
+    ["CS"] = "- I activated Challenging Shout! I will need a lot of healing for $sec seconds! -",
+    ["Growl"] = "- My Growl has been resisted by $tn! -",
+    ["CR"] = "- I activated Challenging Roar! I will need a lot of healing for $sec seconds! -",
+    ["RD"] = "- My Righteous Defense has been resisted by $tn! -",
+    ["Parry"] = " - Your $skill has been parried, get behind the boss! = "
 }
 L["defaultText_r"] = "- My Mocking Blow RECOVERED my resisted taunt! -";
 

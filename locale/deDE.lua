@@ -33,15 +33,15 @@ L["RD"] = "Rechtschaffene Verteidigung";
 L["RF"] = "Zorn der Gerechtigkeit";
 L["Parry"] = "Parry";
 L["EnterNewText"] = {
-    [L["Taunt"]] = "Neuer Text wenn Spott wiederstanden wird:",
-    [L["MB"]] = "Neuer Text wenn Spöttischer Schlag verfehlt:",
-    [L["LS"]] = "Neuer Text wenn Letztes Gefecht aktiviert wird:",
-    [L["SW"]] = "Neuer Text wenn Schildwall aktiviert wird:",
-    [L["LG"]] = "Neuer Text für Benutzung von Lebensspendender Edelstein:",
-    [L["CS"]] = "Neuer Text wenn Herausforderndes Gebrüll aktiviert wird:",
-    [L["Growl"]] = "Neuer Text wenn Knurren wiederstanden wird:",
-    [L["CR"]] = "Neuer Text wenn Herausforderndes Gebrüll aktiviert wird:",
-    [L["RD"]] = "Neuer Text wenn Rechtschaffene Verteidigung wiederstanden wird:"
+    ["Taunt"] = "Neuer Text wenn Spott wiederstanden wird:",
+    ["MB"] = "Neuer Text wenn Spöttischer Schlag verfehlt:",
+    ["LS"] = "Neuer Text wenn Letztes Gefecht aktiviert wird:",
+    ["SW"] = "Neuer Text wenn Schildwall aktiviert wird:",
+    ["LG"] = "Neuer Text für Benutzung von Lebensspendender Edelstein:",
+    ["CS"] = "Neuer Text wenn Herausforderndes Gebrüll aktiviert wird:",
+    ["Growl"] = "Neuer Text wenn Knurren wiederstanden wird:",
+    ["CR"] = "Neuer Text wenn Herausforderndes Gebrüll aktiviert wird:",
+    ["RD"] = "Neuer Text wenn Rechtschaffene Verteidigung wiederstanden wird:"
 }
 L["EnterNewMBRecoveryText"] =
     "Neuer Text für Wiederherstellung von verfehltem Spott:";
@@ -69,15 +69,15 @@ L["Channel_Say"] = "Sagen";
 L["Channel_Custom"] = "Eigener";
 
 L["defaultText"] = {
-    [L["Taunt"]] = "- Mein Spott wurde von $tn widerstanden -",
-    [L["MB"]] = "- Mein Spöttischer Schlag hat $tn verfehlt -",
-    [L["LS"]] = "- Auf ins letzte Gefecht! In $sec Sekunden verliere ich $hpHP! -",
-    [L["SW"]] = "- Schildwall ist raus, ich bekomme nur 75% Schaden für $sec Sekunden! -",
-    [L["LG"]] = "- Ich habe Lebensspendender Edelstein aktiviert! In $sec Sekunden verliere ich $hpHP! -",
-    [L["CS"]] = "- Herausforderungsruf ist raus! Ich brauche Heilung für die nächsten $sec Sekunden! -",
-    [L["Growl"]] = "- Mein Knurren wurde von $tn widerstanden -",
-    [L["CR"]] = "- Herrausforderndes Gebrüll ist raus! Ich brauche Heilung für die nächsten $sec Sekunden! -",
-    [L["RD"]] = "- Mein Rechtschaffene Verteidigung wurde von $tn widerstanden -"
+    ["Taunt"] = "- Mein Spott wurde von $tn widerstanden -",
+    ["MB"] = "- Mein Spöttischer Schlag hat $tn verfehlt -",
+    ["LS"] = "- Auf ins letzte Gefecht! In $sec Sekunden verliere ich $hpHP! -",
+    ["SW"] = "- Schildwall ist raus, ich bekomme nur 75% Schaden für $sec Sekunden! -",
+    ["LG"] = "- Ich habe Lebensspendender Edelstein aktiviert! In $sec Sekunden verliere ich $hpHP! -",
+    ["CS"] = "- Herausforderungsruf ist raus! Ich brauche Heilung für die nächsten $sec Sekunden! -",
+    ["Growl"] = "- Mein Knurren wurde von $tn widerstanden -",
+    ["CR"] = "- Herrausforderndes Gebrüll ist raus! Ich brauche Heilung für die nächsten $sec Sekunden! -",
+    ["RD"] = "- Mein Rechtschaffene Verteidigung wurde von $tn widerstanden -"
 }
 L["defaultText_r"] =
     "- Mein Spöttischer Schlag hat meinen widerstandenen Spott wieder hergestellt! -";
