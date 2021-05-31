@@ -4,6 +4,7 @@ TankBuddy = LibStub("AceAddon-3.0"):NewAddon("TankBuddy", "AceConsole-3.0",
 TankBuddy.version = "3.0.1"
 
 local L = LibStub("AceLocale-3.0"):GetLocale("TankBuddy")
+local FindAuraByName = AuraUtil.FindAuraByName
 
 local options = {
     name = L["TankBuddy"],
@@ -61,6 +62,12 @@ local defaultCSResistText = {
     ["DRUID"] = L["defaultText"]["CR"],
     ["PALADIN"] = ""
 }
+
+local tankFormID = {["WARRIOR"] = 2, ["DRUID"] = 1, ["PALADIN"] = 9}
+
+local removeBuffsAlways = {}
+
+local removeBuffsDefensive = {}
 
 if classFile == "WARRIOR" then
     options.args.classOptions = {
@@ -322,22 +329,108 @@ function TankBuddy:OnInitialize()
 end
 
 function TankBuddy:OnEnable()
-    self:RegisterEvent("COMBAT_LOG_EVENT", "CombatLogEvent");
-    self:RegisterEvent("UNIT_AURA", "AurasChanged");
-    self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", "FormChanged");
-    self:RegisterEvent("PLAYER_DEAD", "SnarkDead");
-    self:RegisterEvent("PLAYER_ALIVE", "SnarkAlive");
+    self:RegisterEvent("COMBAT_LOG_EVENT");
+    self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", "EvaluateAuras");
+    self:RegisterEvent("UNIT_AURA", "EvaluateAuras");
+
+    self:RegisterEvent("PLAYER_DEAD");
+    self:RegisterEvent("PLAYER_ALIVE");
+
+    removeBuffsDefensive = TankBuddy:SplitOptionsString(self.db.profile
+                                                            .removeBuffsDefensive)
+    removeBuffsAlways = TankBuddy:SplitOptionsString(self.db.profile
+                                                         .removeBuffsAlways)
 end
 
-function TankBuddy:CombatLogEvent(...) self:Sendmsg("Combat log event") end
+function TankBuddy:COMBAT_LOG_EVENT(...)
+    self:SendMessage("Combat log event")
 
-function TankBuddy:AurasChanged(...) self:Sendmsg("AurasChanged event") end
+    do return end
 
-function TankBuddy:FormChanged(...) self:Sendmsg("FormChanged event") end
+    if ((arg2 == "SPELL_AURA_APPLIED") and (arg7 == TBmyname) and
+        (arg10 == TB_FR)) then -- Checks for Fel Rage
+        TBfeltime = GetTime();
+    elseif ((englishClass == "WARRIOR") and (arg4 == TBmyname)) then
+        if ((arg2 == "SPELL_MISSED") and (arg10 == TB_Taunt) and
+            (arg12 == "RESIST")) then -- Checks if your taunt was resisted
+            TBbadmob = arg7;
+            TBAbility = TB_GUI_Taunt;
+            TBRecovery = nil;
+            if (TBSettings[TBSettingsCharRealm].MBRecoveryStatus) then
+                TB_TauntFailInfo = {
+                    ["Target"] = UnitName("target") .. UnitLevel("target"),
+                    ["Time"] = GetTime()
+                }
+            end
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_SW)) then
+            TBAbility = TB_GUI_SW;
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_LS)) then
+            TBAbility = TB_GUI_LS;
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_CS)) then
+            TBAbility = TB_GUI_CS;
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg4 == TBmyname) and
+            (arg10 == TB_MB)) then -- Checks if your mocking blow was hit
+            if (TBSettings[TBSettingsCharRealm].MBRecoveryStatus) then
+                TBRecovery = 1;
+                TBbadmob = arg7;
+                TBAbility = TB_GUI_Taunt; -- Recovered taunts are handled like failed taunts.
+            end
+            if ((arg2 == "SPELL_MISSED") and (arg4 == TBmyname) and
+                (arg10 == TB_MB)) then -- If your mocking blow didnt hit, then do ..
+                TBbadmob = arg7;
+                TBAbility = TB_GUI_MB;
+            end
+        end
+    elseif ((englishClass == "DRUID") and (arg4 == TBmyname)) then
+        if ((arg2 == "SPELL_MISSED") and (arg10 == TB_Growl) and
+            (arg12 == "RESIST")) then -- Checks if your taunt was resisted
+            TBbadmob = arg7;
+            TBAbility = TB_GUI_Growl;
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_CR)) then -- Checks for Challenging Roar
+            TBAbility = TB_GUI_CR;
+        end
+    elseif ((englishClass == "PALADIN") and (arg4 == TBmyname)) then
+        if ((arg2 == "SPELL_MISSED") and (arg10 == TB_RD) and
+            (arg12 == "RESIST")) then -- Checks if righteous defense resisted
+            TBbadmob = arg7;
+            TBAbility = TB_GUI_RD;
+        end
+    elseif ((arg7 == TBmyname) and (arg10 == TB_LG)) then
+        TBAbility = TB_GUI_LG;
+    end
 
-function TankBuddy:SnarkDead(...) self:Sendmsg("SnarkDead event") end
+end
 
-function TankBuddy:SnarkAlive(...) self:Sendmsg("SnarkAlive event") end
+function TankBuddy:EvaluateAuras(event, ...)
+    local unit = ...
+
+    if unit and unit ~= "player" then return end
+
+    for i = 1, #removeBuffsAlways do
+        self:SendMessage("Checking for always " .. removeBuffsAlways[i])
+        if FindAuraByName(removeBuffsAlways[i], "player") then -- TODO regex on partial match
+            self:SendMessage("Removing " .. removeBuffsAlways[i])
+            CancelSpellByName(removeBuffsAlways[i])
+        end
+    end
+
+    self:SendMessage("Comparing form " .. GetShapeshiftForm(true) .. " to " ..
+                         tankFormID[classFile])
+    if GetShapeshiftForm(true) == tankFormID[classFile] then
+        self:SendMessage("In defensive")
+        for i = 1, #removeBuffsDefensive do
+            self:SendMessage("Checking for " .. removeBuffsDefensive[i])
+            if FindAuraByName(removeBuffsDefensive[i], "player") then
+                self:SendMessage("Removing " .. removeBuffsDefensive[i])
+                CancelSpellByName(removeBuffsDefensive[i])
+            end
+        end
+    end
+end
+
+function TankBuddy:PLAYER_DEAD(...) self:SendMessage("SnarkDead event") end
+
+function TankBuddy:PLAYER_ALIVE(...) self:SendMessage("SnarkAlive event") end
 
 function TankBuddy:ChatCommand(input)
     if not input or input:trim() == "" then
@@ -355,8 +448,18 @@ function TankBuddy:setProfileOption(info, value)
     self.db.profile[key] = value
 end
 
-function TankBuddy:Sendmsg(msg)
+function TankBuddy:SendMessage(msg)
     if (DEFAULT_CHAT_FRAME) then
         DEFAULT_CHAT_FRAME:AddMessage(msg, 0.0, 1.0, 0.0, 1.0);
     end
+end
+
+function TankBuddy:SplitOptionsString(var)
+    local tbl = {}
+    for v in string.gmatch(var, "[^,]+") do
+        self:SendMessage("Parsed option: " .. v)
+        tinsert(tbl, strtrim(v))
+    end
+
+    return tbl
 end
