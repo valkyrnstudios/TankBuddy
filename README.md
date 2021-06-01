@@ -18,6 +18,7 @@
 - 3.0.1
   - Rewrite using Ace3
   - Initial 2.5.1 support
+  - Due to [CancelUnitBuff](https://wowpedia.fandom.com/wiki/API_CancelUnitBuff) `protected` status, TankBuddy can no longer automatically remove buffs and auras while in combat
 
 ## Previous versions
 
