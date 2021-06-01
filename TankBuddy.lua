@@ -330,7 +330,7 @@ function TankBuddy:OnInitialize()
 end
 
 function TankBuddy:OnEnable()
-    self:RegisterEvent("COMBAT_LOG_EVENT");
+    self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
     self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", "EvaluateAuras");
     self:RegisterEvent("UNIT_AURA", "EvaluateAuras");
 
@@ -343,63 +343,196 @@ function TankBuddy:OnEnable()
                                                          .removeBuffsAlways)
 end
 
-function TankBuddy:COMBAT_LOG_EVENT(...)
+function TankBuddy:COMBAT_LOG_EVENT_UNFILTERED(...)
     self:SendMessage("Combat log event")
+    local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 = ...
 
     do return end
 
-    if ((arg2 == "SPELL_AURA_APPLIED") and (arg7 == TBmyname) and
-        (arg10 == TB_FR)) then -- Checks for Fel Rage
+    if ((arg2 == "SPELL_AURA_APPLIED") and (arg7 == UnitName("player")) and
+        (arg10 == L["FR"])) then -- Checks for Fel Rage
         TBfeltime = GetTime();
-    elseif ((englishClass == "WARRIOR") and (arg4 == TBmyname)) then
-        if ((arg2 == "SPELL_MISSED") and (arg10 == TB_Taunt) and
+    elseif ((classFile == "WARRIOR") and (arg4 == UnitName("player"))) then
+        if ((arg2 == "SPELL_MISSED") and (arg10 == L["Taunt"]) and
             (arg12 == "RESIST")) then -- Checks if your taunt was resisted
-            TBbadmob = arg7;
-            TBAbility = TB_GUI_Taunt;
+            badMob = arg7;
+            abilityName = L["Taunt"];
             TBRecovery = nil;
-            if (TBSettings[TBSettingsCharRealm].MBRecoveryStatus) then
-                TB_TauntFailInfo = {
+            if self.db.profile.announceTauntRecovery then
+                tauntFailInfo = {
                     ["Target"] = UnitName("target") .. UnitLevel("target"),
                     ["Time"] = GetTime()
                 }
             end
-        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_SW)) then
-            TBAbility = TB_GUI_SW;
-        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_LS)) then
-            TBAbility = TB_GUI_LS;
-        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_CS)) then
-            TBAbility = TB_GUI_CS;
-        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg4 == TBmyname) and
-            (arg10 == TB_MB)) then -- Checks if your mocking blow was hit
-            if (TBSettings[TBSettingsCharRealm].MBRecoveryStatus) then
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == L["SW"])) then
+            abilityName = L["SW"];
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == L["LS"])) then
+            abilityName = L["LS"];
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == L["CS"])) then
+            abilityName = L["CS"];
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg4 == UnitName("player")) and
+            (arg10 == L["MB"])) then -- Checks if your mocking blow was hit
+            if (self.db.profile.announceTauntRecovery) then
                 TBRecovery = 1;
-                TBbadmob = arg7;
-                TBAbility = TB_GUI_Taunt; -- Recovered taunts are handled like failed taunts.
+                badMob = arg7;
+                abilityName = L["Taunt"]; -- Recovered taunts are handled like failed taunts.
             end
-            if ((arg2 == "SPELL_MISSED") and (arg4 == TBmyname) and
-                (arg10 == TB_MB)) then -- If your mocking blow didnt hit, then do ..
-                TBbadmob = arg7;
-                TBAbility = TB_GUI_MB;
+            if ((arg2 == "SPELL_MISSED") and (arg4 == UnitName("player")) and
+                (arg10 == L["MB"])) then -- If your mocking blow didnt hit, then do ..
+                badMob = arg7;
+                abilityName = L["MB"];
             end
         end
-    elseif ((englishClass == "DRUID") and (arg4 == TBmyname)) then
-        if ((arg2 == "SPELL_MISSED") and (arg10 == TB_Growl) and
+    elseif ((classFile == "DRUID") and (arg4 == UnitName("player"))) then
+        if ((arg2 == "SPELL_MISSED") and (arg10 == L["Growl"]) and
             (arg12 == "RESIST")) then -- Checks if your taunt was resisted
-            TBbadmob = arg7;
-            TBAbility = TB_GUI_Growl;
-        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == TB_CR)) then -- Checks for Challenging Roar
-            TBAbility = TB_GUI_CR;
+            badMob = arg7;
+            abilityName = L["Growl"];
+        elseif ((arg2 == "SPELL_CAST_SUCCESS") and (arg10 == L["CR"])) then -- Checks for Challenging Roar
+            abilityName = L["CR"];
         end
-    elseif ((englishClass == "PALADIN") and (arg4 == TBmyname)) then
-        if ((arg2 == "SPELL_MISSED") and (arg10 == TB_RD) and
+    elseif ((classFile == "PALADIN") and (arg4 == UnitName("player"))) then
+        if ((arg2 == "SPELL_MISSED") and (arg10 == L["RD"]) and
             (arg12 == "RESIST")) then -- Checks if righteous defense resisted
-            TBbadmob = arg7;
-            TBAbility = TB_GUI_RD;
+            badMob = arg7;
+            abilityName = L["RD"];
         end
-    elseif ((arg7 == TBmyname) and (arg10 == TB_LG)) then
-        TBAbility = TB_GUI_LG;
+    elseif ((arg7 == UnitName("player")) and (arg10 == L["LG"])) then
+        abilityName = L["LG"];
     end
 
+    if abilityName then self:Announce(abilityName, tauntFailInfo) end
+end
+
+function TankBuddy:Announce(abilityName, tauntFailInfo)
+    self:SendMessage(abilityName)
+
+    if (abilityName) then
+        local TBText;
+        if (abilityName == L["Taunt"] and TBRecovery) then
+            if tauntFailInfo then
+                local TBTime = GetTime() - tauntFailInfo.Time;
+                if TBTime < TB_GetTauntCD() then
+                    if (UnitName("target") .. UnitLevel("target") ==
+                        tauntFailInfo.Target) then
+                        TBText =
+                            TBSettings[TBSettingsCharRealm].Announcements[abilityName]["RecoveryText"];
+                    else
+                        TBText = nil;
+                    end
+                else
+                    tauntFailInfo = nil;
+                end
+            end
+        else
+            TBText =
+                TBSettings[TBSettingsCharRealm].Announcements[abilityName]["Text"];
+        end
+        if (TBText) then
+            if (abilityName == L["Taunt"] or abilityName == L["MB"] or
+                abilityName == L["Growl"] or abilityName == L["RD"]) then
+                if string.find(TBText, "$ttn") then
+                    if (UnitName("targettarget")) then
+                        TBText = string.gsub(TBText, "$ttn",
+                                             UnitName("targettarget"));
+                    else
+                        TBText = string.gsub(TBText, "$ttn", "<no target>");
+                    end
+                end
+                if string.find(TBText, "$ttl") then
+                    if (UnitLevel("targettarget") < 0) then
+                        TBText = string.gsub(TBText, "$ttl", "??");
+                    else
+                        TBText = string.gsub(TBText, "$ttl",
+                                             UnitLevel("targettarget"));
+                    end
+                end
+                if string.find(TBText, "$ttt") then
+                    if (UnitCreatureType("targettarget")) then
+                        TBText = string.gsub(TBText, "$ttt",
+                                             UnitCreatureType("targettarget"));
+                    else
+                        TBText = string.gsub(TBText, "$ttt", "Unknown");
+                    end
+                end
+                if string.find(TBText, "$tn") then
+                    TBText = string.gsub(TBText, "$tn", TBbadmob);
+                end
+                if string.find(TBText, "$tl") then
+                    if (UnitLevel("target") < 0) then
+                        TBText = string.gsub(TBText, "$tl", "??");
+                    else
+                        TBText = string.gsub(TBText, "$tl", UnitLevel("target"));
+                    end
+                end
+                if string.find(TBText, "$tt") then
+                    if (UnitCreatureType("target")) then
+                        TBText = string.gsub(TBText, "$tt",
+                                             UnitCreatureType("target"));
+                    else
+                        TBText = string.gsub(TBText, "$tt", "Unknown");
+                    end
+                end
+            elseif abilityName == L["SW"] then
+                TBText = string.gsub(TBSettings[TBSettingsCharRealm]
+                                         .Announcements[abilityName]["Text"],
+                                     "$sec", TB_GetSWDuration());
+            elseif abilityName == L["LS"] then
+                TBText = string.gsub(TBSettings[TBSettingsCharRealm]
+                                         .Announcements[abilityName]["Text"],
+                                     "$sec", "20");
+                TBText = string.gsub(TBText, "$hp", math.floor(
+                                         (UnitHealthMax("player") / 130) * 30));
+            elseif abilityName == L["LG"] then
+                TBText = string.gsub(TBSettings[TBSettingsCharRealm]
+                                         .Announcements[abilityName]["Text"],
+                                     "$sec", "20");
+                TBText = string.gsub(TBText, "$hp", "1500");
+            elseif (abilityName == L["CS"] or abilityName == L["CR"]) then
+                TBText = string.gsub(TBSettings[TBSettingsCharRealm]
+                                         .Announcements[abilityName]["Text"],
+                                     "$sec", "6");
+            end
+
+            if (TBTest) then TBText = "TEST " .. TBText .. " TEST"; end
+
+            local TB_grp = L["Alone"];
+            if GetNumPartyMembers() > 0 then
+                if (UnitInRaid("player")) then
+                    TB_grp = L["Raid"];
+                elseif (UnitInParty("player")) then
+                    TB_grp = L["Party"];
+                end
+            end
+            for i = 1, getn(TB_Channels), 1 do
+                if (TBSettings[TBSettingsCharRealm].Announcements[abilityName][TB_grp][TB_Channels[i][2]]) then
+                    -- Channel option: CTRAID --
+                    if (TB_Channels[i][3] == "MS ") then
+                        if (IsAddOnLoaded("CT_RaidAssist")) then
+                            CT_RA_AddMessage("MS " .. TBText); -- Announcement in CT raid channel (if you can)
+                        end
+                        -- Channel option: CHANNEL --
+                    elseif (TB_Channels[i][3] == "CHANNEL") then
+                        local TB_CustChannels = TB_strsplit("%s+",
+                                                            TBSettings[TBSettingsCharRealm]
+                                                                .Announcements[abilityName][TB_grp]
+                                                                .Channels);
+                        for j = 1, getn(TB_CustChannels), 1 do
+                            local TB_channelId, TB_channelName = GetChannelName(
+                                                                     TB_CustChannels[j]);
+                            if (TB_channelId > 0) then -- Checks if you are still in that channel
+                                SendChatMessage(TBText, "CHANNEL", nil,
+                                                TB_channelId);
+                            end
+                        end
+                        -- Everything else --
+                    else
+                        self:SendChatMessage(TBText, TB_Channels[i][3]); -- Announcement in say, yell, party, raid or raid_warning channels
+                    end
+                end
+            end
+        end
+    end
 end
 
 function TankBuddy:EvaluateAuras(event, ...)
