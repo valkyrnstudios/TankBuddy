@@ -5,6 +5,7 @@ TankBuddy.version = "3.0.1"
 
 local L = LibStub("AceLocale-3.0"):GetLocale("TankBuddy")
 local FindAuraByName = AuraUtil.FindAuraByName
+local strmatch = string.match
 
 local options = {
     name = L["TankBuddy"],
@@ -402,29 +403,57 @@ function TankBuddy:COMBAT_LOG_EVENT(...)
 end
 
 function TankBuddy:EvaluateAuras(event, ...)
+    removeBuffsDefensive = TankBuddy:SplitOptionsString(self.db.profile
+                                                            .removeBuffsDefensive)
+    removeBuffsAlways = TankBuddy:SplitOptionsString(self.db.profile
+                                                         .removeBuffsAlways)
     local unit = ...
 
     if unit and unit ~= "player" then return end
 
     for i = 1, #removeBuffsAlways do
-        self:SendMessage("Checking for always " .. removeBuffsAlways[i])
-        if FindAuraByName(removeBuffsAlways[i], "player") then -- TODO regex on partial match
-            self:SendMessage("Removing " .. removeBuffsAlways[i])
-            CancelSpellByName(removeBuffsAlways[i])
+        local foundAura = self:HasAura(removeBuffsAlways[i])
+        if foundAura then self:CancelAuraByName(foundAura) end
+    end
+
+    if GetShapeshiftForm(true) == tankFormID[classFile] then
+        for i = 1, #removeBuffsDefensive do
+            local foundAura = self:HasAura(removeBuffsDefensive[i])
+            if foundAura then self:CancelAuraByName(foundAura) end
+        end
+    end
+end
+
+function TankBuddy:HasAura(auraName)
+    if FindAuraByName(auraName, "player") then -- exact match
+        self:SendMessage("Found exact match '" .. auraName .. "'")
+        return auraName
+    else -- fuzzy match
+        local i = 1
+        local auraAtIndex = nil
+        local patternMatch = nil
+        while true do
+            auraAtIndex = UnitBuff("player", i)
+            if auraAtIndex == nil then return nil end
+            patternMatch = strmatch(string.lower(auraAtIndex),
+                                    "(.*" .. string.lower(auraName) .. ".*)")
+            if patternMatch then
+                self:SendMessage("Found partial match '" .. patternMatch .. "'")
+                return patternMatch
+            end
+
+            i = i + 1
         end
     end
 
-    self:SendMessage("Comparing form " .. GetShapeshiftForm(true) .. " to " ..
-                         tankFormID[classFile])
-    if GetShapeshiftForm(true) == tankFormID[classFile] then
-        self:SendMessage("In defensive")
-        for i = 1, #removeBuffsDefensive do
-            self:SendMessage("Checking for " .. removeBuffsDefensive[i])
-            if FindAuraByName(removeBuffsDefensive[i], "player") then
-                self:SendMessage("Removing " .. removeBuffsDefensive[i])
-                CancelSpellByName(removeBuffsDefensive[i])
-            end
-        end
+    return nil
+end
+
+function TankBuddy:CancelAuraByName(auraName)
+    if UnitAffectingCombat("player") then
+        self:SendWarning(auraName .. " detected")
+    else
+        CancelSpellByName(auraName)
     end
 end
 
@@ -450,16 +479,25 @@ end
 
 function TankBuddy:SendMessage(msg)
     if (DEFAULT_CHAT_FRAME) then
-        DEFAULT_CHAT_FRAME:AddMessage(msg, 0.0, 1.0, 0.0, 1.0);
+        DEFAULT_CHAT_FRAME:AddMessage(L["TankBuddy"] .. ": " .. msg, 0.0, 1.0,
+                                      0.0, 1.0);
+    end
+end
+
+function TankBuddy:SendWarning(msg)
+    if (UIErrorsFrame) then
+        UIErrorsFrame:AddMessage(L["TankBuddy"] .. ": " .. msg, 1.0, 0.1, 0.1,
+                                 5.0);
+    end
+    if (DEFAULT_CHAT_FRAME) then
+        DEFAULT_CHAT_FRAME:AddMessage(L["TankBuddy"] .. ": " .. msg, 1.0, 0.1,
+                                      0.1, 1.0);
     end
 end
 
 function TankBuddy:SplitOptionsString(var)
     local tbl = {}
-    for v in string.gmatch(var, "[^,]+") do
-        self:SendMessage("Parsed option: " .. v)
-        tinsert(tbl, strtrim(v))
-    end
+    for v in string.gmatch(var, "[^,]+") do tinsert(tbl, strtrim(v)) end
 
     return tbl
 end
