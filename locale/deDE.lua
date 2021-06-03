@@ -79,7 +79,7 @@ L["defaultText"] = {
     ["CR"] = "- Herrausforderndes Gebrüll ist raus! Ich brauche Heilung für die nächsten $sec Sekunden! -",
     ["RD"] = "- Mein Rechtschaffene Verteidigung wurde von $tn widerstanden -"
 }
-L["defaultText_r"] =
+L["defaultText_recovery"] =
     "- Mein Spöttischer Schlag hat meinen widerstandenen Spott wieder hergestellt! -";
 
 L["salvation"] = "Segen der Rettung";

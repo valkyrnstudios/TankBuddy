@@ -78,7 +78,7 @@ L["defaultText"] = {
     ["CR"] = "- J'ai activ\195\169 rugissement provocateur ! Mass heal sur moi pendant $sec secondes! -",
     ["RD"] = "- $tn a r\195\169sist\195\169 \195\160 ma D\195\169fense vertueuse ! -"
 }
-L["defaultText_r"] =
+L["defaultText_recovery"] =
     "- Ma provocation a \195\169chou\195\169e mais mon coup railleur a fonctionn\195\169! Pas de panique -";
 
 L["salvation"] = "B\195\169n\195\169diction de salut";

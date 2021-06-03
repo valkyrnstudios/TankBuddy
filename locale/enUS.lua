@@ -26,8 +26,7 @@ L["Paste"] = "Paste";
 L["General"] = "General";
 L["Taunt"] = "Taunt";
 L["MB"] = "Mocking Blow";
-L["LS"] = "Last Stand";
-L["SW"] = "Shield Wall";
+L["SW"] = "Berserker Rage"; -- "Shield Wall";
 L["LG"] = "Lifegiving Gem";
 L["CS"] = "Challenging Shout";
 L["Growl"] = "Growl";
@@ -35,6 +34,8 @@ L["CR"] = "Challenging Roar";
 L["RD"] = "Righteous Defense";
 L["RF"] = "Righteous Fury";
 L["Parry"] = "Parry";
+L["LS"] = "Last Stand";
+L["FR"] = "Fel Rage";
 
 L["EnterNewText"] = {
     ["Taunt"] = "Enter new announcement text for resisted taunts:",
@@ -85,23 +86,11 @@ L["defaultText"] = {
     ["RD"] = "- My Righteous Defense has been resisted by $tn! -",
     ["Parry"] = " - Your $skill has been parried, get behind the boss! = "
 }
-L["defaultText_r"] = "- My Mocking Blow RECOVERED my resisted taunt! -";
+L["defaultText_recovery"] = "- My Mocking Blow RECOVERED my resisted taunt! -";
 
 L["salvation"] = "Salvation";
 L["intellect"] = "Intellect";
 L["wisdom"] = "Wisdom";
-L["Taunt"] = "Taunt";
-L["MB"] = "Mocking Blow";
-L["LS"] = "Berserker Rage"; -- "Last Stand";
-L["SW"] = "Shield Wall";
-L["LG"] = "Lifegiving Gem";
-L["CS"] = "Challenging Shout";
-L["Growl"] = "Growl";
-L["CR"] = "Challenging Roar";
-L["RD"] = "Righteous Defense";
-L["RF"] = "Righteous Fury";
-L["FR"] = "Fel Rage";
-L["Parry"] = "Parry";
 
 L["output_buffremoved"] = " removed, matched "; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["output_startup"] = " loaded. Type /TB for options.";
