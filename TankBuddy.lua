@@ -306,7 +306,7 @@ local defaults = {
         enable = true,
         disableInBG = true,
         removeBuffsAlways = "",
-        removeBuffsDefensive = L["salvation"],
+        removeBuffsDefensive = L["salvation"], -- TODO toggle box salvation
         announceTauntRecovery = true,
         tauntResistText = defaultTauntResistText[classFile],
         csAnnounceText = defaultCSResistText[classFile],
@@ -344,8 +344,40 @@ function TankBuddy:OnEnable()
 end
 
 function TankBuddy:COMBAT_LOG_EVENT_UNFILTERED(...)
-    self:SendMessage("Combat log event")
-    local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 = ...
+    -- self:SendMessage("Combat log event")
+    local timestamp, subevent, _, sourceGUID, sourceName, sourceFlags,
+          sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
+    local spellId, spellName, spellSchool
+    local amount, overkill, school, resisted, blocked, absorbed, critical,
+          glancing, crushing, isOffHand
+
+    if subevent == "SWING_DAMAGE" then
+        amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand =
+            select(12, ...)
+    elseif subevent == "SPELL_DAMAGE" then
+        spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand =
+            select(12, ...)
+    end
+
+    if arg2 then
+        -- self:SendMessage("Arg2 " .. arg2)
+    elseif arg3 then
+        self:SendMessage("Arg3 " .. arg3)
+    elseif arg4 then
+        self:SendMessage("Arg4 " .. arg4)
+    elseif arg5 then
+        self:SendMessage("Arg5 " .. arg5)
+    elseif arg6 then
+        self:SendMessage("Arg6 " .. arg6)
+    elseif arg7 then
+        self:SendMessage("Arg7 " .. arg7)
+    elseif arg8 then
+        self:SendMessage("Arg8 " .. arg8)
+    elseif arg9 then
+        self:SendMessage("Arg9 " .. arg9)
+    elseif arg10 then
+        self:SendMessage("Arg10 " .. arg10)
+    end
 
     do return end
 
@@ -405,9 +437,10 @@ function TankBuddy:COMBAT_LOG_EVENT_UNFILTERED(...)
 end
 
 function TankBuddy:Announce(abilityName, tauntFailInfo)
+    -- TODO https://github.com/Gamemechanicwow/Tankbuddy/blob/889e00965bb3ae21c69594dcd602e863b8f4d8b5/TankBuddy.lua#L357-L364
     self:SendMessage(abilityName)
 
-    if (abilityName) then
+    if abilityName then
         local TBText;
         if (abilityName == L["Taunt"] and TBRecovery) then
             if tauntFailInfo then
