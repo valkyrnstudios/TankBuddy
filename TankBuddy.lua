@@ -335,9 +335,6 @@ function TankBuddy:OnEnable()
     self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", "EvaluateAuras");
     self:RegisterEvent("UNIT_AURA", "EvaluateAuras");
 
-    self:RegisterEvent("PLAYER_DEAD");
-    self:RegisterEvent("PLAYER_ALIVE");
-
     removeBuffsDefensive = TankBuddy:SplitOptionsString(self.db.profile
                                                             .removeBuffsDefensive)
     removeBuffsAlways = TankBuddy:SplitOptionsString(self.db.profile
@@ -389,23 +386,7 @@ function TankBuddy:CombatLogHandler(...)
     elseif eventKind == "SPELL" then
         spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand =
             select(12, ...)
-        -- self:SendMessage("Spellname " .. spellName)
-    else
-        -- self:SendMessage("Unhandled subevent kind " .. subevent)
     end
-
-    local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 = "1",
-                                                                        "2",
-                                                                        "3",
-                                                                        "4",
-                                                                        "5",
-                                                                        "6",
-                                                                        "7",
-                                                                        "8",
-                                                                        "9",
-                                                                        "10"
-
-    -- do return end
 
     if subevent == "SPELL_AURA_APPLIED" and sourceName == playerName and
         spellName == L["FR"] then -- Checks for Fel Rage
@@ -472,8 +453,6 @@ end
 
 function TankBuddy:Announce(abilityName, announceArgs)
     -- TODO https://github.com/Gamemechanicwow/Tankbuddy/blob/889e00965bb3ae21c69594dcd602e863b8f4d8b5/TankBuddy.lua#L357-L364
-    self:SendMessage("Announcing! " .. abilityName)
-
     if not abilityName then
         self:SendWarning("Improper Announce received")
         return
@@ -498,15 +477,9 @@ function TankBuddy:Announce(abilityName, announceArgs)
         announcementText = self:GetAnnounceText(abilityName);
     end
 
-    if announceArgs and announceArgs.message then
-        self:SendMessage("Announcing! " .. announceArgs.message)
-    end
-
     if announcementText then
         if abilityName == L["Taunt"] or abilityName == L["MB"] or abilityName ==
             L["Growl"] or abilityName == L["RD"] then
-            -- TODO taunt not working
-            self:SendMessage("Taunt evaluation " .. announcementText)
             if string.find(announcementText, "$ttn") then
                 if UnitName("targettarget") then
                     announcementText = string.gsub(announcementText, "$ttn",
@@ -584,35 +557,6 @@ function TankBuddy:Announce(abilityName, announceArgs)
             end
         end
         SendChatMessage(announcementText, "EMOTE", nil);
-
-        do return end
-        for i = 1, getn(TB_Channels), 1 do
-            if TBSettings[TBSettingsCharRealm].Announcements[abilityName][TB_grp][TB_Channels[i][2]] then
-                -- Channel option: CTRAID --
-                if TB_Channels[i][3] == "MS " then
-                    if IsAddOnLoaded("CT_RaidAssist") then
-                        CT_RA_AddMessage("MS " .. announcementText); -- Announcement in CT raid channel (if you can)
-                    end
-                    -- Channel option: CHANNEL --
-                elseif TB_Channels[i][3] == "CHANNEL" then
-                    local TB_CustChannels = TB_strsplit("%s+",
-                                                        TBSettings[TBSettingsCharRealm]
-                                                            .Announcements[abilityName][TB_grp]
-                                                            .Channels);
-                    for j = 1, getn(TB_CustChannels), 1 do
-                        local TB_channelId, TB_channelName = GetChannelName(
-                                                                 TB_CustChannels[j]);
-                        if TB_channelId > 0 then -- Checks if you are still in that channel
-                            SendChatMessage(announcementText, "CHANNEL", nil,
-                                            TB_channelId);
-                        end
-                    end
-                    -- Everything else --
-                else
-                    self:SendChatMessage(announcementText, "EMOTE", nil); -- Announcement in say, yell, party, raid or raid_warning channels
-                end
-            end
-        end
     end
 end
 
@@ -637,7 +581,7 @@ function TankBuddy:GetTauntCD()
     local newtauntcd = 10;
     local _, _, _, _, currRank, _ = GetTalentInfo(3, 12); -- Get rank of Improved Taunt
     newtauntcd = TauntCD_dur - currRank;
-    if (englishClass == "PALADIN") then newtauntcd = 15; end
+    if (classFile == "PALADIN") then newtauntcd = 15; end
     return newtauntcd;
 end
 
@@ -669,7 +613,6 @@ end
 
 function TankBuddy:HasAura(auraName)
     if FindAuraByName(auraName, "player") then -- exact match
-        self:SendMessage("Found exact match '" .. auraName .. "'")
         return auraName
     else -- fuzzy match
         local i = 1
@@ -680,10 +623,7 @@ function TankBuddy:HasAura(auraName)
             if auraAtIndex == nil then return nil end
             patternMatch = strmatch(string.lower(auraAtIndex),
                                     "(.*" .. string.lower(auraName) .. ".*)")
-            if patternMatch then
-                self:SendMessage("Found partial match '" .. patternMatch .. "'")
-                return patternMatch
-            end
+            if patternMatch then return patternMatch end
 
             i = i + 1
         end
@@ -701,10 +641,6 @@ function TankBuddy:CancelAuraByName(auraName, match)
         CancelSpellByName(auraName)
     end
 end
-
-function TankBuddy:PLAYER_DEAD(...) self:SendMessage("SnarkDead event") end
-
-function TankBuddy:PLAYER_ALIVE(...) self:SendMessage("SnarkAlive event") end
 
 function TankBuddy:ChatCommand(input)
     if not input or input:trim() == "" then
