@@ -19,6 +19,7 @@
   - Rewrite using Ace3
   - Initial 2.5.1 support
   - Due to [CancelUnitBuff](https://wowpedia.fandom.com/wiki/API_CancelUnitBuff) `protected` status, TankBuddy can no longer automatically remove buffs and auras while in combat
+  - Due to [SendChatMessage](https://wowpedia.fandom.com/wiki/API_SendChatMessage) limitations, say, yell, and channels are no longer supported
 
 ## Previous versions
 
