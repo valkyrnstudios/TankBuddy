@@ -40,7 +40,7 @@ local options = {
                     name = L["IntroText"],
                     order = 2
                 },
-                helpHeader = {type = 'header', name = "Help", order = 3},
+                helpHeader = {type = 'header', name = L["Help"], order = 3},
                 help = {
                     type = 'description',
                     width = "full",
@@ -96,7 +96,7 @@ if classFile == "WARRIOR" then
             },
             taunt = {
                 type = 'group',
-                name = L["Taunt"],
+                name = L["Abilities"]["Taunt"],
                 order = 2,
                 args = {
                     announceTauntRecovery = {
@@ -114,7 +114,7 @@ if classFile == "WARRIOR" then
             },
             mockingBlow = {
                 type = 'group',
-                name = L["MB"],
+                name = L["Abilities"]["MB"],
                 order = 3,
                 args = {
                     mbResistText = {
@@ -127,7 +127,7 @@ if classFile == "WARRIOR" then
             },
             lastStand = {
                 type = 'group',
-                name = L["LS"],
+                name = L["Abilities"]["LS"],
                 order = 4,
                 args = {
                     lsAnnounceText = {
@@ -140,7 +140,7 @@ if classFile == "WARRIOR" then
             },
             shieldWall = {
                 type = 'group',
-                name = L["SW"],
+                name = L["Abilities"]["SW"],
                 order = 5,
                 args = {
                     swAnnounceText = {
@@ -153,7 +153,7 @@ if classFile == "WARRIOR" then
             },
             challengingShout = {
                 type = 'group',
-                name = L["CS"],
+                name = L["Abilities"]["CS"],
                 order = 6,
                 args = {
                     csAnnounceText = {
@@ -166,7 +166,7 @@ if classFile == "WARRIOR" then
             },
             items = {
                 type = 'group',
-                name = L["LG"],
+                name = L["Abilities"]["LG"],
                 order = 7,
                 args = {
                     itemAnnounceText = {
@@ -204,7 +204,7 @@ elseif classFile == "DRUID" then
             },
             taunt = {
                 type = 'group',
-                name = L["Growl"],
+                name = L["Abilities"]["Growl"],
                 order = 2,
                 args = {
                     tauntResistText = {
@@ -217,7 +217,7 @@ elseif classFile == "DRUID" then
             },
             challengingShout = {
                 type = 'group',
-                name = L["CR"],
+                name = L["Abilities"]["CR"],
                 order = 3,
                 args = {
                     csAnnounceText = {
@@ -255,7 +255,7 @@ elseif classFile == "PALADIN" then
             },
             taunt = {
                 type = 'group',
-                name = L["RD"],
+                name = L["Abilities"]["RD"],
                 order = 2,
                 args = {
                     tauntResistText = {
@@ -268,7 +268,7 @@ elseif classFile == "PALADIN" then
             },
             items = {
                 type = 'group',
-                name = L["LG"],
+                name = L["Abilities"]["LG"],
                 order = 3,
                 args = {
                     itemAnnounceText = {
@@ -342,21 +342,21 @@ function TankBuddy:OnEnable()
 end
 
 function TankBuddy:GetAnnounceText(abilityName)
-    if abilityName == L["MB"] then
+    if abilityName == L["Abilities"]["MB"] then
         return self.db.profile.mbResistText
-    elseif abilityName == L["LS"] then
+    elseif abilityName == L["Abilities"]["LS"] then
         return self.db.profile.lsAnnounceText
-    elseif abilityName == L["LS"] .. "D" then
-        return L["LS"] .. " " .. L["Done"]
-    elseif abilityName == L["SW"] then
+    elseif abilityName == L["Abilities"]["LS"] .. "D" then
+        return L["Abilities"]["LS"] .. " " .. L["Done"]
+    elseif abilityName == L["Abilities"]["SW"] then
         return self.db.profile.swAnnounceText
-    elseif abilityName == L["SW"] .. "D" then
-        return L["SW"] .. " " .. L["Done"]
-    elseif abilityName == L["LG"] then
+    elseif abilityName == L["Abilities"]["SW"] .. "D" then
+        return L["Abilities"]["SW"] .. " " .. L["Done"]
+    elseif abilityName == L["Abilities"]["LG"] then
         return self.db.profile.itemAnnounceText
-    elseif abilityName == L["CS"] then
+    elseif abilityName == L["Abilities"]["CS"] then
         return self.db.profile.csAnnounceText
-    elseif abilityName == L["Taunt"] then
+    elseif abilityName == L["Abilities"]["Taunt"] then
         return self.db.profile.tauntResistText
     else
         self:SendWarning("Unrecognized abilityName: " .. abilityName)
@@ -389,12 +389,12 @@ function TankBuddy:CombatLogHandler(...)
     end
 
     if subevent == "SPELL_AURA_APPLIED" and sourceName == playerName and
-        spellName == L["FR"] then -- Checks for Fel Rage
+        spellName == L["Abilities"]["FR"] then -- Checks for Fel Rage
         feltTime = GetTime();
     elseif classFile == "WARRIOR" and sourceName == playerName then
-        if spellName == L["Taunt"] then -- and resisted then -- Checks if your taunt was resisted
+        if spellName == L["Abilities"]["Taunt"] then -- and resisted then -- Checks if your taunt was resisted
             if subevent == "SPELL_MISSED" then
-                abilityName = L["Taunt"];
+                abilityName = L["Abilities"]["Taunt"];
                 if self.db.profile.announceTauntRecovery then
                     announceArgs = {
                         ["Target"] = UnitName("target") .. UnitLevel("target"),
@@ -404,48 +404,50 @@ function TankBuddy:CombatLogHandler(...)
                     }
                 end
             end
-        elseif spellName == L["SW"] then
+        elseif spellName == L["Abilities"]["SW"] then
             if subevent == "SPELL_CAST_SUCCESS" then
-                abilityName = L["SW"];
+                abilityName = L["Abilities"]["SW"];
             elseif subevent == "SPELL_AURA_REMOVED" then
-                abilityName = L["SW"] .. "D";
+                abilityName = L["Abilities"]["SW"] .. "D";
             end
-        elseif spellName == L["LS"] then
+        elseif spellName == L["Abilities"]["LS"] then
             if subevent == "SPELL_CAST_SUCCESS" then
-                abilityName = L["LS"];
+                abilityName = L["Abilities"]["LS"];
             elseif subevent == "SPELL_AURA_REMOVED" then
-                abilityName = L["LS"] .. "D";
+                abilityName = L["Abilities"]["LS"] .. "D";
             end
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["CS"] then
-            abilityName = L["CS"];
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
+            L["Abilities"]["CS"] then
+            abilityName = L["Abilities"]["CS"];
         elseif subevent == "SPELL_CAST_SUCCESS" and sourceName == playerName and
-            spellName == L["MB"] then -- Checks if your mocking blow was hit
+            spellName == L["Abilities"]["MB"] then -- Checks if your mocking blow was hit
             if self.db.profile.announceTauntRecovery then
                 announceArgs["tauntRecovered"] = true
                 announceArgs["badMob"] = destName
 
-                abilityName = L["Taunt"]; -- Recovered taunts are handled like failed taunts.
+                abilityName = L["Abilities"]["Taunt"]; -- Recovered taunts are handled like failed taunts.
             end
             if subevent == "SPELL_MISSED" and sourceName == playerName and
-                spellName == L["MB"] then -- If your mocking blow didnt hit, then do ..
+                spellName == L["Abilities"]["MB"] then -- If your mocking blow didnt hit, then do ..
                 announceArgs = {["badMob"] = destName}
-                abilityName = L["MB"];
+                abilityName = L["Abilities"]["MB"];
             end
         end
     elseif classFile == "DRUID" and sourceName == playerName then
-        if subevent == "SPELL_MISSED" and spellName == L["Growl"] then -- Checks if your taunt was resisted
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["Growl"] then -- Checks if your taunt was resisted
             announceArgs = {["badMob"] = destName}
-            abilityName = L["Growl"];
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["CR"] then -- Checks for Challenging Roar
-            abilityName = L["CR"];
+            abilityName = L["Abilities"]["Growl"];
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
+            L["Abilities"]["CR"] then -- Checks for Challenging Roar
+            abilityName = L["Abilities"]["CR"];
         end
     elseif classFile == "PALADIN" and sourceName == playerName then
-        if subevent == "SPELL_MISSED" and spellName == L["RD"] then -- Checks if righteous defense resisted
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["RD"] then -- Checks if righteous defense resisted
             announceArgs = {["badMob"] = destName}
-            abilityName = L["RD"];
+            abilityName = L["Abilities"]["RD"];
         end
     elseif sourceName == playerName and spellName == L["LG"] then -- TODO listen to item activated event
-        abilityName = L["LG"];
+        abilityName = L["Abilities"]["LG"];
     end
 
     if abilityName then self:Announce(abilityName, announceArgs) end
@@ -460,7 +462,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
 
     local announcementText;
 
-    if abilityName == L["Taunt"] and announceArgs and
+    if abilityName == L["Abilities"]["Taunt"] and announceArgs and
         announceArgs.tauntRecovered then
         if announceArgs.tauntFailInfo then
             local TBTime = GetTime() - announceArgs.tauntFailInfo.Time;
@@ -477,87 +479,89 @@ function TankBuddy:Announce(abilityName, announceArgs)
         announcementText = self:GetAnnounceText(abilityName);
     end
 
-    if announcementText then
-        if abilityName == L["Taunt"] or abilityName == L["MB"] or abilityName ==
-            L["Growl"] or abilityName == L["RD"] then
-            if string.find(announcementText, "$ttn") then
-                if UnitName("targettarget") then
-                    announcementText = string.gsub(announcementText, "$ttn",
-                                                   UnitName("targettarget"));
-                else
-                    announcementText = string.gsub(announcementText, "$ttn",
-                                                   "<no target>");
-                end
-            end
-            if string.find(announcementText, "$ttl") then
-                if UnitLevel("targettarget") < 0 then
-                    announcementText = string.gsub(announcementText, "$ttl",
-                                                   "??");
-                else
-                    announcementText = string.gsub(announcementText, "$ttl",
-                                                   UnitLevel("targettarget"));
-                end
-            end
-            if string.find(announcementText, "$ttt") then
-                if UnitCreatureType("targettarget") then
-                    announcementText = string.gsub(announcementText, "$ttt",
-                                                   UnitCreatureType(
-                                                       "targettarget"));
-                else
-                    announcementText = string.gsub(announcementText, "$ttt",
-                                                   "Unknown");
-                end
-            end
-            if string.find(announcementText, "$tn") then
-                announcementText = string.gsub(announcementText, "$tn",
-                                               announceArgs.badMob);
-            end
-            if string.find(announcementText, "$tl") then
-                if UnitLevel("target") < 0 then
-                    announcementText =
-                        string.gsub(announcementText, "$tl", "??");
-                else
-                    announcementText = string.gsub(announcementText, "$tl",
-                                                   UnitLevel("target"));
-                end
-            end
-            if string.find(announcementText, "$tt") then
-                if UnitCreatureType("target") then
-                    announcementText = string.gsub(announcementText, "$tt",
-                                                   UnitCreatureType("target"));
-                else
-                    announcementText = string.gsub(announcementText, "$tt",
-                                                   "Unknown");
-                end
-            end
-        elseif abilityName == L["SW"] then
-            announcementText = string.gsub(self:GetAnnounceText(abilityName),
-                                           "$sec", TankBuddy:GetSWDuration());
-        elseif abilityName == L["LS"] then
-            announcementText = string.gsub(self:GetAnnounceText(abilityName),
-                                           "$sec", "20");
-            announcementText = string.gsub(announcementText, "$hp", math.floor(
-                                               (UnitHealthMax("player") / 130) *
-                                                   30));
-        elseif abilityName == L["LG"] then
-            announcementText = string.gsub(self:GetAnnounceText(abilityName),
-                                           "$sec", "20");
-            announcementText = string.gsub(announcementText, "$hp", "1500");
-        elseif abilityName == L["CS"] or abilityName == L["CR"] then
-            announcementText = string.gsub(self:GetAnnounceText(abilityName),
-                                           "$sec", "6");
-        end
+    if not announcementText then do return end end
 
-        local TB_grp = L["Alone"];
-        if GetNumGroupMembers() > 0 then
-            if UnitInRaid("player") then
-                TB_grp = L["Raid"];
-            elseif UnitInParty("player") then
-                TB_grp = L["Party"];
+    if abilityName == L["Abilities"]["Taunt"] or abilityName ==
+        L["Abilities"]["MB"] or abilityName == L["Abilities"]["Growl"] or
+        abilityName == L["Abilities"]["RD"] then
+        if string.find(announcementText, "$ttn") then
+            if UnitName("targettarget") then
+                announcementText = string.gsub(announcementText, "$ttn",
+                                               UnitName("targettarget"));
+            else
+                announcementText = string.gsub(announcementText, "$ttn",
+                                               "<no target>");
             end
         end
-        SendChatMessage(announcementText, "EMOTE", nil);
+        if string.find(announcementText, "$ttl") then
+            if UnitLevel("targettarget") < 0 then
+                announcementText = string.gsub(announcementText, "$ttl", "??");
+            else
+                announcementText = string.gsub(announcementText, "$ttl",
+                                               UnitLevel("targettarget"));
+            end
+        end
+        if string.find(announcementText, "$ttt") then
+            if UnitCreatureType("targettarget") then
+                announcementText = string.gsub(announcementText, "$ttt",
+                                               UnitCreatureType("targettarget"));
+            else
+                announcementText = string.gsub(announcementText, "$ttt",
+                                               "Unknown");
+            end
+        end
+        if string.find(announcementText, "$tn") then
+            announcementText = string.gsub(announcementText, "$tn",
+                                           announceArgs.badMob);
+        end
+        if string.find(announcementText, "$tl") then
+            if UnitLevel("target") < 0 then
+                announcementText = string.gsub(announcementText, "$tl", "??");
+            else
+                announcementText = string.gsub(announcementText, "$tl",
+                                               UnitLevel("target"));
+            end
+        end
+        if string.find(announcementText, "$tt") then
+            if UnitCreatureType("target") then
+                announcementText = string.gsub(announcementText, "$tt",
+                                               UnitCreatureType("target"));
+            else
+                announcementText = string.gsub(announcementText, "$tt",
+                                               "Unknown");
+            end
+        end
+    elseif abilityName == L["Abilities"]["SW"] then
+        announcementText = string.gsub(self:GetAnnounceText(abilityName),
+                                       "$sec", TankBuddy:GetSWDuration());
+    elseif abilityName == L["Abilities"]["LS"] then
+        announcementText = string.gsub(self:GetAnnounceText(abilityName),
+                                       "$sec", "20");
+        announcementText = string.gsub(announcementText, "$hp", math.floor(
+                                           (UnitHealthMax("player") / 130) * 30));
+    elseif abilityName == L["Abilities"]["LG"] then
+        announcementText = string.gsub(self:GetAnnounceText(abilityName),
+                                       "$sec", "20");
+        announcementText = string.gsub(announcementText, "$hp", "1500");
+    elseif abilityName == L["Abilities"]["CS"] or abilityName ==
+        L["Abilities"]["CR"] then
+        announcementText = string.gsub(self:GetAnnounceText(abilityName),
+                                       "$sec", "6");
     end
+
+    local channel = L["Channel"]["Emote"];
+    if GetNumGroupMembers() > 0 then
+        if UnitInRaid("player") then
+            -- TODO raidwarning, if option enabled
+            -- L["Channel"]["RaidWarning"]
+            channel = L["Channel"]["Raid"];
+        elseif UnitInParty("player") then
+            channel = L["Channel"]["Party"];
+        end
+    end
+
+    SendChatMessage(announcementText, string.upper(channel), nil);
+
 end
 
 function TankBuddy:GetSWDuration()
