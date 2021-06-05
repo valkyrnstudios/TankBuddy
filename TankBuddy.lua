@@ -311,7 +311,7 @@ local defaults = {
         announceTauntRecovery = true,
         tauntResistText = defaultTauntResistText[classFile],
         csAnnounceText = defaultCSResistText[classFile],
-        mbResistText = L["Abilities"]["MB"]["Default"],
+        mbResistText = L["Abilities"]["MB"]["Default"], -- TODO toggle announce
         lsAnnounceText = L["Abilities"]["LS"]["Default"],
         swAnnounceText = L["Abilities"]["SW"]["Default"],
         itemAnnounceText = L["Items"]["LG"]["Default"]
@@ -352,7 +352,7 @@ function TankBuddy:GetAnnounceText(abilityName)
         return self.db.profile.swAnnounceText
     elseif abilityName == L["Abilities"]["SW"]["Name"] .. "D" then
         return L["Abilities"]["SW"]["Name"] .. " " .. L["Done"]
-    elseif abilityName == L["Abilities"]["LG"]["Name"] then
+    elseif abilityName == L["Items"]["LG"]["Name"] then
         return self.db.profile.itemAnnounceText
     elseif abilityName == L["Abilities"]["CS"]["Name"] then
         return self.db.profile.csAnnounceText
@@ -415,7 +415,7 @@ function TankBuddy:CombatLogHandler(...)
             if subevent == "SPELL_CAST_SUCCESS" then
                 abilityName = L["Abilities"]["LS"]["Name"];
             elseif subevent == "SPELL_AURA_REMOVED" then
-                abilityName = L["Abilities"]["LS"] .. "D";
+                abilityName = L["Abilities"]["LS"]["Name"] .. "D";
             end
         elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
             L["Abilities"]["CS"]["Name"] then
@@ -544,7 +544,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
                                        "$sec", "20");
         announcementText = string.gsub(announcementText, "$hp", math.floor(
                                            (UnitHealthMax("player") / 130) * 30));
-    elseif abilityName == L["Abilities"]["LG"]["Name"] then
+    elseif abilityName == L["Items"]["LG"]["Name"] then
         announcementText = string.gsub(self:GetAnnounceText(abilityName),
                                        "$sec", "20");
         announcementText = string.gsub(announcementText, "$hp", "1500");
