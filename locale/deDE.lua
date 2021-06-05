@@ -7,8 +7,6 @@ if not L then return end
 
 L["DisableInBG"] = "Deaktiviert in Schlachtfeldern";
 L["Done"] = "getan!";
-L["EnableMBRecovery"] =
-    "Ankündigung für Wiederherstellung von verfehltem Spott";
 L["EnableTankBuddy"] = "Tank Buddy aktivieren";
 L["EnterNewMBRecoveryText"] =
     "Neuer Text für Wiederherstellung von verfehltem Spott:";
@@ -18,6 +16,7 @@ L["output_buffremoved"] = " removed, matched "; -- As in ["Greater Blessing of S
 L["salvation"] = "Segen der Rettung";
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Testen";
+L["EnableAnnounce"] = "Ankündigung aktivieren"
 
 L["IntroText"] =
     "Danke für die Benutzung von Tank Buddy, ehemals bekannt als Taunt Buddy.\nTaunt Buddy wurde ursprünglich von Artun Subasientwickelt, aber seit er die Entwicklung eingestellt hat, übernahm Kolthor von Doomhammer EU.\n\nAuf der rechten Seite sind eine Anzahl von Tabs, abhängig von deiner Klasse. Jedes Tab hat Optionen für Ankündigungsnachrichten und Kanäle in die benachrichtigt werden soll unter bestimmten Bedingungen."

@@ -53,13 +53,13 @@ local options = {
 }
 local localeClass, classFile = UnitClass("player")
 
-local defaultTauntResistText = {
+local defaultannounceTauntResistText = {
     ["WARRIOR"] = L["Abilities"]["Taunt"]["Default"],
     ["DRUID"] = L["Abilities"]["Growl"]["Default"],
     ["PALADIN"] = L["Abilities"]["RD"]["Default"]
 }
 
-local defaultCSResistText = {
+local defaultannounceCSText = {
     ["WARRIOR"] = L["Abilities"]["CS"]["Default"],
     ["DRUID"] = L["Abilities"]["CR"]["Default"],
     ["PALADIN"] = ""
@@ -99,17 +99,18 @@ if classFile == "WARRIOR" then
                 name = L["Abilities"]["Taunt"]["Name"],
                 order = 2,
                 args = {
-                    announceTauntRecovery = {
+                    announceTaunt = {
                         type = 'toggle',
-                        width = "full",
-                        name = L["EnableMBRecovery"]
+                        name = L["EnableAnnounce"],
+                        order = 1
                     },
-                    tauntResistText = {
+                    announceTauntResistText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["Taunt"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Abilities"]["Taunt"]["Prompt"],
+                        order = 2
+                    }
+
                 }
             },
             mockingBlow = {
@@ -117,12 +118,17 @@ if classFile == "WARRIOR" then
                 name = L["Abilities"]["MB"]["Name"],
                 order = 3,
                 args = {
-                    mbResistText = {
+                    announceMB = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceMBResistText = {
                         type = 'input',
                         width = "full",
-                        name = L["EnterNewMBRecoveryText"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["EnterNewMBRecoveryText"],
+                        order = 2
+                    }
                 }
             },
             lastStand = {
@@ -130,12 +136,17 @@ if classFile == "WARRIOR" then
                 name = L["Abilities"]["LS"]["Name"],
                 order = 4,
                 args = {
-                    lsAnnounceText = {
+                    announceLS = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceLSText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["LS"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Abilities"]["LS"]["Prompt"],
+                        order = 2
+                    }
                 }
             },
             shieldWall = {
@@ -143,12 +154,17 @@ if classFile == "WARRIOR" then
                 name = L["Abilities"]["SW"]["Name"],
                 order = 5,
                 args = {
-                    swAnnounceText = {
+                    announceSW = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceSWText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["SW"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Abilities"]["SW"]["Prompt"],
+                        order = 2
+                    }
                 }
             },
             challengingShout = {
@@ -156,12 +172,17 @@ if classFile == "WARRIOR" then
                 name = L["Abilities"]["CS"]["Name"],
                 order = 6,
                 args = {
-                    csAnnounceText = {
+                    announceCS = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceCSText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["CS"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Abilities"]["CS"]["Prompt"],
+                        order = 2
+                    }
                 }
             },
             items = {
@@ -169,12 +190,17 @@ if classFile == "WARRIOR" then
                 name = L["Items"]["LG"]["Name"],
                 order = 7,
                 args = {
-                    itemAnnounceText = {
+                    announceItems = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceItemsText = {
                         type = 'input',
                         width = "full",
-                        name = L["Items"]["LG"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Items"]["LG"]["Prompt"],
+                        order = 2
+                    }
                 }
             }
         }
@@ -207,12 +233,17 @@ elseif classFile == "DRUID" then
                 name = L["Abilities"]["Growl"]["Name"],
                 order = 2,
                 args = {
-                    tauntResistText = {
+                    announceTaunt = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceTauntResistText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["Growl"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Abilities"]["Growl"]["Prompt"],
+                        order = 2
+                    }
                 }
             },
             challengingShout = {
@@ -220,12 +251,17 @@ elseif classFile == "DRUID" then
                 name = L["Abilities"]["CR"]["Name"],
                 order = 3,
                 args = {
-                    csAnnounceText = {
+                    announceCS = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceCSText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["CR"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Abilities"]["CR"]["Prompt"],
+                        order = 2
+                    }
                 }
             }
         }
@@ -258,12 +294,17 @@ elseif classFile == "PALADIN" then
                 name = L["Abilities"]["RD"]["Name"],
                 order = 2,
                 args = {
-                    tauntResistText = {
+                    announceTaunt = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceTauntResistText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["RD"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                        name = L["Abilities"]["RD"]["Prompt"],
+                        order = 2
+                    }
                 }
             },
             items = {
@@ -271,12 +312,16 @@ elseif classFile == "PALADIN" then
                 name = L["Items"]["LG"]["Name"],
                 order = 3,
                 args = {
-                    itemAnnounceText = {
+                    announceItems = {
+                        type = 'toggle',
+                        name = L["EnableAnnounce"],
+                        order = 1
+                    },
+                    announceItemsText = {
                         type = 'input',
                         width = "full",
                         name = L["Items"]["LG"]["Prompt"]
-                    },
-                    header = {type = 'header', name = "Announcement table TODO"}
+                    }
                 }
             }
         }
@@ -307,14 +352,19 @@ local defaults = {
         enable = true,
         disableInBG = true,
         removeBuffsAlways = "",
-        removeBuffsDefensive = L["Auras"]["Salvation"], -- TODO toggle box salvation
-        announceTauntRecovery = true,
-        tauntResistText = defaultTauntResistText[classFile],
-        csAnnounceText = defaultCSResistText[classFile],
-        mbResistText = L["Abilities"]["MB"]["Default"], -- TODO toggle announce
-        lsAnnounceText = L["Abilities"]["LS"]["Default"],
-        swAnnounceText = L["Abilities"]["SW"]["Default"],
-        itemAnnounceText = L["Items"]["LG"]["Default"]
+        removeBuffsDefensive = L["Auras"]["Salvation"],
+        announceTaunt = true,
+        announceTauntResistText = defaultannounceTauntResistText[classFile],
+        announceCSText = defaultannounceCSText[classFile],
+        announceCS = true,
+        announceMBResistText = L["Abilities"]["MB"]["Default"],
+        announceMB = true,
+        announceLSText = L["Abilities"]["LS"]["Default"],
+        announceLS = true,
+        announceSWText = L["Abilities"]["SW"]["Default"],
+        announceSW = true,
+        announceItemsText = L["Items"]["LG"]["Default"],
+        announceItems = true
     }
 }
 
@@ -343,21 +393,53 @@ end
 
 function TankBuddy:GetAnnounceText(abilityName)
     if abilityName == L["Abilities"]["MB"]["Name"] then
-        return self.db.profile.mbResistText
+        if self.db.profile.announceTaunt then
+            return self.db.profile.announceMBResistText
+        else
+            return nil
+        end
     elseif abilityName == L["Abilities"]["LS"]["Name"] then
-        return self.db.profile.lsAnnounceText
+        if self.db.profile.announceLS then
+            return self.db.profile.announceLSText
+        else
+            return nil
+        end
     elseif abilityName == L["Abilities"]["LS"]["Name"] .. "D" then
-        return L["Abilities"]["LS"]["Name"] .. " " .. L["Done"]
+        if self.db.profile.announceLS then
+            return L["Abilities"]["LS"]["Name"] .. " " .. L["Done"]
+        else
+            return nil
+        end
     elseif abilityName == L["Abilities"]["SW"]["Name"] then
-        return self.db.profile.swAnnounceText
+        if self.db.profile.announceSW then
+            return self.db.profile.announceSWText
+        else
+            return nil
+        end
     elseif abilityName == L["Abilities"]["SW"]["Name"] .. "D" then
-        return L["Abilities"]["SW"]["Name"] .. " " .. L["Done"]
+        if self.db.profile.announceSW then
+            return L["Abilities"]["SW"]["Name"] .. " " .. L["Done"]
+        else
+            return nil
+        end
     elseif abilityName == L["Items"]["LG"]["Name"] then
-        return self.db.profile.itemAnnounceText
+        if self.db.profile.announceItems then
+            return self.db.profile.announceItemsText
+        else
+            return nil
+        end
     elseif abilityName == L["Abilities"]["CS"]["Name"] then
-        return self.db.profile.csAnnounceText
+        if self.db.profile.announceCS then
+            return self.db.profile.announceCSText
+        else
+            return nil
+        end
     elseif abilityName == L["Abilities"]["Taunt"]["Name"] then
-        return self.db.profile.tauntResistText
+        if self.db.profile.announceTaunt then
+            return self.db.profile.announceTauntResistText
+        else
+            return nil
+        end
     else
         self:SendWarning("Unrecognized abilityName: " .. abilityName)
         return nil
@@ -396,7 +478,7 @@ function TankBuddy:CombatLogHandler(...)
             if subevent == "SPELL_MISSED" then
                 -- TODO exclude pvp
                 abilityName = L["Abilities"]["Taunt"]["Name"];
-                if self.db.profile.announceTauntRecovery then
+                if self.db.profile.announceTaunt then
                     announceArgs = {
                         ["Target"] = UnitName("target") .. UnitLevel("target"),
                         ["Time"] = GetTime(),
@@ -423,7 +505,7 @@ function TankBuddy:CombatLogHandler(...)
         elseif subevent == "SPELL_CAST_SUCCESS" and sourceName == playerName and
             spellName == L["Abilities"]["MB"]["Name"] then -- Checks if your mocking blow was hit
             -- TODO false positive
-            if self.db.profile.announceTauntRecovery then
+            if self.db.profile.announceTaunt then
                 announceArgs["tauntRecovered"] = true
                 announceArgs["badMob"] = destName
 
@@ -451,7 +533,7 @@ function TankBuddy:CombatLogHandler(...)
             abilityName = L["Abilities"]["RD"]["Name"];
         end
     elseif sourceName == playerName and spellName == L["Items"]["LG"]["Name"] then -- TODO listen to item activated event
-        abilityName = L["Items"]["LG"]["LG"]["Name"];
+        abilityName = L["Items"]["LG"]["Name"];
     end
 
     if abilityName then self:Announce(abilityName, announceArgs) end
@@ -656,6 +738,7 @@ function TankBuddy:ChatCommand(input)
         InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
         InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
     elseif input and input:trim() == "reset" then
+        self:SendMessage("Reset settings")
         self.db:ResetProfile()
     end
 end

@@ -4,7 +4,6 @@
 
 L["DisableInBG"] = "Disable in battlegrounds";
 L["Done"] = "done!";
-L["EnableMBRecovery"] = "Enable announcement for recovery of failed taunts";
 L["EnableTankBuddy"] = "Enable Tank Buddy";
 L["EnterNewMBRecoveryText"] =
     "Enter new announcement text for recovered taunts:";
@@ -13,6 +12,7 @@ L["Help"] = "Help";
 L["output_buffremoved"] = " removed, matched "; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Test";
+L["EnableAnnounce"] = "Enable announcement"
 
 -- TODO create UI parent, merge titles under
 L["IntroText"] =

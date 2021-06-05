@@ -7,8 +7,6 @@ if not L then return end
 
 L["DisableInBG"] = "D\195\169sactiver sur les champs de bataille";
 L["Done"] = "finie!";
-L["EnableMBRecovery"] =
-    "Activer les annonces en cas de r\195\169cup\195\169ration apr\195\168s une provocation \195\169chou\195\169e";
 L["EnableTankBuddy"] = "Tank Buddy On";
 L["EnterNewMBRecoveryText"] =
     "Entrez un nouveau texte d'annonce pour les provocations rat\195\169es mais r\195\169cup\195\169r\195\169es:";
@@ -20,6 +18,7 @@ L["salvation"] = "B\195\169n\195\169diction de salut";
 L["SetCustomChannel"] = "Choisir un channel personnalis\195\169";
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Test";
+L["EnableAnnounce"] = "activer l'annonce"
 
 L["IntroText"] =
     "Merci d'utiliser Tank Buddy, aussi connu comme Taunt Buddy. Taunt Buddy a ete cree par Artun Subasi, mais depuis qu'il a arrete le developpement, Kolthor de Doomhammer EU a pris la suite.\n\nA droite, vous avez un certain nombre d'onglets, selon votre classe. Chaque onglet contient des options pour les messages d'annonces, les channels d'annonces..."
