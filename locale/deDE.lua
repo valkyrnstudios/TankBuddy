@@ -2,10 +2,8 @@
 
 if not L then return end
 
--- German Translation
+-- TODO restructure abilities
 -- by StarDust, Lorni and Nelson from Malfurion EU
--- last changed: June 15th, 2008
--- NB! Partial translation only!
 
 L["DisableInBG"] = "Deaktiviert in Schlachtfeldern";
 L["Done"] = "getan!";

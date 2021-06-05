@@ -2,9 +2,8 @@
 
 if not L then return end
 
--- French Translation
+-- TODO restructure abilities
 -- by Dab, Drek'Thar EU (French server)
--- last changed: June 15th, 2008
 
 L["DisableInBG"] = "D\195\169sactiver sur les champs de bataille";
 L["Done"] = "finie!";
