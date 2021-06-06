@@ -5,7 +5,6 @@ TankBuddy.version = "3.0.1"
 
 local L = LibStub("AceLocale-3.0"):GetLocale("TankBuddy")
 local FindAuraByName = AuraUtil.FindAuraByName
-local strmatch = string.match
 local playerName = UnitName("player")
 
 local options = {
@@ -185,7 +184,7 @@ if classFile == "WARRIOR" then
                     }
                 }
             },
-            items = {
+            items = { -- TODO support multiple items
                 type = 'group',
                 name = L["Items"]["LG"]["Name"],
                 order = 7,
@@ -476,7 +475,7 @@ function TankBuddy:CombatLogHandler(...)
     elseif classFile == "WARRIOR" and sourceName == playerName then
         if spellName == L["Abilities"]["Taunt"]["Name"] then -- and resisted then -- Checks if your taunt was resisted
             if subevent == "SPELL_MISSED" then
-                if UnitIsPlayer("target") then return end -- exclude pvp
+                if UnitIsPlayer(destGUID) then return end -- exclude pvp
 
                 abilityName = L["Abilities"]["Taunt"]["Name"];
                 if self.db.profile.announceTaunt then
@@ -504,7 +503,6 @@ function TankBuddy:CombatLogHandler(...)
             abilityName = L["Abilities"]["CS"]["Name"];
         elseif subevent == "SPELL_CAST_SUCCESS" and sourceName == playerName and
             spellName == L["Abilities"]["MB"]["Name"] then -- Checks if your mocking blow was hit
-            -- TODO false positive
             if self.db.profile.announceTaunt then
                 announceArgs = {["target"] = destName}
                 abilityName = L["Abilities"]["MB"]["Name"];
@@ -538,7 +536,6 @@ function TankBuddy:CombatLogHandler(...)
 end
 
 function TankBuddy:Announce(abilityName, announceArgs)
-    -- TODO https://github.com/Gamemechanicwow/Tankbuddy/blob/889e00965bb3ae21c69594dcd602e863b8f4d8b5/TankBuddy.lua#L357-L364
     if not abilityName then
         self:SendWarning("Improper Announce received")
         return
@@ -689,7 +686,8 @@ function TankBuddy:EvaluateAuras(event, ...)
         end
     end
 
-    if GetShapeshiftForm(true) == tankFormID[classFile] then -- TODO L["Auras"]["RF"]
+    if (GetShapeshiftForm(true) == tankFormID[classFile]) or
+        (classFile == "PALADIN" and self:HasAura(L["Auras"]["RF"])) then
         for i = 1, #removeBuffsDefensive do
             local foundAura = self:HasAura(removeBuffsDefensive[i])
             if foundAura then
@@ -709,8 +707,8 @@ function TankBuddy:HasAura(auraName)
         while true do
             auraAtIndex = UnitBuff("player", i)
             if auraAtIndex == nil then return nil end
-            patternMatch = strmatch(string.lower(auraAtIndex),
-                                    "(.*" .. string.lower(auraName) .. ".*)")
+            patternMatch = string.match(string.lower(auraAtIndex), "(.*" ..
+                                            string.lower(auraName) .. ".*)")
             if patternMatch then return patternMatch end
 
             i = i + 1
