@@ -26,28 +26,7 @@ local options = {
             end
         },
         enable = {type = "toggle", name = L["EnableTankBuddy"], order = 1},
-        disableInBG = {type = "toggle", name = L["DisableInBG"], order = 2},
-        credits = {
-            type = 'group',
-            name = 'Credits',
-            order = 4,
-            args = {
-                introHeader = {type = 'header', name = "Intro", order = 1},
-                intro = {
-                    type = 'description',
-                    width = "full",
-                    name = L["IntroText"],
-                    order = 2
-                },
-                helpHeader = {type = 'header', name = L["Help"], order = 3},
-                help = {
-                    type = 'description',
-                    width = "full",
-                    name = L["HelpText"],
-                    order = 4
-                }
-            }
-        }
+        disableInBG = {type = "toggle", name = L["DisableInBG"], order = 2}
     }
 }
 local localeClass, classFile = UnitClass("player")
@@ -76,6 +55,20 @@ if classFile == "WARRIOR" then
         type = "group",
         order = 3,
         args = {
+            introHeader = {type = 'header', name = "Intro", order = 1},
+            intro = {
+                type = 'description',
+                width = "full",
+                name = L["IntroText"],
+                order = 2
+            },
+            helpHeader = {type = 'header', name = L["Help"], order = 3},
+            help = {
+                type = 'description',
+                width = "full",
+                name = L["HelpText"],
+                order = 4
+            },
             buffRemoval = {
                 type = 'group',
                 name = L["RemoveBuffs"]["Title"],
@@ -210,6 +203,20 @@ elseif classFile == "DRUID" then
         type = "group",
         order = 3,
         args = {
+            introHeader = {type = 'header', name = "Intro", order = 1},
+            intro = {
+                type = 'description',
+                width = "full",
+                name = L["IntroText"],
+                order = 2
+            },
+            helpHeader = {type = 'header', name = L["Help"], order = 3},
+            help = {
+                type = 'description',
+                width = "full",
+                name = L["HelpText"],
+                order = 4
+            },
             buffRemoval = {
                 type = 'group',
                 name = L["RemoveBuffs"]["Title"],
@@ -271,6 +278,20 @@ elseif classFile == "PALADIN" then
         type = "group",
         order = 3,
         args = {
+            introHeader = {type = 'header', name = "Intro", order = 1},
+            intro = {
+                type = 'description',
+                width = "full",
+                name = L["IntroText"],
+                order = 2
+            },
+            helpHeader = {type = 'header', name = L["Help"], order = 3},
+            help = {
+                type = 'description',
+                width = "full",
+                name = L["HelpText"],
+                order = 4
+            },
             buffRemoval = {
                 type = 'group',
                 name = L["RemoveBuffs"]["Title"],
