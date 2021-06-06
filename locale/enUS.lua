@@ -15,6 +15,7 @@ L["Test"] = "Test";
 L["EnableAnnounce"] = "Enable announcement"
 
 -- TODO create UI parent, merge titles under
+-- TODO update intro/help dext for BCC and BlizzUI
 L["IntroText"] =
     "Thank you for using Tank Buddy, formerly known as Taunt Buddy.\nTaunt Buddy was originally created by Artun Subasi, but since he stopped development, Kolthor from Doomhammer EU took over. Updated for 2.4 combatlog & Paladin support by Raeldar.\n\nTo the right there are a number of tabs, depending on your class. Each tab has options for announcement message, and channels to announce to under given circumstances."
 L["HelpText"] =
