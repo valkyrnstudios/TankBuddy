@@ -6,6 +6,7 @@
 ## OptionalDeps: Ace3
 ## SavedVariables: TankBuddyDB
 ## X-Credits: Kane, Kolthor, Raespark
+## X-Curse-Project-ID: 491423
 ## X-Embeds: Ace3
 
 embeds.xml
