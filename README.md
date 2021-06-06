@@ -2,7 +2,7 @@
 
 Updated for BCC by Kahira - Bigglesworth NA
 
-Tank Buddy BCC is based on work by Raespark, Kolthor, Kane
+Tank Buddy BCC is based on [work by Raespark, Kolthor, Kane](https://www.curseforge.com/wow/addons/tank-buddy).
 
 - Warriors: whenever taunt is resisted, or mocking blow fails, whenever you use Last Stand, Challenging Shout, Shield Wall, or Lifegiving Gem
 - Druids: whenever growl (druids) is resisted, whenever you use challenging roar
