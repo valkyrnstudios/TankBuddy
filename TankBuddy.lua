@@ -451,7 +451,7 @@ function TankBuddy:COMBAT_LOG_EVENT_UNFILTERED(event)
 end
 
 function TankBuddy:CombatLogHandler(...)
-    local abilityName, badMob, tauntRecovered, announceArgs
+    local abilityName, announceArgs
     local timestamp, subevent, _, sourceGUID, sourceName, sourceFlags,
           sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
@@ -476,14 +476,14 @@ function TankBuddy:CombatLogHandler(...)
     elseif classFile == "WARRIOR" and sourceName == playerName then
         if spellName == L["Abilities"]["Taunt"]["Name"] then -- and resisted then -- Checks if your taunt was resisted
             if subevent == "SPELL_MISSED" then
-                -- TODO exclude pvp
+                if UnitIsPlayer("target") then return end -- exclude pvp
+
                 abilityName = L["Abilities"]["Taunt"]["Name"];
                 if self.db.profile.announceTaunt then
                     announceArgs = {
                         ["Target"] = UnitName("target") .. UnitLevel("target"),
                         ["Time"] = GetTime(),
-                        ["tauntRecovered"] = false,
-                        ["badMob"] = destName
+                        ["target"] = destName
                     }
                 end
             end
@@ -506,21 +506,19 @@ function TankBuddy:CombatLogHandler(...)
             spellName == L["Abilities"]["MB"]["Name"] then -- Checks if your mocking blow was hit
             -- TODO false positive
             if self.db.profile.announceTaunt then
-                announceArgs["tauntRecovered"] = true
-                announceArgs["badMob"] = destName
-
-                abilityName = L["Abilities"]["Taunt"]["Name"]; -- Recovered taunts are handled like failed taunts.
+                announceArgs = {["target"] = destName}
+                abilityName = L["Abilities"]["MB"]["Name"];
             end
             if subevent == "SPELL_MISSED" and sourceName == playerName and
                 spellName == L["Abilities"]["MB"]["Name"] then -- If your mocking blow didnt hit, then do ..
-                announceArgs = {["badMob"] = destName}
+                announceArgs = {["target"] = destName}
                 abilityName = L["Abilities"]["MB"]["Name"];
             end
         end
     elseif classFile == "DRUID" and sourceName == playerName then
         if subevent == "SPELL_MISSED" and spellName ==
             L["Abilities"]["Growl"]["Name"] then -- Checks if your taunt was resisted
-            announceArgs = {["badMob"] = destName}
+            announceArgs = {["target"] = destName}
             abilityName = L["Abilities"]["Growl"]["Name"];
         elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
             L["Abilities"]["CR"]["Name"] then -- Checks for Challenging Roar
@@ -529,7 +527,7 @@ function TankBuddy:CombatLogHandler(...)
     elseif classFile == "PALADIN" and sourceName == playerName then
         if subevent == "SPELL_MISSED" and spellName ==
             L["Abilities"]["RD"]["Name"] then -- Checks if righteous defense resisted
-            announceArgs = {["badMob"] = destName}
+            announceArgs = {["target"] = destName}
             abilityName = L["Abilities"]["RD"]["Name"];
         end
     elseif sourceName == playerName and spellName == L["Items"]["LG"]["Name"] then -- TODO listen to item activated event
@@ -548,8 +546,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
 
     local announcementText;
 
-    if abilityName == L["Abilities"]["Taunt"]["Name"] and announceArgs and
-        announceArgs.tauntRecovered then
+    if abilityName == L["Abilities"]["MB"]["Name"] and announceArgs then
         if announceArgs.tauntFailInfo then
             local TBTime = GetTime() - announceArgs.tauntFailInfo.Time;
             if TBTime < TankBuddy:GetTauntCD() then
@@ -599,7 +596,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
         end
         if string.find(announcementText, "$tn") then
             announcementText = string.gsub(announcementText, "$tn",
-                                           announceArgs.badMob);
+                                           announceArgs.target);
         end
         if string.find(announcementText, "$tl") then
             if UnitLevel("target") < 0 then
