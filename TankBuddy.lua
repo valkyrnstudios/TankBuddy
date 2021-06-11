@@ -448,7 +448,8 @@ function TankBuddy:GetAnnounceText(abilityName)
         else
             return nil
         end
-    elseif abilityName == L["Abilities"]["CS"]["Name"] then
+    elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName ==
+        L["Abilities"]["CR"]["Name"] then
         if self.db.profile.announceCS then
             return self.db.profile.announceCSText
         else
