@@ -86,6 +86,7 @@ L["RemoveBuffs"] = {
 
 L["Channel"] = {
     ["Emote"] = "emote",
+    ["Yell"] = "Yell",
     ["Party"] = "Groupe",
     ["Raid"] = "Raid",
     ["RaidWarning"] = "Avertissement Raid"

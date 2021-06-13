@@ -94,6 +94,7 @@ L["RemoveBuffs"] = {
 
 L["Channel"] = {
     ["Emote"] = "Эмоции",
+    ["Yell"] = "Yell",
     ["Party"] = "Группа",
     ["Raid"] = "Рейд",
     ["RaidWarning"] = "Обьявление рейду"
