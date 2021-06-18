@@ -456,7 +456,8 @@ function TankBuddy:GetAnnounceText(abilityName)
             return nil
         end
     elseif abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName ==
-        L["Abilities"]["Growl"]["Name"] then
+        L["Abilities"]["Growl"]["Name"] or abilityName ==
+        L["Abilities"]["RD"]["Name"] then
         if self.db.profile.announceTaunt then
             return self.db.profile.announceTauntResistText
         else
