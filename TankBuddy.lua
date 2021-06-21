@@ -654,28 +654,28 @@ function TankBuddy:Announce(abilityName, announceArgs)
                                        "$sec", "6");
     end
 
-    local channel = L["Channel"]["Emote"];
+    local channel = "EMOTE"
     local inInstance, instanceType = IsInInstance()
 
     if GetNumGroupMembers() > 0 then
         if inInstance and instanceType == "raid" then -- Can use Yell inside
             if UnitIsGroupAssistant("player") or UnitIsGroupLeader("player") then
-                channel = L["Channel"]["RaidWarning"]
+                channel = "RAID_WARNING"
             else
-                channel = L["Channel"]["Yell"]
+                channel = "YELL"
             end
         elseif inInstance and instanceType == "party" then -- Can use Yell inside
-            channel = L["Channel"]["Yell"]
+            channel = "YELL"
         else -- Cannot use Yell outside
             if UnitInRaid("player") then
-                channel = L["Channel"]["Raid"];
+                channel = "RAID"
             elseif UnitInParty("player") then
-                channel = L["Channel"]["Party"];
+                channel = "PARTY"
             end
         end
     end
 
-    SendChatMessage(announcementText, string.upper(channel), nil);
+    SendChatMessage(announcementText, channel, nil);
 end
 
 function TankBuddy:GetSWDuration()
