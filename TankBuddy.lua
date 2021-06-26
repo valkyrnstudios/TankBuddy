@@ -26,7 +26,37 @@ local options = {
             end
         },
         enable = {type = "toggle", name = L["EnableTankBuddy"], order = 1},
-        disableInBG = {type = "toggle", name = L["DisableInBG"], order = 2}
+        disableInBG = {type = "toggle", name = L["DisableInBG"], order = 2},
+        items = {
+            type = 'group',
+            name = L["Items"]["Title"],
+            order = 7,
+            args = {
+                announceItems = {
+                    type = 'toggle',
+                    name = L["EnableAnnounce"],
+                    order = 1
+                },
+                announceItemsChannel = {
+                    type = 'select',
+                    name = "Channel",
+                    order = 2,
+                    values = {
+                        ["EMOTE"] = L["Channel"]["Emote"],
+                        ["YELL"] = L["Channel"]["Yell"],
+                        ["PARTY"] = L["Channel"]["Party"],
+                        ["RAID"] = L["Channel"]["Raid"],
+                        ["RAID_WARNING"] = L["Channel"]["Raid Warning"]
+                    }
+                },
+                announceItemsText = { -- TODO confirm validation function
+                    type = 'input',
+                    width = "full",
+                    name = L["Items"]["Prompt"],
+                    order = 3
+                }
+            }
+        }
     }
 }
 local localeClass, classFile = UnitClass("player")
@@ -44,10 +74,6 @@ local defaultannounceCSText = {
 }
 
 local tankFormID = {["WARRIOR"] = 2, ["DRUID"] = 1, ["PALADIN"] = 9}
-
-local removeBuffsAlways = {}
-
-local removeBuffsDefensive = {}
 
 if classFile == "WARRIOR" then
     options.args.classOptions = {
@@ -173,24 +199,6 @@ if classFile == "WARRIOR" then
                         type = 'input',
                         width = "full",
                         name = L["Abilities"]["CS"]["Prompt"],
-                        order = 2
-                    }
-                }
-            },
-            items = { -- TODO support multiple items
-                type = 'group',
-                name = L["Items"]["LG"]["Name"],
-                order = 7,
-                args = {
-                    announceItems = {
-                        type = 'toggle',
-                        name = L["EnableAnnounce"],
-                        order = 1
-                    },
-                    announceItemsText = {
-                        type = 'input',
-                        width = "full",
-                        name = L["Items"]["LG"]["Prompt"],
                         order = 2
                     }
                 }
@@ -326,23 +334,6 @@ elseif classFile == "PALADIN" then
                         order = 2
                     }
                 }
-            },
-            items = {
-                type = 'group',
-                name = L["Items"]["LG"]["Name"],
-                order = 3,
-                args = {
-                    announceItems = {
-                        type = 'toggle',
-                        name = L["EnableAnnounce"],
-                        order = 1
-                    },
-                    announceItemsText = {
-                        type = 'input',
-                        width = "full",
-                        name = L["Items"]["LG"]["Prompt"]
-                    }
-                }
             }
         }
     }
@@ -383,7 +374,8 @@ local defaults = {
         announceLS = true,
         announceSWText = L["Abilities"]["SW"]["Default"],
         announceSW = true,
-        announceItemsText = L["Items"]["LG"]["Default"],
+        announceItemsText = L["Items"]["Default"],
+        announceItemsChannel = "EMOTE",
         announceItems = true
     }
 }
@@ -405,10 +397,7 @@ function TankBuddy:OnEnable()
     self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", "EvaluateAuras");
     self:RegisterEvent("UNIT_AURA", "EvaluateAuras");
 
-    removeBuffsDefensive = TankBuddy:SplitOptionsString(self.db.profile
-                                                            .removeBuffsDefensive)
-    removeBuffsAlways = TankBuddy:SplitOptionsString(self.db.profile
-                                                         .removeBuffsAlways)
+    self:UpdateCache()
 end
 
 function TankBuddy:GetAnnounceText(abilityName)
@@ -442,12 +431,6 @@ function TankBuddy:GetAnnounceText(abilityName)
         else
             return nil
         end
-    elseif abilityName == L["Items"]["LG"]["Name"] then
-        if self.db.profile.announceItems then
-            return self.db.profile.announceItemsText
-        else
-            return nil
-        end
     elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName ==
         L["Abilities"]["CR"]["Name"] then
         if self.db.profile.announceCS then
@@ -464,7 +447,6 @@ function TankBuddy:GetAnnounceText(abilityName)
             return nil
         end
     else
-        self:SendWarning("Unrecognized abilityName: " .. abilityName)
         return nil
     end
 end
@@ -552,8 +534,11 @@ function TankBuddy:CombatLogHandler(...)
             announceArgs = {["target"] = destName}
             abilityName = L["Abilities"]["RD"]["Name"];
         end
-    elseif sourceName == playerName and spellName == L["Items"]["LG"]["Name"] then -- TODO listen to item activated event
-        abilityName = L["Items"]["LG"]["Name"];
+    end
+
+    if abilityName == nil and subevent == "SPELL_AURA_APPLIED" and sourceName ==
+        playerName then -- Maybe a custom item
+        abilityName = spellName;
     end
 
     if abilityName then self:Announce(abilityName, announceArgs) end
@@ -565,7 +550,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
         return
     end
 
-    local announcementText;
+    local announcementText, itemData;
 
     if abilityName == L["Abilities"]["MB"]["Name"] and announceArgs then
         if announceArgs.tauntFailInfo then
@@ -583,7 +568,23 @@ function TankBuddy:Announce(abilityName, announceArgs)
         announcementText = self:GetAnnounceText(abilityName);
     end
 
-    if not announcementText then do return end end
+    if not announcementText then
+        itemData = self.itemAnnounceCache[abilityName];
+
+        if itemData == nil then
+            return
+        else
+            announcementText = string.gsub(L["Items"]["Template"], "$sec",
+                                           itemData["duration"]);
+
+            announcementText = string.gsub(announcementText, "$effect",
+                                           itemData["effect"]);
+
+            SendChatMessage(announcementText,
+                            self.db.profile.announceItemsChannel, nil);
+            return
+        end
+    end
 
     if abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName ==
         L["Abilities"]["MB"]["Name"] or abilityName ==
@@ -644,10 +645,6 @@ function TankBuddy:Announce(abilityName, announceArgs)
                                        "$sec", "20");
         announcementText = string.gsub(announcementText, "$hp", math.floor(
                                            (UnitHealthMax("player") / 130) * 30));
-    elseif abilityName == L["Items"]["LG"]["Name"] then
-        announcementText = string.gsub(self:GetAnnounceText(abilityName),
-                                       "$sec", "20");
-        announcementText = string.gsub(announcementText, "$hp", "1500");
     elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName ==
         L["Abilities"]["CR"]["Name"] then
         announcementText = string.gsub(self:GetAnnounceText(abilityName),
@@ -675,7 +672,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
         end
     end
 
-    SendChatMessage(announcementText, channel, nil);
+    if announcementText then SendChatMessage(announcementText, channel, nil); end
 end
 
 function TankBuddy:GetSWDuration()
@@ -704,27 +701,23 @@ function TankBuddy:GetTauntCD()
 end
 
 function TankBuddy:EvaluateAuras(event, ...)
-    removeBuffsDefensive = TankBuddy:SplitOptionsString(self.db.profile
-                                                            .removeBuffsDefensive)
-    removeBuffsAlways = TankBuddy:SplitOptionsString(self.db.profile
-                                                         .removeBuffsAlways)
     local unit = ...
 
     if unit and unit ~= "player" then return end
 
-    for i = 1, #removeBuffsAlways do
-        local foundAura = self:HasAura(removeBuffsAlways[i])
+    for i = 1, #self.removeBuffsAlways do
+        local foundAura = self:HasAura(self.removeBuffsAlways[i])
         if foundAura then
-            self:CancelAuraByName(foundAura, removeBuffsAlways[i])
+            self:CancelAuraByName(foundAura, self.removeBuffsAlways[i])
         end
     end
 
     if (GetShapeshiftForm(true) == tankFormID[classFile]) or
         (classFile == "PALADIN" and self:HasAura(L["Auras"]["RF"])) then
-        for i = 1, #removeBuffsDefensive do
-            local foundAura = self:HasAura(removeBuffsDefensive[i])
+        for i = 1, #self.removeBuffsDefensive do
+            local foundAura = self:HasAura(self.removeBuffsDefensive[i])
             if foundAura then
-                self:CancelAuraByName(foundAura, removeBuffsDefensive[i])
+                self:CancelAuraByName(foundAura, self.removeBuffsDefensive[i])
             end
         end
     end
@@ -776,6 +769,31 @@ function TankBuddy:getProfileOption(info) return self.db.profile[info[#info]] en
 function TankBuddy:setProfileOption(info, value)
     local key = info[#info]
     self.db.profile[key] = value
+
+    self:UpdateCache()
+end
+
+function TankBuddy:UpdateCache()
+    self.removeBuffsDefensive = TankBuddy:SplitOptionsString(self.db.profile
+                                                                 .removeBuffsDefensive)
+    self.removeBuffsAlways = TankBuddy:SplitOptionsString(self.db.profile
+                                                              .removeBuffsAlways)
+
+    local announceItemsList = {strsplit(';', self.db.profile.announceItemsText)}
+    local buff, duration, effect;
+
+    self.itemAnnounceCache = {}
+
+    for i, itemData in ipairs(announceItemsList) do
+        if itemData ~= "" then
+            buff, duration, effect = strsplit(',', itemData)
+            self.itemAnnounceCache[buff] = {
+                duration = duration,
+                effect = effect
+            }
+        end
+
+    end
 end
 
 function TankBuddy:SendMessage(msg)
