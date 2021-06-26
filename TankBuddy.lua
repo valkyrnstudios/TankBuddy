@@ -6,6 +6,7 @@ TankBuddy.version = "3.0.1"
 local L = LibStub("AceLocale-3.0"):GetLocale("TankBuddy")
 local FindAuraByName = AuraUtil.FindAuraByName
 local playerName = UnitName("player")
+local localeClass, classFile = UnitClass("player")
 
 local options = {
     name = L["TankBuddy"],
@@ -27,10 +28,48 @@ local options = {
         },
         enable = {type = "toggle", name = L["EnableTankBuddy"], order = 1},
         disableInBG = {type = "toggle", name = L["DisableInBG"], order = 2},
+        help = {
+            type = "group",
+            name = L["Help"],
+            order = 1,
+            args = {
+                introHeader = {type = 'header', name = "Intro", order = 1},
+                intro = {
+                    type = 'description',
+                    width = "full",
+                    name = L["IntroText"],
+                    order = 2
+                },
+                helpHeader = {type = 'header', name = L["Help"], order = 3},
+                help = {
+                    type = 'description',
+                    width = "full",
+                    name = L["HelpText"],
+                    order = 4
+                }
+            }
+        },
+        buffRemoval = {
+            type = 'group',
+            name = L["RemoveBuffs"]["Title"],
+            order = 2,
+            args = {
+                removeBuffsAlways = {
+                    type = 'input',
+                    name = L["RemoveBuffs"]["Always"],
+                    width = "full"
+                },
+                removeBuffsDefensive = {
+                    type = 'input',
+                    name = L["RemoveBuffs"][classFile],
+                    width = "full"
+                }
+            }
+        },
         items = {
             type = 'group',
             name = L["Items"]["Title"],
-            order = 7,
+            order = 4,
             args = {
                 announceItems = {
                     type = 'toggle',
@@ -59,7 +98,6 @@ local options = {
         }
     }
 }
-local localeClass, classFile = UnitClass("player")
 
 local defaultannounceTauntResistText = {
     ["WARRIOR"] = L["Abilities"]["Taunt"]["Default"],
@@ -81,37 +119,6 @@ if classFile == "WARRIOR" then
         type = "group",
         order = 3,
         args = {
-            introHeader = {type = 'header', name = "Intro", order = 1},
-            intro = {
-                type = 'description',
-                width = "full",
-                name = L["IntroText"],
-                order = 2
-            },
-            helpHeader = {type = 'header', name = L["Help"], order = 3},
-            help = {
-                type = 'description',
-                width = "full",
-                name = L["HelpText"],
-                order = 4
-            },
-            buffRemoval = {
-                type = 'group',
-                name = L["RemoveBuffs"]["Title"],
-                order = 1,
-                args = {
-                    removeBuffsAlways = {
-                        type = 'input',
-                        name = L["RemoveBuffs"]["Always"],
-                        width = "full"
-                    },
-                    removeBuffsDefensive = {
-                        type = 'input',
-                        name = L["RemoveBuffs"][classFile],
-                        width = "full"
-                    }
-                }
-            },
             taunt = {
                 type = 'group',
                 name = L["Abilities"]["Taunt"]["Name"],
@@ -211,37 +218,6 @@ elseif classFile == "DRUID" then
         type = "group",
         order = 3,
         args = {
-            introHeader = {type = 'header', name = "Intro", order = 1},
-            intro = {
-                type = 'description',
-                width = "full",
-                name = L["IntroText"],
-                order = 2
-            },
-            helpHeader = {type = 'header', name = L["Help"], order = 3},
-            help = {
-                type = 'description',
-                width = "full",
-                name = L["HelpText"],
-                order = 4
-            },
-            buffRemoval = {
-                type = 'group',
-                name = L["RemoveBuffs"]["Title"],
-                order = 1,
-                args = {
-                    removeBuffsAlways = {
-                        type = 'input',
-                        name = L["RemoveBuffs"]["Always"],
-                        width = "full"
-                    },
-                    removeBuffsDefensive = {
-                        type = 'input',
-                        name = L["RemoveBuffs"][classFile],
-                        width = "full"
-                    }
-                }
-            },
             taunt = {
                 type = 'group',
                 name = L["Abilities"]["Growl"]["Name"],
@@ -286,37 +262,6 @@ elseif classFile == "PALADIN" then
         type = "group",
         order = 3,
         args = {
-            introHeader = {type = 'header', name = "Intro", order = 1},
-            intro = {
-                type = 'description',
-                width = "full",
-                name = L["IntroText"],
-                order = 2
-            },
-            helpHeader = {type = 'header', name = L["Help"], order = 3},
-            help = {
-                type = 'description',
-                width = "full",
-                name = L["HelpText"],
-                order = 4
-            },
-            buffRemoval = {
-                type = 'group',
-                name = L["RemoveBuffs"]["Title"],
-                order = 1,
-                args = {
-                    removeBuffsAlways = {
-                        type = 'input',
-                        name = L["RemoveBuffs"]["Always"],
-                        width = "full"
-                    },
-                    removeBuffsDefensive = {
-                        type = 'input',
-                        name = L["RemoveBuffs"][classFile],
-                        width = "full"
-                    }
-                }
-            },
             taunt = {
                 type = 'group',
                 name = L["Abilities"]["RD"]["Name"],
