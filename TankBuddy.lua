@@ -401,7 +401,8 @@ function TankBuddy:COMBAT_LOG_EVENT_UNFILTERED(event)
 end
 
 function TankBuddy:CombatLogHandler(...)
-    local abilityName, announceArgs
+    local abilityName = nil;
+    local announceArgs = {["target"] = nil};
     local timestamp, subevent, _, sourceGUID, sourceName, sourceFlags,
           sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
@@ -420,6 +421,8 @@ function TankBuddy:CombatLogHandler(...)
             select(12, ...)
     end
 
+    if destname then announceArgs["target"] = destName end
+
     if subevent == "SPELL_AURA_APPLIED" and sourceName == playerName and
         spellName == L["Abilities"]["FR"]["Name"] then -- Checks for Fel Rage
         feltTime = GetTime();
@@ -430,11 +433,9 @@ function TankBuddy:CombatLogHandler(...)
 
                 abilityName = L["Abilities"]["Taunt"]["Name"];
                 if self.db.profile.announceTaunt then
-                    announceArgs = {
-                        ["Target"] = UnitName("target") .. UnitLevel("target"),
-                        ["Time"] = GetTime(),
-                        ["target"] = destName
-                    }
+                    announceArgs["target"] =
+                        UnitName("target") .. UnitLevel("target")
+                    announceArgs["Time"] = GetTime()
                 end
             end
         elseif spellName == L["Abilities"]["SW"]["Name"] then
@@ -455,19 +456,16 @@ function TankBuddy:CombatLogHandler(...)
         elseif subevent == "SPELL_CAST_SUCCESS" and sourceName == playerName and
             spellName == L["Abilities"]["MB"]["Name"] then -- Checks if your mocking blow was hit
             if self.db.profile.announceTaunt then
-                announceArgs = {["target"] = destName}
                 abilityName = L["Abilities"]["MB"]["Name"];
             end
             if subevent == "SPELL_MISSED" and sourceName == playerName and
                 spellName == L["Abilities"]["MB"]["Name"] then -- If your mocking blow didnt hit, then do ..
-                announceArgs = {["target"] = destName}
                 abilityName = L["Abilities"]["MB"]["Name"];
             end
         end
     elseif classFile == "DRUID" and sourceName == playerName then
         if subevent == "SPELL_MISSED" and spellName ==
             L["Abilities"]["Growl"]["Name"] then -- Checks if your taunt was resisted
-            announceArgs = {["target"] = destName}
             abilityName = L["Abilities"]["Growl"]["Name"];
         elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
             L["Abilities"]["CR"]["Name"] then -- Checks for Challenging Roar
@@ -476,7 +474,6 @@ function TankBuddy:CombatLogHandler(...)
     elseif classFile == "PALADIN" and sourceName == playerName then
         if subevent == "SPELL_MISSED" and spellName ==
             L["Abilities"]["RD"]["Name"] then -- Checks if righteous defense resisted
-            announceArgs = {["target"] = destName}
             abilityName = L["Abilities"]["RD"]["Name"];
         end
     end
@@ -563,7 +560,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
         end
         if string.find(announcementText, "$tn") then
             announcementText = string.gsub(announcementText, "$tn",
-                                           announceArgs.target);
+                                           UnitName("target"));
         end
         if string.find(announcementText, "$tl") then
             if UnitLevel("target") < 0 then
