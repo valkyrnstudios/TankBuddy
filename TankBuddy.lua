@@ -481,7 +481,7 @@ function TankBuddy:CombatLogHandler(...)
         end
     end
 
-    if abilityName == nil and subevent == "SPELL_AURA_APPLIED" and sourceName ==
+    if abilityName == nil and subevent == "SPELL_CAST_SUCCESS" and sourceName ==
         playerName then -- Maybe a custom item
         abilityName = spellName;
     end
@@ -739,6 +739,8 @@ function TankBuddy:UpdateCache()
         end
 
     end
+
+    -- TODO update read-only list for parsed options
 end
 
 function TankBuddy:SendMessage(msg)
