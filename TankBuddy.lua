@@ -88,10 +88,11 @@ local options = {
                         ["RAID_WARNING"] = L["Channel"]["Raid Warning"]
                     }
                 },
-                announceItemsText = { -- TODO confirm validation function
+                announceItemsText = { -- TODO validate
                     type = 'input',
                     width = "full",
                     name = L["Items"]["Prompt"],
+                    multiline = true,
                     order = 3
                 }
             }
@@ -479,7 +480,7 @@ function TankBuddy:CombatLogHandler(...)
     end
 
     if abilityName == nil and subevent == "SPELL_CAST_SUCCESS" and sourceName ==
-        playerName then -- Maybe a custom item
+        playerName and self.itemAnnounceCache[spellName] ~= nil then
         abilityName = spellName;
     end
 
@@ -517,7 +518,7 @@ function TankBuddy:Announce(abilityName, announceArgs)
             return
         else
             announcementText = string.gsub(L["Items"]["Template"], "$sec",
-                                           itemData["duration"]);
+                                           itemData["seconds"]);
 
             announcementText = string.gsub(announcementText, "$effect",
                                            itemData["effect"]);
@@ -721,23 +722,26 @@ function TankBuddy:UpdateCache()
     self.removeBuffsAlways = TankBuddy:SplitOptionsString(self.db.profile
                                                               .removeBuffsAlways)
 
-    local announceItemsList = {strsplit(';', self.db.profile.announceItemsText)}
-    local buff, duration, effect;
+    local announceItemsList = {
+        strsplit('\n', self.db.profile.announceItemsText)
+    }
+    local buff, seconds, effect;
 
     self.itemAnnounceCache = {}
 
-    for i, itemData in ipairs(announceItemsList) do
+    for _, itemData in ipairs(announceItemsList) do
         if itemData ~= "" then
-            buff, duration, effect = strsplit(',', itemData)
+            buff, seconds, effect = strsplit(',', itemData)
+
             self.itemAnnounceCache[buff] = {
-                duration = duration,
+                seconds = tonumber(seconds),
                 effect = effect
             }
-        end
 
+        end
     end
 
-    -- TODO update read-only list for parsed options
+    return true
 end
 
 function TankBuddy:SendMessage(msg)

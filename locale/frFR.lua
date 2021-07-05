@@ -76,6 +76,13 @@ L["Abilities"] = {
     }
 }
 
+L["Items"] = {
+    ["Title"] = "Objets et buffs",
+    ["Default"] = "",
+    ["Prompt"] = "Saisissez un élément par ligne à annoncer: nom du buff,secondes,effet",
+    ["Template"] = "- J'ai gagné $effect pendant $sec secondes - "
+}
+
 L["RemoveBuffs"] = {
     ["Title"] = "Enleveur de buffs",
     ["Always"] = "Toujours enlever les buffs contenant:",
@@ -90,12 +97,4 @@ L["Channel"] = {
     ["Party"] = "Groupe",
     ["Raid"] = "Raid",
     ["RaidWarning"] = "Avertissement Raid"
-}
-
-L["Items"] = {
-    ["LG"] = {
-        ["Name"] = "Gemme donneuse de vie",
-        ["Default"] = "- J'ai activ\195\169 la Gemme donneuse de vie ! Dans $sec secondes, je perds $hp PV! -",
-        ["Prompt"] = "Annonce personnalis\195\169e pour Gemme donneuse de vie:"
-    }
 }
