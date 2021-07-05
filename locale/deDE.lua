@@ -76,11 +76,10 @@ L["Abilities"] = {
 }
 
 L["Items"] = {
-    ["LG"] = {
-        ["Name"] = "Lebensspendender Edelstein",
-        ["Default"] = "- Ich habe Lebensspendender Edelstein aktiviert! In $sec Sekunden verliere ich $hpHP! -",
-        ["Prompt"] = "Neuer Text für Benutzung von Lebensspendender Edelstein:"
-    }
+    ["Title"] = "Gegenstände und Buffs",
+    ["Default"] = "",
+    ["Prompt"] = "Geben Sie ein Element pro Zeile ein, um es anzukündigen: Buff-Name,Sekunden,Effekt",
+    ["Template"] = "- Ich habe $effect für $sec Sekunden gewonnen - "
 }
 
 L["RemoveBuffs"] = {

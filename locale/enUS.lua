@@ -73,11 +73,10 @@ L["Abilities"] = {
 }
 
 L["Items"] = {
-    ["LG"] = {
-        ["Name"] = "Lifegiving Gem",
-        ["Default"] = "- I activated Lifegiving Gem! In $sec seconds I will lose $hpHP! -",
-        ["Prompt"] = "Enter new announcement text for using lifegiving gem:"
-    }
+    ["Title"] = "Items and buffs",
+    ["Default"] = "Adamantine Shell,20,1280 armor",
+    ["Prompt"] = "Enter one item per line to announce: Buff name,Seconds,Effect",
+    ["Template"] = "- I gained $effect for $sec seconds - "
 }
 
 L["RemoveBuffs"] = {
