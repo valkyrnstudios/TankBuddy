@@ -560,8 +560,8 @@ function TankBuddy:Announce(abilityName, announceArgs)
             end
         end
         if string.find(announcementText, "$tn") then
-            announcementText = string.gsub(announcementText, "$tn",
-                                           UnitName("target"));
+            local name, _ = UnitName("target")
+            announcementText = string.gsub(announcementText, "$tn", name);
         end
         if string.find(announcementText, "$tl") then
             if UnitLevel("target") < 0 then
