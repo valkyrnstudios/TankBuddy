@@ -422,6 +422,12 @@ function TankBuddy:CombatLogHandler(...)
             select(12, ...)
     end
 
+    if UnitIsPlayer("target") then return end -- exclude pvp
+
+    if self.db.profile.disableInBG and UnitInBattleground("player") ~= nil then
+        return
+    end
+
     if destname then announceArgs["target"] = destName end
 
     if subevent == "SPELL_AURA_APPLIED" and sourceName == playerName and
@@ -430,7 +436,6 @@ function TankBuddy:CombatLogHandler(...)
     elseif classFile == "WARRIOR" and sourceName == playerName then
         if spellName == L["Abilities"]["Taunt"]["Name"] then -- and resisted then -- Checks if your taunt was resisted
             if subevent == "SPELL_MISSED" then
-                if UnitIsPlayer(destGUID) then return end -- exclude pvp
 
                 abilityName = L["Abilities"]["Taunt"]["Name"];
                 if self.db.profile.announceTaunt then
