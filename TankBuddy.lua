@@ -595,16 +595,10 @@ function TankBuddy:Announce(abilityName, announceArgs)
     end
 
     local channel = "EMOTE"
-    local inInstance, instanceType = IsInInstance()
+    local inInstance, _ = IsInInstance()
 
     if GetNumGroupMembers() > 0 then
-        if inInstance and instanceType == "raid" then -- Can use Yell inside
-            if UnitIsGroupAssistant("player") or UnitIsGroupLeader("player") then
-                channel = "RAID_WARNING"
-            else
-                channel = "YELL"
-            end
-        elseif inInstance and instanceType == "party" then -- Can use Yell inside
+        if inInstance then -- Can use Yell inside
             channel = "YELL"
         else -- Cannot use Yell outside
             if UnitInRaid("player") then
