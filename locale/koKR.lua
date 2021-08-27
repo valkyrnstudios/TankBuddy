@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "enUS", true)
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "koKR")
 
 -- by Raeldar, Artun Subasi, and Kolthor
 
