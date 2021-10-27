@@ -1,5 +1,7 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "ruRU")
 
+if not L then return end
+
 -- by Zeizwell
 
 L["DisableInBG"] = "Отключить на полях боя";
