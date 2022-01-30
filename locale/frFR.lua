@@ -1,6 +1,8 @@
 ﻿local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "frFR")
 
-if not L then return end
+if not L then
+    return
+end
 
 -- TODO restructure abilities
 -- by Dab, Drek'Thar EU (French server)
@@ -43,7 +45,6 @@ L["Abilities"] = {
         ["Default"] = "- J'ai activ\195\169 cri de d\195\169fi ! Mass heal sur moi pendant $sec secondes! -",
         ["Prompt"] = "Annonce personnalis\195\169e pour Cri de d\195\169fi:"
     },
-    ["FR"] = {["Name"] = "Gangrerage", ["Default"] = "", ["Prompt"] = ""},
     ["Growl"] = {
         ["Name"] = "Grondement",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 mon grondement ! -",

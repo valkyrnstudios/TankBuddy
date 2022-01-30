@@ -1,6 +1,8 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "ruRU")
 
-if not L then return end
+if not L then
+    return
+end
 
 -- by Zeizwell
 
@@ -40,11 +42,6 @@ L["Abilities"] = {
         ["Name"] = "Вызывающий крик",
         ["Default"] = "- Я активировал «Вызывающий крик»! Мне понадобится много исцеления за $sec секунд! -",
         ["Prompt"] = "Введите новый текст объявления для использования вызывающего крика:"
-    },
-    ["FR"] = {
-        ["Name"] = "Ярость Скверны",
-        ["Default"] = "",
-        ["Prompt"] = ""
     },
     ["Growl"] = {
         ["Name"] = "Рык",

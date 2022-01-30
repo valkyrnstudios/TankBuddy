@@ -1,6 +1,8 @@
 ﻿local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "deDE")
 
-if not L then return end
+if not L then
+    return
+end
 
 -- TODO restructure abilities
 -- by StarDust, Lorni and Nelson from Malfurion EU
@@ -8,8 +10,7 @@ if not L then return end
 L["DisableInBG"] = "Deaktiviert in Schlachtfeldern";
 L["Done"] = "getan!";
 L["EnableTankBuddy"] = "Tank Buddy aktivieren";
-L["EnterNewMBRecoveryText"] =
-    "Neuer Text für Wiederherstellung von verfehltem Spott:";
+L["EnterNewMBRecoveryText"] = "Neuer Text für Wiederherstellung von verfehltem Spott:";
 L["General"] = "Allgemein";
 L["output_buffremoved"] = "removed, matched"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["salvation"] = "Segen der Rettung";
@@ -42,7 +43,6 @@ L["Abilities"] = {
         ["Default"] = "- Herausforderungsruf ist raus! Ich brauche Heilung für die nächsten $sec Sekunden! -",
         ["Prompt"] = "Neuer Text wenn Herausforderndes Gebrüll aktiviert wird:"
     },
-    ["FR"] = {["Name"] = "Teufelswut", ["Default"] = "", ["Prompt"] = ""},
     ["Growl"] = {
         ["Name"] = "Knurren",
         ["Default"] = "- Mein Knurren wurde von $tn widerstanden -",
