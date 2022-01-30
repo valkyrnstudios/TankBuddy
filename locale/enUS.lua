@@ -9,7 +9,7 @@ L["EnterNewMBRecoveryText"] =
     "Enter new announcement text for recovered taunts:";
 L["General"] = "General";
 L["Help"] = "Help";
-L["output_buffremoved"] = " removed, matched "; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
+L["output_buffremoved"] = "removed, matched"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Test";
 L["EnableAnnounce"] = "Enable announcement"

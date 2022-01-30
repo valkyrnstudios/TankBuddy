@@ -11,7 +11,7 @@ L["EnterNewMBRecoveryText"] =
     "Введите новый текст объявления для восстановленных насмешек:";
 L["General"] = "Общий";
 L["Help"] = "Помощь";
-L["output_buffremoved"] = " удаленный, совпадает ";
+L["output_buffremoved"] = "удаленный, совпадает ";
 L["TankBuddy"] = "Танк Бадди";
 L["Test"] = "тест";
 L["EnableAnnounce"] = "Включить объявление"

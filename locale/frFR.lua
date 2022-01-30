@@ -12,7 +12,7 @@ L["EnterNewMBRecoveryText"] =
     "Entrez un nouveau texte d'annonce pour les provocations rat\195\169es mais r\195\169cup\195\169r\195\169es:";
 L["General"] = "G\195\169n\195\169ral";
 L["Help"] = "Aide";
-L["output_buffremoved"] = " enlev\195\169e, puisqu'il contient ";
+L["output_buffremoved"] = "enlev\195\169e, puisqu'il contient";
 L["SetCustomChannel"] = "Choisir un channel personnalis\195\169";
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Test";

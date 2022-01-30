@@ -11,7 +11,7 @@ L["EnableTankBuddy"] = "Tank Buddy aktivieren";
 L["EnterNewMBRecoveryText"] =
     "Neuer Text für Wiederherstellung von verfehltem Spott:";
 L["General"] = "Allgemein";
-L["output_buffremoved"] = " removed, matched "; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
+L["output_buffremoved"] = "removed, matched"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["salvation"] = "Segen der Rettung";
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Testen";
