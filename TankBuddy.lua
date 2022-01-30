@@ -9,7 +9,7 @@ addon.Version = GetAddOnMetadata(addonName, "Version")
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
 local FindAuraByName, fmt, gsub, find, lower = AuraUtil.FindAuraByName, string.format, string.gsub, string.find,
     string.lower
-local playerName = UnitName("player")
+
 local localeClass, classFile = UnitClass("player")
 
 local options = {
@@ -25,8 +25,8 @@ local options = {
             name = L["TankBuddy"],
             guiHidden = true,
             func = function()
-                InterfaceOptionsFrame_OpenToCategory(addonName)
-                InterfaceOptionsFrame_OpenToCategory(addonName)
+                InterfaceOptionsFrame_OpenToCategory(L[addonName])
+                InterfaceOptionsFrame_OpenToCategory(L[addonName])
             end
         },
         enable = {
@@ -358,6 +358,8 @@ function addon:OnInitialize()
     self:RegisterChatCommand("tb", "ChatCommand")
 
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, L[addonName])
+
+    self.playerName = UnitName("player")
 end
 
 function addon:OnEnable()
@@ -402,7 +404,7 @@ function addon:GetAnnounceText(abilityName)
 end
 
 function addon:COMBAT_LOG_EVENT_UNFILTERED(...)
-    return self:CombatLogHandler(CombatLogGetCurrentEventInfo())
+    self:CombatLogHandler(CombatLogGetCurrentEventInfo())
 end
 
 function addon:CombatLogHandler(...)
@@ -410,13 +412,13 @@ function addon:CombatLogHandler(...)
     local announceArgs = {
         ["target"] = nil
     }
-    local _, subevent, _, _, sourceName, _, _, _, destName, _, _ = ...
+    local _, subevent, _, _, sourceName, _, _, destGUID, destName, _, _ = ...
 
-    if sourceName ~= playerName then
+    if sourceName ~= self.playerName then
         return
     end
 
-    local school, resisted, blocked, absorbed, critical, glancing, crushing
+    local school, missType, resisted, blocked, absorbed, critical, glancing, crushing
 
     local spellName, spellSchool
 
@@ -431,28 +433,22 @@ function addon:CombatLogHandler(...)
         return
     end
 
-    -- TODO move to targeted abilities only
-    if UnitIsPlayer("target") then
-        return
-    end -- exclude pvp
-
-    if self.db.profile.disableInBG and UnitInBattleground("player") ~= nil then
+    if UnitInBattleground("player") ~= nil and self.db.profile.disableInBG then
         return
     end
 
-    if destname then
+    if destName then
         announceArgs["target"] = destName
     end
 
-    if subevent == "SPELL_AURA_APPLIED" and spellName == L["Abilities"]["FR"]["Name"] then -- Checks for Fel Rage
-        feltTime = GetTime()
-    elseif classFile == "WARRIOR" then
+    if classFile == "WARRIOR" then
         if spellName == L["Abilities"]["Taunt"]["Name"] then -- and resisted then -- Checks if your taunt was resisted
-            if subevent == "SPELL_MISSED" then
+            if subevent == "SPELL_MISSED" and not UnitIsPlayer("target") then
+
                 self:SendMessage("MissType: " .. missType)
                 abilityName = L["Abilities"]["Taunt"]["Name"]
                 if self.db.profile.announceTaunt then
-                    announceArgs["target"] = UnitName("target") .. UnitLevel("target")
+                    announceArgs["target"] = destGUID
                     announceArgs["Time"] = GetTime()
                 end
             end
@@ -480,13 +476,13 @@ function addon:CombatLogHandler(...)
             end
         end
     elseif classFile == "DRUID" then
-        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["Growl"]["Name"] then
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["Growl"]["Name"] and not UnitIsPlayer("target") then
             abilityName = L["Abilities"]["Growl"]["Name"]
         elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"]["CR"]["Name"] then
             abilityName = L["Abilities"]["CR"]["Name"]
         end
     elseif classFile == "PALADIN" then
-        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["RD"]["Name"] then
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["RD"]["Name"] and not UnitIsPlayer("target") then
             abilityName = L["Abilities"]["RD"]["Name"]
         end
     end
@@ -512,7 +508,7 @@ function addon:Announce(abilityName, announceArgs)
         if announceArgs.tauntFailInfo then
             local TBTime = GetTime() - announceArgs.tauntFailInfo.Time
             if TBTime < self:GetTauntCD() then
-                if UnitName("target") .. UnitLevel("target") == announceArgs.tauntFailInfo.Target then
+                if UnitGUID("target") == announceArgs.tauntFailInfo.Target then
                     announcementText = L["Default"]["recovery"]
                 else
                     announcementText = nil
@@ -704,8 +700,8 @@ function addon:ChatCommand(input)
     local cmd = input:trim()
 
     if not cmd or cmd == "" then
-        InterfaceOptionsFrame_OpenToCategory(addonName)
-        InterfaceOptionsFrame_OpenToCategory(addonName)
+        InterfaceOptionsFrame_OpenToCategory(L[addonName])
+        InterfaceOptionsFrame_OpenToCategory(L[addonName])
     elseif cmd == "reset" then
         self:SendMessage("Reset settings")
         self.db:ResetProfile()
