@@ -2,14 +2,13 @@
 
 local addon = nil
 
-addon = LibStub("AceAddon-3.0"):NewAddon(TankBuddy, addonName, "AceConsole-3.0",
-                                         "AceEvent-3.0")
+addon = LibStub("AceAddon-3.0"):NewAddon(TankBuddy, addonName, "AceConsole-3.0", "AceEvent-3.0")
 
 addon.Version = GetAddOnMetadata(addonName, "Version")
 
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
-local FindAuraByName, fmt, gsub, find = AuraUtil.FindAuraByName, string.format,
-                                        string.gsub, string.find
+local FindAuraByName, fmt, gsub, find, lower = AuraUtil.FindAuraByName, string.format, string.gsub, string.find,
+    string.lower
 local playerName = UnitName("player")
 local localeClass, classFile = UnitClass("player")
 
@@ -26,26 +25,41 @@ local options = {
             name = L["TankBuddy"],
             guiHidden = true,
             func = function()
-                InterfaceOptionsFrame_Show()
-                -- need to call it a second time as there is a bug where the first time it won't switch !BlizzBugsSuck has a fix
+                InterfaceOptionsFrame_OpenToCategory(addonName)
                 InterfaceOptionsFrame_OpenToCategory(addonName)
             end
         },
-        enable = {type = "toggle", name = L["EnableTankBuddy"], order = 1},
-        disableInBG = {type = "toggle", name = L["DisableInBG"], order = 2},
+        enable = {
+            type = "toggle",
+            name = L["EnableTankBuddy"],
+            order = 1
+        },
+        disableInBG = {
+            type = "toggle",
+            name = L["DisableInBG"],
+            order = 2
+        },
         help = {
             type = "group",
             name = L["Help"],
             order = 1,
             args = {
-                introHeader = {type = 'header', name = "Intro", order = 1},
+                introHeader = {
+                    type = 'header',
+                    name = "Intro",
+                    order = 1
+                },
                 intro = {
                     type = 'description',
                     width = "full",
                     name = L["IntroText"],
                     order = 2
                 },
-                helpHeader = {type = 'header', name = L["Help"], order = 3},
+                helpHeader = {
+                    type = 'header',
+                    name = L["Help"],
+                    order = 3
+                },
                 help = {
                     type = 'description',
                     width = "full",
@@ -117,7 +131,11 @@ local defaultannounceCSText = {
     ["PALADIN"] = ""
 }
 
-local tankFormID = {["WARRIOR"] = 2, ["DRUID"] = 1, ["PALADIN"] = 9}
+local tankFormID = {
+    ["WARRIOR"] = 2,
+    ["DRUID"] = 1,
+    ["PALADIN"] = 9
+}
 
 if classFile == "WARRIOR" then
     options.args.classOptions = {
@@ -336,7 +354,7 @@ function addon:OnInitialize()
 
     LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, options)
 
-    self:RegisterChatCommand(string.lower(addonName), "ChatCommand")
+    self:RegisterChatCommand(lower(addonName), "ChatCommand")
     self:RegisterChatCommand("tb", "ChatCommand")
 
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, L[addonName])
@@ -353,41 +371,32 @@ end
 function addon:GetAnnounceText(abilityName)
     if abilityName == L["Abilities"]["MB"]["Name"] then
 
-        return self.db.profile.announceTaunt and
-                   self.db.profile.announceMBResistText or nil
+        return self.db.profile.announceTaunt and self.db.profile.announceMBResistText or nil
 
     elseif abilityName == L["Abilities"]["LS"]["Name"] then
 
-        return self.db.profile.announceLS and self.db.profile.announceLSText or
-                   nil
+        return self.db.profile.announceLS and self.db.profile.announceLSText or nil
 
     elseif abilityName == L["Abilities"]["LS"]["Name"] .. "D" then
 
-        return self.db.profile.announceLS and L["Abilities"]["LS"]["Name"] ..
-                   " " .. L["Done"] or nil
+        return self.db.profile.announceLS and L["Abilities"]["LS"]["Name"] .. " " .. L["Done"] or nil
 
     elseif abilityName == L["Abilities"]["SW"]["Name"] then
 
-        return self.db.profile.announceSW and self.db.profile.announceSWText or
-                   nil
+        return self.db.profile.announceSW and self.db.profile.announceSWText or nil
 
     elseif abilityName == L["Abilities"]["SW"]["Name"] .. "D" then
 
-        return self.db.profile.announceSW and L["Abilities"]["SW"]["Name"] ..
-                   " " .. L["Done"] or nil
+        return self.db.profile.announceSW and L["Abilities"]["SW"]["Name"] .. " " .. L["Done"] or nil
 
-    elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName ==
-        L["Abilities"]["CR"]["Name"] then
+    elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName == L["Abilities"]["CR"]["Name"] then
 
-        return self.db.profile.announceCS and self.db.profile.announceCSText or
-                   nil
+        return self.db.profile.announceCS and self.db.profile.announceCSText or nil
 
-    elseif abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName ==
-        L["Abilities"]["Growl"]["Name"] or abilityName ==
-        L["Abilities"]["RD"]["Name"] then
+    elseif abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName == L["Abilities"]["Growl"]["Name"] or
+        abilityName == L["Abilities"]["RD"]["Name"] then
 
-        return self.db.profile.announceTaunt and
-                   self.db.profile.announceTauntResistText or nil
+        return self.db.profile.announceTaunt and self.db.profile.announceTauntResistText or nil
 
     end
 end
@@ -398,36 +407,44 @@ end
 
 function addon:CombatLogHandler(...)
     local abilityName = nil
-    local announceArgs = {["target"] = nil}
-    local timestamp, subevent, _, sourceGUID, sourceName, sourceFlags,
-          sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
+    local announceArgs = {
+        ["target"] = nil
+    }
+    local _, subevent, _, _, sourceName, _, _, _, destName, _, _ = ...
 
-    if sourceName ~= playerName then return end
+    if sourceName ~= playerName then
+        return
+    end
 
-    local school, resisted, blocked, absorbed, critical, glancing, crushing, _
+    local school, resisted, blocked, absorbed, critical, glancing, crushing
 
     local spellName, spellSchool
 
     local eventKind = subevent:sub(0, 5)
 
     if eventKind == "SWING" then
-        _, _, school, resisted, blocked, absorbed, critical, glancing, crushing, _ =
-            select(12, ...)
+        _, _, school, resisted, blocked, absorbed, critical, glancing, crushing, _ = select(12, ...)
     elseif eventKind == "SPELL" then
         _, spellName, spellSchool, missType, _, school, resisted, blocked, absorbed, critical, glancing, crushing, _ =
             select(12, ...)
+    else
+        return
     end
 
-    if UnitIsPlayer("target") then return end -- exclude pvp
+    -- TODO move to targeted abilities only
+    if UnitIsPlayer("target") then
+        return
+    end -- exclude pvp
 
     if self.db.profile.disableInBG and UnitInBattleground("player") ~= nil then
         return
     end
 
-    if destname then announceArgs["target"] = destName end
+    if destname then
+        announceArgs["target"] = destName
+    end
 
-    if subevent == "SPELL_AURA_APPLIED" and spellName ==
-        L["Abilities"]["FR"]["Name"] then -- Checks for Fel Rage
+    if subevent == "SPELL_AURA_APPLIED" and spellName == L["Abilities"]["FR"]["Name"] then -- Checks for Fel Rage
         feltTime = GetTime()
     elseif classFile == "WARRIOR" then
         if spellName == L["Abilities"]["Taunt"]["Name"] then -- and resisted then -- Checks if your taunt was resisted
@@ -435,8 +452,7 @@ function addon:CombatLogHandler(...)
                 self:SendMessage("MissType: " .. missType)
                 abilityName = L["Abilities"]["Taunt"]["Name"]
                 if self.db.profile.announceTaunt then
-                    announceArgs["target"] =
-                        UnitName("target") .. UnitLevel("target")
+                    announceArgs["target"] = UnitName("target") .. UnitLevel("target")
                     announceArgs["Time"] = GetTime()
                 end
             end
@@ -452,39 +468,36 @@ function addon:CombatLogHandler(...)
             elseif subevent == "SPELL_AURA_REMOVED" then
                 abilityName = L["Abilities"]["LS"]["Name"] .. "D"
             end
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
-            L["Abilities"]["CS"]["Name"] then
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"]["CS"]["Name"] then
             abilityName = L["Abilities"]["CS"]["Name"]
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
-            L["Abilities"]["MB"]["Name"] then -- Checks if your mocking blow was hit
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"]["MB"]["Name"] then
             if self.db.profile.announceTaunt then
                 abilityName = L["Abilities"]["MB"]["Name"]
             end
 
-            if subevent == "SPELL_MISSED" and spellName ==
-                L["Abilities"]["MB"]["Name"] then -- If your mocking blow didnt hit, then do ..
+            if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["MB"]["Name"] then
                 abilityName = L["Abilities"]["MB"]["Name"]
             end
         end
     elseif classFile == "DRUID" then
-        if subevent == "SPELL_MISSED" and spellName ==
-            L["Abilities"]["Growl"]["Name"] then -- Checks if your taunt was resisted
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["Growl"]["Name"] then
             abilityName = L["Abilities"]["Growl"]["Name"]
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName ==
-            L["Abilities"]["CR"]["Name"] then -- Checks for Challenging Roar
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"]["CR"]["Name"] then
             abilityName = L["Abilities"]["CR"]["Name"]
         end
     elseif classFile == "PALADIN" then
-        if subevent == "SPELL_MISSED" and spellName ==
-            L["Abilities"]["RD"]["Name"] then -- Checks if righteous defense resisted
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["RD"]["Name"] then
             abilityName = L["Abilities"]["RD"]["Name"]
         end
     end
 
-    if abilityName == nil and subevent == "SPELL_CAST_SUCCESS" and
-        self.itemAnnounceCache[spellName] ~= nil then abilityName = spellName end
+    if abilityName == nil and subevent == "SPELL_CAST_SUCCESS" and self.itemAnnounceCache[spellName] ~= nil then
+        abilityName = spellName
+    end
 
-    if abilityName then self:Announce(abilityName, announceArgs) end
+    if abilityName then
+        self:Announce(abilityName, announceArgs)
+    end
 end
 
 function addon:Announce(abilityName, announceArgs)
@@ -499,8 +512,7 @@ function addon:Announce(abilityName, announceArgs)
         if announceArgs.tauntFailInfo then
             local TBTime = GetTime() - announceArgs.tauntFailInfo.Time
             if TBTime < self:GetTauntCD() then
-                if UnitName("target") .. UnitLevel("target") ==
-                    announceArgs.tauntFailInfo.Target then
+                if UnitName("target") .. UnitLevel("target") == announceArgs.tauntFailInfo.Target then
                     announcementText = L["Default"]["recovery"]
                 else
                     announcementText = nil
@@ -514,27 +526,24 @@ function addon:Announce(abilityName, announceArgs)
     if not announcementText then
         local itemData = self.itemAnnounceCache[abilityName]
 
-        if itemData == nil then return end
+        if itemData == nil then
+            return
+        end
 
-        announcementText = gsub(L["Items"]["Template"], "$sec",
-                                itemData["seconds"])
+        announcementText = gsub(L["Items"]["Template"], "$sec", itemData["seconds"])
 
         announcementText = gsub(announcementText, "$effect", itemData["effect"])
 
-        SendChatMessage(announcementText, self.db.profile.announceItemsChannel,
-                        nil)
+        SendChatMessage(announcementText, self.db.profile.announceItemsChannel, nil)
         return
     end
 
-    if abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName ==
-        L["Abilities"]["MB"]["Name"] or abilityName ==
-        L["Abilities"]["Growl"]["Name"] or abilityName ==
-        L["Abilities"]["RD"]["Name"] then
+    if abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName == L["Abilities"]["MB"]["Name"] or abilityName ==
+        L["Abilities"]["Growl"]["Name"] or abilityName == L["Abilities"]["RD"]["Name"] then
 
         if find(announcementText, "$ttn") then
             if UnitName("targettarget") then
-                announcementText = gsub(announcementText, "$ttn",
-                                        UnitName("targettarget"));
+                announcementText = gsub(announcementText, "$ttn", UnitName("targettarget"));
             else
                 announcementText = gsub(announcementText, "$ttn", "<no target>");
             end
@@ -544,15 +553,13 @@ function addon:Announce(abilityName, announceArgs)
             if UnitLevel("targettarget") < 0 then
                 announcementText = gsub(announcementText, "$ttl", "??");
             else
-                announcementText = gsub(announcementText, "$ttl",
-                                        UnitLevel("targettarget"));
+                announcementText = gsub(announcementText, "$ttl", UnitLevel("targettarget"));
             end
         end
 
         if find(announcementText, "$ttt") then
             if UnitCreatureType("targettarget") then
-                announcementText = gsub(announcementText, "$ttt",
-                                        UnitCreatureType("targettarget"));
+                announcementText = gsub(announcementText, "$ttt", UnitCreatureType("targettarget"));
             else
                 announcementText = gsub(announcementText, "$ttt", "Unknown");
             end
@@ -567,29 +574,30 @@ function addon:Announce(abilityName, announceArgs)
             if UnitLevel("target") < 0 then
                 announcementText = gsub(announcementText, "$tl", "??");
             else
-                announcementText = gsub(announcementText, "$tl",
-                                        UnitLevel("target"));
+                announcementText = gsub(announcementText, "$tl", UnitLevel("target"))
             end
         end
 
         if find(announcementText, "$tt") then
             if UnitCreatureType("target") then
-                announcementText = gsub(announcementText, "$tt",
-                                        UnitCreatureType("target"));
+                announcementText = gsub(announcementText, "$tt", UnitCreatureType("target"));
             else
                 announcementText = gsub(announcementText, "$tt", "Unknown");
             end
         end
     elseif abilityName == L["Abilities"]["SW"]["Name"] then
-        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec",
-                                self:GetSWDuration());
+
+        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", self:GetSWDuration())
+
     elseif abilityName == L["Abilities"]["LS"]["Name"] then
-        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "20");
-        announcementText = gsub(announcementText, "$hp", math.floor(
-                                    (UnitHealthMax("player") / 130) * 30));
-    elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName ==
-        L["Abilities"]["CR"]["Name"] then
-        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "6");
+
+        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "20")
+        announcementText = gsub(announcementText, "$hp", math.floor((UnitHealthMax("player") / 130) * 30))
+
+    elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName == L["Abilities"]["CR"]["Name"] then
+
+        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "6")
+
     end
 
     local channel = "EMOTE"
@@ -607,38 +615,43 @@ function addon:Announce(abilityName, announceArgs)
         end
     end
 
-    if announcementText then SendChatMessage(announcementText, channel, nil) end
+    if announcementText then
+        SendChatMessage(announcementText, channel, nil)
+    end
 end
 
 function addon:GetSWDuration()
-    local SW_dur = 10 -- Default duration
+    local duration = 10 -- Default duration
 
     local _, _, _, _, currRank, _ = GetTalentInfo(3, 13); -- Get rank of Improved Shield Wall
     if currRank == 1 then
-        SW_dur = SW_dur + 3 -- Rank 1 gives 3 seconds extra
+        duration = duration + 3 -- Rank 1 gives 3 seconds extra
     elseif currRank == 2 then
-        SW_dur = SW_dur + 5 -- Rank 2 gives 5 seconds extra (total)
-    end
-    _, _, _, _, currRank, _ = GetTalentInfo(1, 18) -- Get rank of Improved Disciplines (New in 2.0)
-    if currRank > 0 then
-        SW_dur = SW_dur + (2 * currRank) -- Each rank gives 2 seconds extra
+        duration = duration + 5 -- Rank 2 gives 5 seconds extra (total)
     end
 
-    return SW_dur
+    _, _, _, _, currRank, _ = GetTalentInfo(1, 18) -- Get rank of Improved Disciplines
+    if currRank > 0 then
+        duration = duration + (2 * currRank) -- Each rank gives 2 seconds extra
+    end
+
+    return duration
 end
 
 function addon:GetTauntCD()
-    local _, _, _, _, currRank, _ = GetTalentInfo(3, 12) -- Get rank of Improved Taunt
+    if classFile == "PALADIN" then
+        return 15
+    end
 
-    local newtauntcd = 10 - currRank
+    local _, _, _, _, impTauntRank, _ = GetTalentInfo(3, 12) -- Get rank of Improved Taunt
 
-    if (classFile == "PALADIN") then newtauntcd = 15 end
-
-    return newtauntcd
+    return 10 - impTauntRank
 end
 
 function addon:EvaluateAuras(_, unitTarget)
-    if unitTarget and unitTarget ~= "player" then return end
+    if unitTarget and unitTarget ~= "player" then
+        return
+    end
 
     for i = 1, #self.removeBuffsAlways do
         local foundAura = self:HasAura(self.removeBuffsAlways[i])
@@ -647,8 +660,7 @@ function addon:EvaluateAuras(_, unitTarget)
         end
     end
 
-    if GetShapeshiftForm(true) == tankFormID[classFile] or classFile ==
-        "PALADIN" and self:HasAura(L["Auras"]["RF"]) then
+    if GetShapeshiftForm(true) == tankFormID[classFile] or classFile == "PALADIN" and self:HasAura(L["Auras"]["RF"]) then
         for i = 1, #self.removeBuffsDefensive do
             local foundAura = self:HasAura(self.removeBuffsDefensive[i])
             if foundAura then
@@ -662,17 +674,17 @@ function addon:HasAura(auraName)
     if FindAuraByName(auraName, "player") then -- exact match
         return auraName
     else -- fuzzy match
-        local i = 1
         local auraAtIndex = nil
         local patternMatch = nil
-        while true do
+        for i = 1, 40 do
             auraAtIndex = UnitBuff("player", i)
-            if auraAtIndex == nil then return nil end
-            patternMatch = string.match(string.lower(auraAtIndex), "(.*" ..
-                                            string.lower(auraName) .. ".*)")
-            if patternMatch then return patternMatch end
-
-            i = i + 1
+            if auraAtIndex == nil then
+                return nil
+            end
+            patternMatch = string.match(lower(auraAtIndex), fmt("(.*%s.*)", lower(auraName)))
+            if patternMatch then
+                return patternMatch
+            end
         end
     end
 
@@ -683,8 +695,7 @@ function addon:CancelAuraByName(auraName, match)
     if InCombatLockdown() then
         self:SendWarning(auraName .. " detected")
     else
-        self:SendMessage(fmt('\"%s\" %s %s', auraName, L["output_buffremoved"],
-                             match))
+        self:SendMessage(fmt('\"%s\" %s %s', auraName, L["output_buffremoved"], match))
         CancelSpellByName(auraName)
     end
 end
@@ -701,7 +712,9 @@ function addon:ChatCommand(input)
     end
 end
 
-function addon:getProfileOption(info) return self.db.profile[info[#info]] end
+function addon:getProfileOption(info)
+    return self.db.profile[info[#info]]
+end
 
 function addon:setProfileOption(info, value)
     local key = info[#info]
@@ -711,20 +724,18 @@ function addon:setProfileOption(info, value)
 end
 
 function addon:UpdateCache()
-    self.removeBuffsDefensive = self:SplitOptionsString(self.db.profile
-                                                            .removeBuffsDefensive)
-    self.removeBuffsAlways = self:SplitOptionsString(self.db.profile
-                                                         .removeBuffsAlways)
+    self.removeBuffsDefensive = self:SplitOptionsString(self.db.profile.removeBuffsDefensive)
+    self.removeBuffsAlways = self:SplitOptionsString(self.db.profile.removeBuffsAlways)
 
-    local announceItemsList = {
-        strsplit('\n', self.db.profile.announceItemsText)
-    }
+    local announceItemsList = {strsplit('\n', self.db.profile.announceItemsText)}
     local buff, seconds, effect;
 
     self.itemAnnounceCache = {}
 
     for _, itemData in ipairs(announceItemsList) do
-        if itemData == "" then return end
+        if itemData == "" then
+            return
+        end
 
         buff, seconds, effect = strsplit(',', itemData)
 
@@ -737,25 +748,24 @@ end
 
 function addon:SendMessage(msg)
     if DEFAULT_CHAT_FRAME then
-        DEFAULT_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 0.0,
-                                      1.0, 0.0, 1.0);
+        DEFAULT_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 0.0, 1.0, 0.0, 1.0);
     end
 end
 
 function addon:SendWarning(msg)
     if UIErrorsFrame then
-        UIErrorsFrame:AddMessage(fmt("%s: %s", L["TankBuddy"]), 1.0, 0.1, 0.1,
-                                 5.0);
+        UIErrorsFrame:AddMessage(fmt("%s: %s", L["TankBuddy"]), 1.0, 0.1, 0.1, 5.0);
     end
     if DEFAULT_CHAT_FRAME then
-        DEFAULT_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 1.0,
-                                      0.1, 0.1, 1.0);
+        DEFAULT_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 1.0, 0.1, 0.1, 1.0);
     end
 end
 
 function addon:SplitOptionsString(var)
     local tbl = {}
-    for v in string.gmatch(var, "[^,]+") do tinsert(tbl, strtrim(v)) end
+    for v in string.gmatch(var, "[^,]+") do
+        tinsert(tbl, strtrim(v))
+    end
 
     return tbl
 end
