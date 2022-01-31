@@ -70,12 +70,12 @@ local options = {
         },
         buffRemoval = {
             type = 'group',
-            name = L["RemoveBuffs"]["Title"],
+            name = L["RemoveBuffs"].Title,
             order = 2,
             args = {
                 removeBuffsAlways = {
                     type = 'input',
-                    name = L["RemoveBuffs"]["Always"],
+                    name = L["RemoveBuffs"].Always,
                     width = "full"
                 },
                 removeBuffsDefensive = {
@@ -100,17 +100,17 @@ local options = {
                     name = "Channel",
                     order = 2,
                     values = {
-                        ["EMOTE"] = L["Channel"]["Emote"],
-                        ["YELL"] = L["Channel"]["Yell"],
-                        ["PARTY"] = L["Channel"]["Party"],
-                        ["RAID"] = L["Channel"]["Raid"],
+                        ["EMOTE"] = L["Channel"].Emote,
+                        ["YELL"] = L["Channel"].Yell,
+                        ["PARTY"] = L["Channel"].Party,
+                        ["RAID"] = L["Channel"].Raid,
                         ["RAID_WARNING"] = L["Channel"]["Raid Warning"]
                     }
                 },
                 announceItemsText = { -- TODO validate
                     type = 'input',
                     width = "full",
-                    name = L["Items"]["Prompt"],
+                    name = L["Items"].Prompt,
                     multiline = true,
                     order = 3
                 }
@@ -120,20 +120,20 @@ local options = {
 }
 
 local defaultannounceTauntResistText = {
-    ["WARRIOR"] = L["Abilities"]["Taunt"]["Default"],
-    ["DRUID"] = L["Abilities"]["Growl"]["Default"],
-    ["PALADIN"] = L["Abilities"]["RD"]["Default"]
+    ["WARRIOR"] = L["Abilities"].Taunt.Default,
+    ["DRUID"] = L["Abilities"].Growl.Default,
+    ["PALADIN"] = L["Abilities"].RD.Default
 }
 
 local defaultannounceTauntImmuneText = {
-    ["WARRIOR"] = L["Abilities"]["Taunt"]["Immune"],
-    ["DRUID"] = L["Abilities"]["Growl"]["Immune"],
-    ["PALADIN"] = L["Abilities"]["RD"]["Immune"]
+    ["WARRIOR"] = L["Abilities"].Taunt.Immune,
+    ["DRUID"] = L["Abilities"].Growl.Immune,
+    ["PALADIN"] = L["Abilities"].RD.Immune
 }
 
 local defaultannounceCSText = {
-    ["WARRIOR"] = L["Abilities"]["CS"]["Default"],
-    ["DRUID"] = L["Abilities"]["CR"]["Default"],
+    ["WARRIOR"] = L["Abilities"].CS.Default,
+    ["DRUID"] = L["Abilities"].CR.Default,
     ["PALADIN"] = ""
 }
 
@@ -151,7 +151,7 @@ if classFile == "WARRIOR" then
         args = {
             taunt = {
                 type = 'group',
-                name = L["Abilities"]["Taunt"]["Name"],
+                name = L["Abilities"].Taunt.Name,
                 order = 2,
                 args = {
                     announceTaunt = {
@@ -162,7 +162,7 @@ if classFile == "WARRIOR" then
                     announceTauntResistText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["Taunt"]["Prompt"],
+                        name = L["Abilities"].Taunt.Prompt,
                         order = 2
                     }
 
@@ -170,7 +170,7 @@ if classFile == "WARRIOR" then
             },
             mockingBlow = {
                 type = 'group',
-                name = L["Abilities"]["MB"]["Name"],
+                name = L["Abilities"].MB.Name,
                 order = 3,
                 args = {
                     announceMB = {
@@ -188,7 +188,7 @@ if classFile == "WARRIOR" then
             },
             lastStand = {
                 type = 'group',
-                name = L["Abilities"]["LS"]["Name"],
+                name = L["Abilities"].LS.Name,
                 order = 4,
                 args = {
                     announceLS = {
@@ -199,14 +199,14 @@ if classFile == "WARRIOR" then
                     announceLSText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["LS"]["Prompt"],
+                        name = L["Abilities"].LS.Prompt,
                         order = 2
                     }
                 }
             },
             shieldWall = {
                 type = 'group',
-                name = L["Abilities"]["SW"]["Name"],
+                name = L["Abilities"].SW.Name,
                 order = 5,
                 args = {
                     announceSW = {
@@ -217,14 +217,14 @@ if classFile == "WARRIOR" then
                     announceSWText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["SW"]["Prompt"],
+                        name = L["Abilities"].SW.Prompt,
                         order = 2
                     }
                 }
             },
             challengingShout = {
                 type = 'group',
-                name = L["Abilities"]["CS"]["Name"],
+                name = L["Abilities"].CS.Name,
                 order = 6,
                 args = {
                     announceCS = {
@@ -235,7 +235,7 @@ if classFile == "WARRIOR" then
                     announceCSText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["CS"]["Prompt"],
+                        name = L["Abilities"].CS.Prompt,
                         order = 2
                     }
                 }
@@ -250,7 +250,7 @@ elseif classFile == "DRUID" then
         args = {
             taunt = {
                 type = 'group',
-                name = L["Abilities"]["Growl"]["Name"],
+                name = L["Abilities"].Growl.Name,
                 order = 2,
                 args = {
                     announceTaunt = {
@@ -261,14 +261,14 @@ elseif classFile == "DRUID" then
                     announceTauntResistText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["Growl"]["Prompt"],
+                        name = L["Abilities"].Growl.Prompt,
                         order = 2
                     }
                 }
             },
             challengingShout = {
                 type = 'group',
-                name = L["Abilities"]["CR"]["Name"],
+                name = L["Abilities"].CR.Name,
                 order = 3,
                 args = {
                     announceCS = {
@@ -279,7 +279,7 @@ elseif classFile == "DRUID" then
                     announceCSText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["CR"]["Prompt"],
+                        name = L["Abilities"].CR.Prompt,
                         order = 2
                     }
                 }
@@ -294,7 +294,7 @@ elseif classFile == "PALADIN" then
         args = {
             taunt = {
                 type = 'group',
-                name = L["Abilities"]["RD"]["Name"],
+                name = L["Abilities"].RD.Name,
                 order = 2,
                 args = {
                     announceTaunt = {
@@ -305,7 +305,7 @@ elseif classFile == "PALADIN" then
                     announceTauntResistText = {
                         type = 'input',
                         width = "full",
-                        name = L["Abilities"]["RD"]["Prompt"],
+                        name = L["Abilities"].RD.Prompt,
                         order = 2
                     }
                 }
@@ -338,19 +338,19 @@ local defaults = {
         enable = true,
         disableInBG = true,
         removeBuffsAlways = "",
-        removeBuffsDefensive = L["Auras"]["Salvation"],
+        removeBuffsDefensive = L["Auras"].Salvation,
         announceTaunt = true,
         announceTauntResistText = defaultannounceTauntResistText[classFile],
         announceTauntImmuneText = defaultannounceTauntImmuneText[classFile],
         announceCSText = defaultannounceCSText[classFile],
         announceCS = true,
-        announceMBResistText = L["Abilities"]["MB"]["Default"],
+        announceMBResistText = L["Abilities"].MB.Default,
         announceMB = true,
-        announceLSText = L["Abilities"]["LS"]["Default"],
+        announceLSText = L["Abilities"].LS.Default,
         announceLS = true,
-        announceSWText = L["Abilities"]["SW"]["Default"],
+        announceSWText = L["Abilities"].SW.Default,
         announceSW = true,
-        announceItemsText = L["Items"]["Default"],
+        announceItemsText = L["Items"].Default,
         announceItemsChannel = "EMOTE",
         announceItems = true
     }
@@ -378,37 +378,37 @@ function addon:OnEnable()
 end
 
 function addon:GetAnnounceText(abilityName)
-    if abilityName == L["Abilities"]["MB"]["Name"] then
+    if abilityName == L["Abilities"].MB.Name then
 
         return self.db.profile.announceTaunt and self.db.profile.announceMBResistText or nil
 
-    elseif abilityName == L["Abilities"]["LS"]["Name"] then
+    elseif abilityName == L["Abilities"].LS.Name then
 
         return self.db.profile.announceLS and self.db.profile.announceLSText or nil
 
-    elseif abilityName == L["Abilities"]["LS"]["Name"] .. "D" then
+    elseif abilityName == L["Abilities"].LS.Name .. "D" then
 
-        return self.db.profile.announceLS and L["Abilities"]["LS"]["Name"] .. " " .. L["Done"] or nil
+        return self.db.profile.announceLS and L["Abilities"].LS.Name .. " " .. L["Done"] or nil
 
-    elseif abilityName == L["Abilities"]["SW"]["Name"] then
+    elseif abilityName == L["Abilities"].SW.Name then
 
         return self.db.profile.announceSW and self.db.profile.announceSWText or nil
 
-    elseif abilityName == L["Abilities"]["SW"]["Name"] .. "D" then
+    elseif abilityName == L["Abilities"].SW.Name .. "D" then
 
-        return self.db.profile.announceSW and L["Abilities"]["SW"]["Name"] .. " " .. L["Done"] or nil
+        return self.db.profile.announceSW and L["Abilities"].SW.Name .. " " .. L["Done"] or nil
 
-    elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName == L["Abilities"]["CR"]["Name"] then
+    elseif abilityName == L["Abilities"].CS.Name or abilityName == L["Abilities"].CR.Name then
 
         return self.db.profile.announceCS and self.db.profile.announceCSText or nil
 
-    elseif abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName == L["Abilities"]["Growl"]["Name"] or
-        abilityName == L["Abilities"]["RD"]["Name"] then
+    elseif abilityName == L["Abilities"].Taunt.Name or abilityName == L["Abilities"].Growl.Name or abilityName ==
+        L["Abilities"].RD.Name then
 
         return self.db.profile.announceTaunt and self.db.profile.announceTauntResistText or nil
 
-    elseif abilityName == L["Abilities"]["Taunt"]["Name"] .. 'I' or abilityName == L["Abilities"]["Growl"]["Name"] ..
-        'I' or abilityName == L["Abilities"]["RD"]["Name"] .. 'I' then
+    elseif abilityName == L["Abilities"].Taunt.Name .. 'I' or abilityName == L["Abilities"].Growl.Name .. 'I' or
+        abilityName == L["Abilities"].RD.Name .. 'I' then
 
         return self.db.profile.announceTaunt and self.db.profile.announceTauntImmuneText or nil
 
@@ -430,17 +430,14 @@ function addon:CombatLogHandler(...)
         return
     end
 
-    local school, missType, resisted, blocked, absorbed, critical, glancing, crushing
-
-    local spellName, spellSchool
+    local missType, spellName
 
     local eventKind = subevent:sub(0, 5)
 
     if eventKind == "SWING" then
-        _, _, school, resisted, blocked, absorbed, critical, glancing, crushing, _ = select(12, ...)
+        _, _, _, _, _, _, _, _, _, _ = select(12, ...)
     elseif eventKind == "SPELL" then
-        _, spellName, spellSchool, missType, _, school, resisted, blocked, absorbed, critical, glancing, crushing, _ =
-            select(12, ...)
+        _, spellName, _, missType, _, _, _, _, _, _, _, _, _ = select(12, ...)
     else
         return
     end
@@ -454,48 +451,48 @@ function addon:CombatLogHandler(...)
     end
 
     if classFile == "WARRIOR" then
-        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["Taunt"]["Name"] and not UnitIsPlayer("target") then
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"].Taunt.Name and not UnitIsPlayer("target") then
             if missType == "IMMUNE" then
-                abilityName = L["Abilities"]["Taunt"]["Name"] .. 'I'
+                abilityName = L["Abilities"].Taunt.Name .. 'I'
             else
-                abilityName = L["Abilities"]["Taunt"]["Name"]
+                abilityName = L["Abilities"].Taunt.Name
             end
             if self.db.profile.announceTaunt then
                 announceArgs["target"] = destGUID
                 announceArgs["Time"] = GetTime()
             end
-        elseif spellName == L["Abilities"]["SW"]["Name"] then
+        elseif spellName == L["Abilities"].SW.Name then
             if subevent == "SPELL_CAST_SUCCESS" then
-                abilityName = L["Abilities"]["SW"]["Name"]
+                abilityName = L["Abilities"].SW.Name
             elseif subevent == "SPELL_AURA_REMOVED" then
-                abilityName = L["Abilities"]["SW"]["Name"] .. "D"
+                abilityName = L["Abilities"].SW.Name .. "D"
             end
-        elseif spellName == L["Abilities"]["LS"]["Name"] then
+        elseif spellName == L["Abilities"].LS.Name then
             if subevent == "SPELL_CAST_SUCCESS" then
-                abilityName = L["Abilities"]["LS"]["Name"]
+                abilityName = L["Abilities"].LS.Name
             elseif subevent == "SPELL_AURA_REMOVED" then
-                abilityName = L["Abilities"]["LS"]["Name"] .. "D"
+                abilityName = L["Abilities"].LS.Name .. "D"
             end
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"]["CS"]["Name"] then
-            abilityName = L["Abilities"]["CS"]["Name"]
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"]["MB"]["Name"] then
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"].CS.Name then
+            abilityName = L["Abilities"].CS.Name
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"].MB.Name then
             if self.db.profile.announceTaunt then
-                abilityName = L["Abilities"]["MB"]["Name"]
+                abilityName = L["Abilities"].MB.Name
             end
 
-            if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["MB"]["Name"] then
-                abilityName = L["Abilities"]["MB"]["Name"]
+            if subevent == "SPELL_MISSED" and spellName == L["Abilities"].MB.Name then
+                abilityName = L["Abilities"].MB.Name
             end
         end
     elseif classFile == "DRUID" then
-        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["Growl"]["Name"] and not UnitIsPlayer("target") then
-            abilityName = L["Abilities"]["Growl"]["Name"]
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"]["CR"]["Name"] then
-            abilityName = L["Abilities"]["CR"]["Name"]
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"].Growl.Name and not UnitIsPlayer("target") then
+            abilityName = L["Abilities"].Growl.Name
+        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"].CR.Name then
+            abilityName = L["Abilities"].CR.Name
         end
     elseif classFile == "PALADIN" then
-        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["RD"]["Name"] and not UnitIsPlayer("target") then
-            abilityName = L["Abilities"]["RD"]["Name"]
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"].RD.Name and not UnitIsPlayer("target") then
+            abilityName = L["Abilities"].RD.Name
         end
     end
 
@@ -516,12 +513,12 @@ function addon:Announce(abilityName, announceArgs)
 
     local announcementText
 
-    if abilityName == L["Abilities"]["MB"]["Name"] and announceArgs then
+    if abilityName == L["Abilities"].MB.Name and announceArgs then
         if announceArgs.tauntFailInfo then
             local TBTime = GetTime() - announceArgs.tauntFailInfo.Time
             if TBTime < self:GetTauntCD() then
                 if UnitGUID("target") == announceArgs.tauntFailInfo.Target then
-                    announcementText = L["Default"]["recovery"]
+                    announcementText = L["Default"].recovery
                 else
                     announcementText = nil
                 end
@@ -538,7 +535,7 @@ function addon:Announce(abilityName, announceArgs)
             return
         end
 
-        announcementText = gsub(L["Items"]["Template"], "$sec", itemData["seconds"])
+        announcementText = gsub(L["Items"].Template, "$sec", itemData["seconds"])
 
         announcementText = gsub(announcementText, "$effect", itemData["effect"])
 
@@ -546,10 +543,10 @@ function addon:Announce(abilityName, announceArgs)
         return
     end
 
-    if abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName == L["Abilities"]["MB"]["Name"] or abilityName ==
-        L["Abilities"]["Growl"]["Name"] or abilityName == L["Abilities"]["RD"]["Name"] .. 'I' or abilityName ==
-        L["Abilities"]["Taunt"]["Name"] or abilityName == L["Abilities"]["MB"]["Name"] or abilityName ==
-        L["Abilities"]["Growl"]["Name"] .. 'I' or abilityName == L["Abilities"]["RD"]["Name"] .. 'I' then
+    if abilityName == L["Abilities"].Taunt.Name or abilityName == L["Abilities"].MB.Name or abilityName ==
+        L["Abilities"].Growl.Name or abilityName == L["Abilities"].RD.Name .. 'I' or abilityName ==
+        L["Abilities"].Taunt.Name or abilityName == L["Abilities"].MB.Name or abilityName == L["Abilities"].Growl.Name ..
+        'I' or abilityName == L["Abilities"].RD.Name .. 'I' then
 
         if find(announcementText, "$ttn") then
             if UnitName("targettarget") then
@@ -595,16 +592,16 @@ function addon:Announce(abilityName, announceArgs)
                 announcementText = gsub(announcementText, "$tt", "Unknown");
             end
         end
-    elseif abilityName == L["Abilities"]["SW"]["Name"] then
+    elseif abilityName == L["Abilities"].SW.Name then
 
         announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", self:GetSWDuration())
 
-    elseif abilityName == L["Abilities"]["LS"]["Name"] then
+    elseif abilityName == L["Abilities"].LS.Name then
 
         announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "20")
         announcementText = gsub(announcementText, "$hp", math.floor((UnitHealthMax("player") / 130) * 30))
 
-    elseif abilityName == L["Abilities"]["CS"]["Name"] or abilityName == L["Abilities"]["CR"]["Name"] then
+    elseif abilityName == L["Abilities"].CS.Name or abilityName == L["Abilities"].CR.Name then
 
         announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "6")
 
@@ -670,7 +667,7 @@ function addon:EvaluateAuras(_, unitTarget)
         end
     end
 
-    if GetShapeshiftForm(true) == tankFormID[classFile] or classFile == "PALADIN" and self:HasAura(L["Auras"]["RF"]) then
+    if GetShapeshiftForm(true) == tankFormID[classFile] or classFile == "PALADIN" and self:HasAura(L["Auras"].RF) then
         for i = 1, #self.removeBuffsDefensive do
             local foundAura = self:HasAura(self.removeBuffsDefensive[i])
             if foundAura then
