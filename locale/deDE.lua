@@ -46,7 +46,8 @@ L["Abilities"] = {
     ["Growl"] = {
         ["Name"] = "Knurren",
         ["Default"] = "- Mein Knurren wurde von $tn widerstanden -",
-        ["Prompt"] = "Neuer Text wenn Knurren wiederstanden wird:"
+        ["Prompt"] = "Neuer Text wenn Knurren wiederstanden wird:",
+        ["Immune"] = "- $tn is immune to Growl! -"
     },
     ["LS"] = {
         ["Name"] = "Letztes Gefecht",
@@ -61,7 +62,8 @@ L["Abilities"] = {
     ["RD"] = {
         ["Name"] = "Rechtschaffene Verteidigung",
         ["Default"] = "- Mein Rechtschaffene Verteidigung wurde von $tn widerstanden -",
-        ["Prompt"] = "Neuer Text wenn Rechtschaffene Verteidigung wiederstanden wird:"
+        ["Prompt"] = "Neuer Text wenn Rechtschaffene Verteidigung wiederstanden wird:",
+        ["Immune"] = "- $tn is immune to Righteous Defense! -"
     },
     ["SW"] = {
         ["Name"] = "Schildwall",
@@ -71,7 +73,8 @@ L["Abilities"] = {
     ["Taunt"] = {
         ["Name"] = "Spott",
         ["Default"] = "- Mein Spott wurde von $tn widerstanden -",
-        ["Prompt"] = "Neuer Text wenn Spott wiederstanden wird:"
+        ["Prompt"] = "Neuer Text wenn Spott wiederstanden wird:",
+        ["Immune"] = "- $tn is immune to Taunt! -"
     }
 }
 

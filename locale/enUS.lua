@@ -44,7 +44,8 @@ L["Abilities"] = {
     ["Growl"] = {
         ["Name"] = "Growl",
         ["Default"] = "- My Growl has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted growls:"
+        ["Prompt"] = "Enter new announcement text for resisted growls:",
+        ["Immune"] = "- $tn is immune to Growl! -"
     },
     ["LS"] = {
         ["Name"] = "Last Stand",
@@ -59,7 +60,8 @@ L["Abilities"] = {
     ["RD"] = {
         ["Name"] = "Righteous Defense",
         ["Default"] = "- My Righteous Defense has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:"
+        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:",
+        ["Immune"] = "- $tn is immune to Righteous Defense! -"
     },
     ["SW"] = {
         ["Name"] = "Shield Wall",
@@ -69,7 +71,8 @@ L["Abilities"] = {
     ["Taunt"] = {
         ["Name"] = "Taunt",
         ["Default"] = "- My Taunt has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted taunts:"
+        ["Prompt"] = "Enter new announcement text for resisted taunts:",
+        ["Immune"] = "- $tn is immune to Taunt! -"
     }
 }
 

@@ -46,7 +46,8 @@ L["Abilities"] = {
     ["Growl"] = {
         ["Name"] = "포효",
         ["Default"] = "- My Growl has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted growls:"
+        ["Prompt"] = "Enter new announcement text for resisted growls:",
+        ["Immune"] = "- $tn is immune to Growl! -"
     },
     ["LS"] = {
         ["Name"] = "최후의 저항",
@@ -61,7 +62,8 @@ L["Abilities"] = {
     ["RD"] = {
         ["Name"] = "정의의 방어",
         ["Default"] = "- My Righteous Defense has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:"
+        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:",
+        ["Immune"] = "- $tn is immune to Righteous Defense! -"
     },
     ["SW"] = {
         ["Name"] = "방패의 벽",
@@ -71,7 +73,8 @@ L["Abilities"] = {
     ["Taunt"] = {
         ["Name"] = "도발",
         ["Default"] = "- My Taunt has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted taunts:"
+        ["Prompt"] = "Enter new announcement text for resisted taunts:",
+        ["Immune"] = "- $tn is immune to Taunt! -"
     }
 }
 

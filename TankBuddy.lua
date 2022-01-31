@@ -125,6 +125,12 @@ local defaultannounceTauntResistText = {
     ["PALADIN"] = L["Abilities"]["RD"]["Default"]
 }
 
+local defaultannounceTauntImmuneText = {
+    ["WARRIOR"] = L["Abilities"]["Taunt"]["Immune"],
+    ["DRUID"] = L["Abilities"]["Growl"]["Immune"],
+    ["PALADIN"] = L["Abilities"]["RD"]["Immune"]
+}
+
 local defaultannounceCSText = {
     ["WARRIOR"] = L["Abilities"]["CS"]["Default"],
     ["DRUID"] = L["Abilities"]["CR"]["Default"],
@@ -335,6 +341,7 @@ local defaults = {
         removeBuffsDefensive = L["Auras"]["Salvation"],
         announceTaunt = true,
         announceTauntResistText = defaultannounceTauntResistText[classFile],
+        announceTauntImmuneText = defaultannounceTauntImmuneText[classFile],
         announceCSText = defaultannounceCSText[classFile],
         announceCS = true,
         announceMBResistText = L["Abilities"]["MB"]["Default"],
@@ -400,6 +407,11 @@ function addon:GetAnnounceText(abilityName)
 
         return self.db.profile.announceTaunt and self.db.profile.announceTauntResistText or nil
 
+    elseif abilityName == L["Abilities"]["Taunt"]["Name"] .. 'I' or abilityName == L["Abilities"]["Growl"]["Name"] ..
+        'I' or abilityName == L["Abilities"]["RD"]["Name"] .. 'I' then
+
+        return self.db.profile.announceTaunt and self.db.profile.announceTauntImmuneText or nil
+
     end
 end
 
@@ -442,15 +454,15 @@ function addon:CombatLogHandler(...)
     end
 
     if classFile == "WARRIOR" then
-        if spellName == L["Abilities"]["Taunt"]["Name"] then -- and resisted then -- Checks if your taunt was resisted
-            if subevent == "SPELL_MISSED" and not UnitIsPlayer("target") then
-
-                self:SendMessage("MissType: " .. missType)
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"]["Taunt"]["Name"] and not UnitIsPlayer("target") then
+            if missType == "IMMUNE" then
+                abilityName = L["Abilities"]["Taunt"]["Name"] .. 'I'
+            else
                 abilityName = L["Abilities"]["Taunt"]["Name"]
-                if self.db.profile.announceTaunt then
-                    announceArgs["target"] = destGUID
-                    announceArgs["Time"] = GetTime()
-                end
+            end
+            if self.db.profile.announceTaunt then
+                announceArgs["target"] = destGUID
+                announceArgs["Time"] = GetTime()
             end
         elseif spellName == L["Abilities"]["SW"]["Name"] then
             if subevent == "SPELL_CAST_SUCCESS" then
@@ -535,7 +547,9 @@ function addon:Announce(abilityName, announceArgs)
     end
 
     if abilityName == L["Abilities"]["Taunt"]["Name"] or abilityName == L["Abilities"]["MB"]["Name"] or abilityName ==
-        L["Abilities"]["Growl"]["Name"] or abilityName == L["Abilities"]["RD"]["Name"] then
+        L["Abilities"]["Growl"]["Name"] or abilityName == L["Abilities"]["RD"]["Name"] .. 'I' or abilityName ==
+        L["Abilities"]["Taunt"]["Name"] or abilityName == L["Abilities"]["MB"]["Name"] or abilityName ==
+        L["Abilities"]["Growl"]["Name"] .. 'I' or abilityName == L["Abilities"]["RD"]["Name"] .. 'I' then
 
         if find(announcementText, "$ttn") then
             if UnitName("targettarget") then
@@ -750,7 +764,7 @@ end
 
 function addon:SendWarning(msg)
     if UIErrorsFrame then
-        UIErrorsFrame:AddMessage(fmt("%s: %s", L["TankBuddy"]), 1.0, 0.1, 0.1, 5.0);
+        UIErrorsFrame:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 1.0, 0.1, 0.1, 5.0);
     end
     if DEFAULT_CHAT_FRAME then
         DEFAULT_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 1.0, 0.1, 0.1, 1.0);

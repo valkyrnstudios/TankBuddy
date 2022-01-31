@@ -48,7 +48,8 @@ L["Abilities"] = {
     ["Growl"] = {
         ["Name"] = "Grondement",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 mon grondement ! -",
-        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' au Grondement:"
+        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' au Grondement:",
+        ["Immune"] = "- $tn is immune to Growl! -"
     },
     ["LS"] = {
         ["Name"] = "Dernier rempart",
@@ -63,7 +64,8 @@ L["Abilities"] = {
     ["RD"] = {
         ["Name"] = "D\195\169fense vertueuse",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 ma D\195\169fense vertueuse ! -",
-        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la D\195\169fense vertueuse:"
+        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la D\195\169fense vertueuse:",
+        ["Immune"] = "- $tn is immune to Righteous Defense! -"
     },
     ["SW"] = {
         ["Name"] = "Mur protecteur",
@@ -73,7 +75,8 @@ L["Abilities"] = {
     ["Taunt"] = {
         ["Name"] = "Provocation",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 ma provocation ! -",
-        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la provocation:"
+        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la provocation:",
+        ["Immune"] = "- $tn is immune to Taunt! -"
     }
 }
 
