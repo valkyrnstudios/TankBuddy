@@ -49,7 +49,7 @@ L["Abilities"] = {
         ["Name"] = "Grondement",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 mon grondement ! -",
         ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' au Grondement:",
-        ["Immune"] = "- $tn is immune to Growl! -"
+        ["Immune"] = "- $tn est immunis\117 contre Grondement ! -"
     },
     ["LS"] = {
         ["Name"] = "Dernier rempart",
@@ -65,7 +65,7 @@ L["Abilities"] = {
         ["Name"] = "D\195\169fense vertueuse",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 ma D\195\169fense vertueuse ! -",
         ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la D\195\169fense vertueuse:",
-        ["Immune"] = "- $tn is immune to Righteous Defense! -"
+        ["Immune"] = "- $tn est immunis\117 contre D\195\169fense vertueuse ! -"
     },
     ["SW"] = {
         ["Name"] = "Mur protecteur",
@@ -76,7 +76,7 @@ L["Abilities"] = {
         ["Name"] = "Provocation",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 ma provocation ! -",
         ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la provocation:",
-        ["Immune"] = "- $tn is immune to Taunt! -"
+        ["Immune"] = "- $tn est immunis\117 contre Provocation ! -"
     }
 }
 
