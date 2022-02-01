@@ -5,11 +5,10 @@
 L["DisableInBG"] = "Disable in battlegrounds";
 L["Done"] = "done!";
 L["EnableTankBuddy"] = "Enable Tank Buddy";
-L["EnterNewMBRecoveryText"] =
-    "Enter new announcement text for recovered taunts:";
+L["EnterNewMBRecoveryText"] = "Enter new announcement text for recovered taunts:";
 L["General"] = "General";
 L["Help"] = "Help";
-L["output_buffremoved"] = " removed, matched "; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
+L["output_buffremoved"] = "removed, matched"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Test";
 L["EnableAnnounce"] = "Enable announcement"
@@ -26,7 +25,10 @@ L["defaultText"] = {
     ["recovery"] = "- My Mocking Blow RECOVERED my resisted taunt! -"
 }
 
-L["Auras"] = {["Salvation"] = "Salvation", ["RF"] = "Righteous Fury"}
+L["Auras"] = {
+    ["Salvation"] = "Salvation",
+    ["RF"] = "Righteous Fury"
+}
 
 L["Abilities"] = {
     ["CR"] = {
@@ -39,11 +41,11 @@ L["Abilities"] = {
         ["Default"] = "- I activated Challenging Shout! I will need a lot of healing for $sec seconds! -",
         ["Prompt"] = "Enter new announcement text for using challenging shout:"
     },
-    ["FR"] = {["Name"] = "Fel Rage", ["Default"] = "", ["Prompt"] = ""},
     ["Growl"] = {
         ["Name"] = "Growl",
         ["Default"] = "- My Growl has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted growls:"
+        ["Prompt"] = "Enter new announcement text for resisted growls:",
+        ["Immune"] = "- $tn is immune to Growl! -"
     },
     ["LS"] = {
         ["Name"] = "Last Stand",
@@ -58,7 +60,8 @@ L["Abilities"] = {
     ["RD"] = {
         ["Name"] = "Righteous Defense",
         ["Default"] = "- My Righteous Defense has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:"
+        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:",
+        ["Immune"] = "- $tn is immune to Righteous Defense! -"
     },
     ["SW"] = {
         ["Name"] = "Shield Wall",
@@ -68,7 +71,8 @@ L["Abilities"] = {
     ["Taunt"] = {
         ["Name"] = "Taunt",
         ["Default"] = "- My Taunt has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted taunts:"
+        ["Prompt"] = "Enter new announcement text for resisted taunts:",
+        ["Immune"] = "- $tn is immune to Taunt! -"
     }
 }
 

@@ -1,6 +1,8 @@
 ﻿local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "frFR")
 
-if not L then return end
+if not L then
+    return
+end
 
 -- TODO restructure abilities
 -- by Dab, Drek'Thar EU (French server)
@@ -12,7 +14,7 @@ L["EnterNewMBRecoveryText"] =
     "Entrez un nouveau texte d'annonce pour les provocations rat\195\169es mais r\195\169cup\195\169r\195\169es:";
 L["General"] = "G\195\169n\195\169ral";
 L["Help"] = "Aide";
-L["output_buffremoved"] = " enlev\195\169e, puisqu'il contient ";
+L["output_buffremoved"] = "enlev\195\169e, puisqu'il contient";
 L["SetCustomChannel"] = "Choisir un channel personnalis\195\169";
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Test";
@@ -43,11 +45,11 @@ L["Abilities"] = {
         ["Default"] = "- J'ai activ\195\169 cri de d\195\169fi ! Mass heal sur moi pendant $sec secondes! -",
         ["Prompt"] = "Annonce personnalis\195\169e pour Cri de d\195\169fi:"
     },
-    ["FR"] = {["Name"] = "Gangrerage", ["Default"] = "", ["Prompt"] = ""},
     ["Growl"] = {
         ["Name"] = "Grondement",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 mon grondement ! -",
-        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' au Grondement:"
+        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' au Grondement:",
+        ["Immune"] = "- $tn est immunis\117 contre Grondement ! -"
     },
     ["LS"] = {
         ["Name"] = "Dernier rempart",
@@ -62,7 +64,8 @@ L["Abilities"] = {
     ["RD"] = {
         ["Name"] = "D\195\169fense vertueuse",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 ma D\195\169fense vertueuse ! -",
-        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la D\195\169fense vertueuse:"
+        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la D\195\169fense vertueuse:",
+        ["Immune"] = "- $tn est immunis\117 contre D\195\169fense vertueuse ! -"
     },
     ["SW"] = {
         ["Name"] = "Mur protecteur",
@@ -72,7 +75,8 @@ L["Abilities"] = {
     ["Taunt"] = {
         ["Name"] = "Provocation",
         ["Default"] = "- $tn a r\195\169sist\195\169 \195\160 ma provocation ! -",
-        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la provocation:"
+        ["Prompt"] = "Annonce personnalis\195\169e pour les 'r\195\169siste' \195\160 la provocation:",
+        ["Immune"] = "- $tn est immunis\117 contre Provocation ! -"
     }
 }
 

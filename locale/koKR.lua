@@ -1,23 +1,22 @@
 ﻿local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "koKR")
 
-if not L then return end
+if not L then
+    return
+end
 
 -- by Raeldar, Artun Subasi, and Kolthor
 
 L["DisableInBG"] = "Disable in battlegrounds";
 L["Done"] = "done!";
 L["EnableTankBuddy"] = "Enable Tank Buddy";
-L["EnterNewMBRecoveryText"] =
-    "Enter new announcement text for recovered taunts:";
+L["EnterNewMBRecoveryText"] = "Enter new announcement text for recovered taunts:";
 L["General"] = "General";
 L["Help"] = "Help";
-L["output_buffremoved"] = " removed, matched "; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
+L["output_buffremoved"] = "removed, matched"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["TankBuddy"] = "Tank Buddy";
 L["Test"] = "Test";
 L["EnableAnnounce"] = "Enable announcement"
 
--- TODO create UI parent, merge titles under
--- TODO update intro/help dext for BCC and BlizzUI
 L["IntroText"] =
     "Thank you for using Tank Buddy, formerly known as Taunt Buddy.\nTaunt Buddy was originally created by Artun Subasi, but since he stopped development, Kolthor from Doomhammer EU took over. Updated for 2.4 combatlog & Paladin support by Raeldar.\n\nTo the right there are a number of tabs, depending on your class. Each tab has options for announcement message, and channels to announce to under given circumstances."
 L["HelpText"] =
@@ -28,7 +27,10 @@ L["defaultText"] = {
     ["recovery"] = "- My Mocking Blow RECOVERED my resisted taunt! -"
 }
 
-L["Auras"] = {["Salvation"] = "구원의 축복", ["RF"] = "정의의 격노"}
+L["Auras"] = {
+    ["Salvation"] = "구원의 축복",
+    ["RF"] = "정의의 격노"
+}
 
 L["Abilities"] = {
     ["CR"] = {
@@ -41,11 +43,11 @@ L["Abilities"] = {
         ["Default"] = "- I activated Challenging Shout! I will need a lot of healing for $sec seconds! -",
         ["Prompt"] = "Enter new announcement text for using challenging shout:"
     },
-    ["FR"] = {["Name"] = "마의 분노", ["Default"] = "", ["Prompt"] = ""},
     ["Growl"] = {
         ["Name"] = "포효",
         ["Default"] = "- My Growl has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted growls:"
+        ["Prompt"] = "Enter new announcement text for resisted growls:",
+        ["Immune"] = "- $tn 에 면역이다 포효! -"
     },
     ["LS"] = {
         ["Name"] = "최후의 저항",
@@ -60,7 +62,8 @@ L["Abilities"] = {
     ["RD"] = {
         ["Name"] = "정의의 방어",
         ["Default"] = "- My Righteous Defense has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:"
+        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:",
+        ["Immune"] = "- $tn 에 면역이다 정의의 방어! -"
     },
     ["SW"] = {
         ["Name"] = "방패의 벽",
@@ -70,7 +73,8 @@ L["Abilities"] = {
     ["Taunt"] = {
         ["Name"] = "도발",
         ["Default"] = "- My Taunt has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted taunts:"
+        ["Prompt"] = "Enter new announcement text for resisted taunts:",
+        ["Immune"] = "- $tn 에 면역이다 도발! -"
     }
 }
 
