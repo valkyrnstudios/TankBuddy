@@ -78,7 +78,18 @@ L["Abilities"] = {
 
 L["Items"] = {
     ["Title"] = "Items and buffs",
-    ["Default"] = "Adamantine Shell,20,1280 armor",
+    ["Default"] = [[Tenacity,15,900 health
+Adamantine Shell,20,1280 armor
+Time's Favor,10,15.85%% dodge
+Phalanx,15,15.85%% block
+Protector's Vigor,20,1750 health
+Nightmare Seed,30,2000 health
+Dawnstone Crab,20,6.61%% dodge
+Empyrean Tortoise,20,8.72%% dodge
+Heightened Reflexes,20,150 agility
+Displacement,15,165 defense but less threat
+Ursine Blessing,15,4070 armor
+]], -- TODO link into StatLogic for actual values
     ["Prompt"] = "Enter one item per line to announce: Buff name,Seconds,Effect",
     ["Template"] = "- I gained $effect for $sec seconds - "
 }
