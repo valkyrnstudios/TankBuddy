@@ -87,7 +87,7 @@ local options = {
         },
         items = {
             type = 'group',
-            name = L["Items"]["Title"],
+            name = L["Items"].Title,
             order = 4,
             args = {
                 announceItems = {
