@@ -413,32 +413,15 @@ function addon:GetAnnounceText(abilityName)
         return self.db.profile.announceTaunt and self.db.profile.announceTauntImmuneText or nil
 
     end
+
+    return nil
 end
 
 function addon:COMBAT_LOG_EVENT_UNFILTERED(...)
-    self:CombatLogHandler(CombatLogGetCurrentEventInfo())
-end
+    local _, subevent, _, _, sourceName, _, _, destGUID, _, _, _, _, spellName, _, missType =
+        CombatLogGetCurrentEventInfo()
 
-function addon:CombatLogHandler(...)
-    local abilityName = nil
-    local announceArgs = {
-        ["target"] = nil
-    }
-    local _, subevent, _, _, sourceName, _, _, destGUID, destName, _, _ = ...
-
-    if sourceName ~= self.playerName then
-        return
-    end
-
-    local missType, spellName
-
-    local eventKind = subevent:sub(0, 5)
-
-    if eventKind == "SWING" then
-        _, _, _, _, _, _, _, _, _, _ = select(12, ...)
-    elseif eventKind == "SPELL" then
-        _, spellName, _, missType, _, _, _, _, _, _, _, _, _ = select(12, ...)
-    else
+    if sourceName ~= self.playerName or subevent:sub(0, 5) ~= "SPELL" then
         return
     end
 
@@ -446,78 +429,109 @@ function addon:CombatLogHandler(...)
         return
     end
 
-    if destName then
-        announceArgs["target"] = destName
-    end
+    local abilityData = {
+        Name = nil
+    }
+
+    local announceArgs = {
+        ["Target"] = destGUID or nil
+    }
 
     if classFile == "WARRIOR" then
         if subevent == "SPELL_MISSED" and spellName == L["Abilities"].Taunt.Name and not UnitIsPlayer("target") then
-            if missType == "IMMUNE" then
-                abilityName = L["Abilities"].Taunt.Name .. 'I'
-            else
-                abilityName = L["Abilities"].Taunt.Name
-            end
             if self.db.profile.announceTaunt then
-                announceArgs["target"] = destGUID
                 announceArgs["Time"] = GetTime()
+
+                if missType == "IMMUNE" then
+                    abilityData.Name = spellName .. 'I'
+                else
+                    abilityData.Name = spellName
+                end
             end
         elseif spellName == L["Abilities"].SW.Name then
             if subevent == "SPELL_CAST_SUCCESS" then
-                abilityName = L["Abilities"].SW.Name
+                abilityData.Name = spellName
             elseif subevent == "SPELL_AURA_REMOVED" then
-                abilityName = L["Abilities"].SW.Name .. "D"
+                abilityData.Name = spellName .. "D"
             end
         elseif spellName == L["Abilities"].LS.Name then
             if subevent == "SPELL_CAST_SUCCESS" then
-                abilityName = L["Abilities"].LS.Name
+                abilityData.Name = spellName
             elseif subevent == "SPELL_AURA_REMOVED" then
-                abilityName = L["Abilities"].LS.Name .. "D"
+                abilityData.Name = spellName .. "D"
             end
         elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"].CS.Name then
-            abilityName = L["Abilities"].CS.Name
-        elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"].MB.Name then
-            if self.db.profile.announceTaunt then
-                abilityName = L["Abilities"].MB.Name
-            end
-
-            if subevent == "SPELL_MISSED" and spellName == L["Abilities"].MB.Name then
-                abilityName = L["Abilities"].MB.Name
-            end
+            abilityData.Name = spellName
+        elseif subevent == "SPELL_MISSED" and spellName == L["Abilities"].MB.Name and self.db.profile.announceTaunt then
+            abilityData.Name = spellName
         end
     elseif classFile == "DRUID" then
-        if subevent == "SPELL_MISSED" and spellName == L["Abilities"].Growl.Name and not UnitIsPlayer("target") then
-            abilityName = L["Abilities"].Growl.Name
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"].Growl.Name and self.db.profile.announceTaunt and
+            not UnitIsPlayer("target") then
+            if missType == "IMMUNE" then
+                abilityData.Name = spellName .. 'I'
+            else
+                abilityData.Name = spellName
+            end
         elseif subevent == "SPELL_CAST_SUCCESS" and spellName == L["Abilities"].CR.Name then
-            abilityName = L["Abilities"].CR.Name
+            abilityData.Name = spellName
         end
     elseif classFile == "PALADIN" then
-        if subevent == "SPELL_MISSED" and spellName == L["Abilities"].RD.Name and not UnitIsPlayer("target") then
-            abilityName = L["Abilities"].RD.Name
+        if subevent == "SPELL_MISSED" and spellName == L["Abilities"].RD.Name and self.db.profile.announceTaunt and
+            not UnitIsPlayer("target") then
+
+            if missType == "IMMUNE" then
+                abilityData.Name = spellName .. 'I'
+            else
+                abilityData.Name = spellName
+            end
         end
     end
 
-    if abilityName == nil and subevent == "SPELL_CAST_SUCCESS" and self.itemAnnounceCache[spellName] ~= nil then
-        abilityName = spellName
+    if abilityData.Name == nil and subevent == "SPELL_CAST_SUCCESS" and self.itemAnnounceCache[spellName] ~= nil then
+        abilityData.Name = spellName
     end
 
-    if abilityName then
-        self:Announce(abilityName, announceArgs)
+    if abilityData.Name then
+        if subevent == "SPELL_AURA_REMOVED" then
+            self:Announce(abilityData, announceArgs)
+        else
+            abilityData = self:GetBuffData(abilityData.Name)
+            self:Announce(abilityData, announceArgs)
+        end
     end
 end
 
-function addon:Announce(abilityName, announceArgs)
-    if not abilityName then
+function addon:GetBuffData(buffName)
+    local name, duration, source, spellId
+    for i = 1, 40 do
+        name, _, _, _, duration, _, source, _, _, spellId = UnitBuff("Player", i)
+        if not name then
+            return nil
+        elseif buffName == name then
+            return {
+                Name = name,
+                Duration = duration,
+                Source = source,
+                SpellId = spellId
+            }
+        end
+    end
+end
+
+function addon:Announce(abilityData, announceArgs)
+    if not abilityData.Name then
         self:SendWarning("Improper Announce received")
         return
     end
 
     local announcementText
 
-    if abilityName == L["Abilities"].MB.Name and announceArgs then
-        if announceArgs.tauntFailInfo then
-            local TBTime = GetTime() - announceArgs.tauntFailInfo.Time
+    if abilityData.Name == L["Abilities"].MB.Name and announceArgs then
+        if announceArgs then
+            local TBTime = GetTime() - announceArgs.Time
             if TBTime < self:GetTauntCD() then
-                if UnitGUID("target") == announceArgs.tauntFailInfo.Target then
+                if UnitGUID("target") == announceArgs.Target then
                     announcementText = L["Default"].recovery
                 else
                     announcementText = nil
@@ -525,17 +539,17 @@ function addon:Announce(abilityName, announceArgs)
             end
         end
     else
-        announcementText = self:GetAnnounceText(abilityName)
+        announcementText = self:GetAnnounceText(abilityData.Name)
     end
 
     if not announcementText then
-        local itemData = self.itemAnnounceCache[abilityName]
+        local itemData = self.itemAnnounceCache[abilityData.Name]
 
         if itemData == nil then
             return
         end
 
-        announcementText = gsub(L["Items"].Template, "$sec", itemData["seconds"])
+        announcementText = gsub(L["Items"].Template, "$sec", abilityData.Duration)
 
         announcementText = gsub(announcementText, "$effect", itemData["effect"])
 
@@ -543,10 +557,10 @@ function addon:Announce(abilityName, announceArgs)
         return
     end
 
-    if abilityName == L["Abilities"].Taunt.Name or abilityName == L["Abilities"].MB.Name or abilityName ==
-        L["Abilities"].Growl.Name or abilityName == L["Abilities"].RD.Name .. 'I' or abilityName ==
-        L["Abilities"].Taunt.Name or abilityName == L["Abilities"].MB.Name or abilityName == L["Abilities"].Growl.Name ..
-        'I' or abilityName == L["Abilities"].RD.Name .. 'I' then
+    if abilityData.Name == L["Abilities"].Taunt.Name or abilityData.Name == L["Abilities"].MB.Name or abilityData.Name ==
+        L["Abilities"].Growl.Name or abilityData.Name == L["Abilities"].RD.Name .. 'I' or abilityData.Name ==
+        L["Abilities"].Taunt.Name or abilityData.Name == L["Abilities"].MB.Name or abilityData.Name ==
+        L["Abilities"].Growl.Name .. 'I' or abilityData.Name == L["Abilities"].RD.Name .. 'I' then
 
         if find(announcementText, "$ttn") then
             if UnitName("targettarget") then
@@ -592,18 +606,18 @@ function addon:Announce(abilityName, announceArgs)
                 announcementText = gsub(announcementText, "$tt", "Unknown");
             end
         end
-    elseif abilityName == L["Abilities"].SW.Name then
+    elseif abilityData.Name == L["Abilities"].SW.Name then
 
-        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", self:GetSWDuration())
+        announcementText = gsub(self:GetAnnounceText(abilityData.Name), "$sec", abilityData.Duration)
 
-    elseif abilityName == L["Abilities"].LS.Name then
+    elseif abilityData.Name == L["Abilities"].LS.Name then
 
-        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "20")
+        announcementText = gsub(self:GetAnnounceText(abilityData.Name), "$sec", abilityData.Duration)
         announcementText = gsub(announcementText, "$hp", math.floor((UnitHealthMax("player") / 130) * 30))
 
-    elseif abilityName == L["Abilities"].CS.Name or abilityName == L["Abilities"].CR.Name then
+    elseif abilityData.Name == L["Abilities"].CS.Name or abilityData.Name == L["Abilities"].CR.Name then
 
-        announcementText = gsub(self:GetAnnounceText(abilityName), "$sec", "6")
+        announcementText = gsub(self:GetAnnounceText(abilityData.Name), "$sec", "6")
 
     end
 
@@ -625,24 +639,6 @@ function addon:Announce(abilityName, announceArgs)
     if announcementText then
         SendChatMessage(announcementText, channel, nil)
     end
-end
-
-function addon:GetSWDuration()
-    local duration = 10 -- Default duration
-
-    local _, _, _, _, currRank, _ = GetTalentInfo(3, 13); -- Get rank of Improved Shield Wall
-    if currRank == 1 then
-        duration = duration + 3 -- Rank 1 gives 3 seconds extra
-    elseif currRank == 2 then
-        duration = duration + 5 -- Rank 2 gives 5 seconds extra (total)
-    end
-
-    _, _, _, _, currRank, _ = GetTalentInfo(1, 18) -- Get rank of Improved Disciplines
-    if currRank > 0 then
-        duration = duration + (2 * currRank) -- Each rank gives 2 seconds extra
-    end
-
-    return duration
 end
 
 function addon:GetTauntCD()
@@ -735,7 +731,7 @@ function addon:UpdateCache()
     self.removeBuffsAlways = self:SplitOptionsString(self.db.profile.removeBuffsAlways)
 
     local announceItemsList = {strsplit('\n', self.db.profile.announceItemsText)}
-    local buff, seconds, effect;
+    local buff, effect
 
     self.itemAnnounceCache = {}
 
@@ -744,10 +740,9 @@ function addon:UpdateCache()
             return
         end
 
-        buff, seconds, effect = strsplit(',', itemData)
+        buff, effect = strsplit(',', itemData)
 
         self.itemAnnounceCache[buff] = {
-            seconds = tonumber(seconds),
             effect = effect
         }
     end
