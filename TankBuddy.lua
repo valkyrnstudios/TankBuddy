@@ -496,8 +496,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(...)
         if subevent == "SPELL_AURA_REMOVED" then
             self:Announce(abilityData, announceArgs)
         else
-            abilityData = self:GetBuffData(abilityData.Name)
-            self:Announce(abilityData, announceArgs)
+            self:Announce(self:GetBuffData(abilityData.Name) or abilityData, announceArgs)
         end
     end
 end
@@ -559,7 +558,7 @@ function addon:Announce(abilityData, announceArgs)
 
     if abilityData.Name == L["Abilities"].Taunt.Name or abilityData.Name == L["Abilities"].MB.Name or abilityData.Name ==
         L["Abilities"].Growl.Name or abilityData.Name == L["Abilities"].RD.Name .. 'I' or abilityData.Name ==
-        L["Abilities"].Taunt.Name or abilityData.Name == L["Abilities"].MB.Name or abilityData.Name ==
+        L["Abilities"].Taunt.Name .. 'I' or abilityData.Name == L["Abilities"].MB.Name or abilityData.Name ==
         L["Abilities"].Growl.Name .. 'I' or abilityData.Name == L["Abilities"].RD.Name .. 'I' then
 
         if find(announcementText, "$ttn") then
