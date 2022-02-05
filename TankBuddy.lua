@@ -520,7 +520,7 @@ function addon:GetBuffData(buffName)
 end
 
 function addon:Announce(abilityData, announceArgs)
-    if not abilityData.Name then
+    if not abilityData or not abilityData.Name then
         self:SendWarning("Improper Announce received")
         return
     end
