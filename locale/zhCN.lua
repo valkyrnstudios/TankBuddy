@@ -1,21 +1,21 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "zhCN")
+local L = LibStub("AceLocale-3.0"):NewLocale("TankBuddy", "zhCN")
 
 if not L then
     return
 end
 
--- by Huijie
+-- by Huijie Wei
 
-L["DisableInBG"] = "战场中停止使用";
-L["Done"] = "确定!";
+L["DisableInBG"] = "战场内禁用";
+L["Done"] = "done!";
 L["EnableTankBuddy"] = "开启坦克助手";
-L["EnterNewMBRecoveryText"] = "输入补救嘲讽失败时所要发送的通知:";
-L["General"] = "一般";
+L["EnterNewMBRecoveryText"] = "Enter new announcement text for recovered taunts:";
+L["General"] = "通用";
 L["Help"] = "帮助";
-L["output_buffremoved"] = "removed, matched"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
+L["output_buffremoved"] = "移除, 匹配"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
 L["TankBuddy"] = "坦克助手";
 L["Test"] = "测试";
-L["EnableAnnounce"] = "开启通知"
+L["EnableAnnounce"] = "开启通告"
 
 -- TODO create UI parent, merge titles under
 -- TODO update intro/help dext for BCC and BlizzUI
@@ -26,7 +26,7 @@ L["HelpText"] =
 
 -- TODO merge into abilities
 L["defaultText"] = {
-    ["recovery"] = "- 我的惩戒痛击中抵抗我嘲讽的怪物! -"
+    ["recovery"] = "- My Mocking Blow RECOVERED my resisted taunt! -"
 }
 
 L["Auras"] = {
@@ -37,80 +37,79 @@ L["Auras"] = {
 L["Abilities"] = {
     ["CR"] = {
         ["Name"] = "挑战咆哮",
-        ["Default"] = "- 我使用了挑战咆哮! 我需要大量加血在 $sec 秒内! -",
-        ["Prompt"] = "输入新的通知在使用挑战咆哮的时:"
+        ["Default"] = "- I activated Challenging Roar! I will need a lot of healing for $sec seconds! -",
+        ["Prompt"] = "Enter new announcement text for using challenging roar:"
     },
     ["CS"] = {
         ["Name"] = "挑战怒吼",
-        ["Default"] = "- 我使用了挑战怒吼! 我需要大量加血在 $sec 秒内! -",
-        ["Prompt"] = "输入新的通知在使用挑战怒吼的时:"
+        ["Default"] = "- I activated Challenging Shout! I will need a lot of healing for $sec seconds! -",
+        ["Prompt"] = "Enter new announcement text for using challenging shout:"
     },
     ["Growl"] = {
         ["Name"] = "低吼",
-        ["Default"] = "- 我的低吼被 $tn 抵抗了! -",
-        ["Prompt"] = "输入新的通知在低吼被抵抗的时:",
-        ["Immune"] = "- $tn 对低吼免疫! -"
+        ["Default"] = "- My Growl has been resisted by $tn! -",
+        ["Prompt"] = "Enter new announcement text for resisted growls:",
+        ["Immune"] = "- $tn is immune to Growl! -"
     },
     ["LS"] = {
         ["Name"] = "破釜沉舟",
-        ["Default"] = "- 我开启了破釜沉舟! 在 $sec 秒后我会掉血 $hpHP! -",
-        ["Prompt"] = "输入新的通知在使用破釜沉舟时:"
+        ["Default"] = "- I activated Last Stand! In $sec seconds I will lose $hpHP! -",
+        ["Prompt"] = "Enter new announcement text for using last stand:"
     },
     ["MB"] = {
         ["Name"] = "惩戒痛击",
-        ["Default"] = "- 我的惩戒痛击被 $tn! 抵抗了 -",
-        ["Prompt"] = "输入新的通知在惩戒痛击失败时:"
+        ["Default"] = "- My Mocking Blow failed against $tn! -",
+        ["Prompt"] = "Enter new announcement text for failed mocking blows:"
     },
     ["RD"] = {
         ["Name"] = "正义防御",
-        ["Default"] = "- 我的正义防御被 $tn! 抵抗了 -",
-        ["Prompt"] = "输入新的通知在正义防御被抵抗时:",
-        ["Immune"] = "- $tn 对正义防御免疫! -"
+        ["Default"] = "- My Righteous Defense has been resisted by $tn! -",
+        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:",
+        ["Immune"] = "- $tn is immune to Righteous Defense! -"
     },
     ["SW"] = {
         ["Name"] = "盾墙",
-        ["Default"] = "- 我开启了盾墙!  在 $sec 秒内受到伤害降低 75%! -",
-        ["Prompt"] = "输入新的通知在开启盾墙时:"
+        ["Default"] = "- I activated Shield Wall and will be taking 75% less damage for $sec seconds! -",
+        ["Prompt"] = "Enter new announcement text for using shield wall:"
     },
     ["Taunt"] = {
         ["Name"] = "嘲讽",
-        ["Default"] = "- 我的嘲讽被 $tn! 抵抗了 -",
-        ["Prompt"] = "输入新的通知在嘲讽被抵抗时:",
-        ["Immune"] = "- $tn 免疫嘲讽! -"
+        ["Default"] = "- My Taunt has been resisted by $tn! -",
+        ["Prompt"] = "Enter new announcement text for resisted taunts:",
+        ["Immune"] = "- $tn is immune to Taunt! -"
     }
 }
 
 L["Items"] = {
-    ["Title"] = "物品和 BUFF",
-    ["Default"] = [[坚韧,900 血量
-精金护罩,1280 护甲
-时之赐福,15.85%% 躲闪
-方阵,15.85%% 格挡
-保卫者的活力,1750 血量
-超级坚韧,1750 血量
-梦魇草,2000 血量
-黎明石螃蟹,6.61%% 躲闪
-天蓝宝石海龟,8.72%% 躲闪
-强化反射,150 敏捷
-转移,165 防等并降低仇恨
-巨熊祝福,4070 护甲
+    ["Title"] = "物品和增益",
+    ["Default"] = [[Tenacity,900 health
+Adamantine Shell,1280 armor
+Time's Favor,15.85%% dodge
+Phalanx,15.85%% block
+Protector's Vigor,1750 health
+Nightmare Seed,2000 health
+Dawnstone Crab,6.61%% dodge
+Empyrean Tortoise,8.72%% dodge
+Heightened Reflexes,150 agility
+Displacement,165 defense but less threat
+Ursine Blessing,4070 armor
 ]], -- TODO link into StatLogic for actual values
-    ["Prompt"] = "每行输入一个项目通告: BUFF 名称,效果",
-    ["Template"] = "- 我获得了 $effect 在 $sec 秒内 - "
+    ["Prompt"] = "每行输入一个项目通告: 增益名称,效果",
+    ["Template"] = "- 我获得了 $effect, 持续 $sec 秒 - "
 }
 
 L["RemoveBuffs"] = {
-    ["Title"] = "BUFF 移除",
-    ["Always"] = "始终移除的 BUFF:",
-    ["DRUID"] = "只有在熊形态时:",
-    ["WARRIOR"] = "只有在防御姿态时:",
-    ["PALADIN"] = "只有在正义之怒开启时:"
+    ["Title"] = "增益移除",
+    ["Always"] = "总是移除以下增益:",
+    ["DRUID"] = "仅在熊形态:",
+    ["WARRIOR"] = "仅在防御姿态:",
+    ["PALADIN"] = "仅在开启正义之怒:"
 }
 
 L["Channel"] = {
-    ["Emote"] = "表情",
-    ["Yell"] = "大喊",
-    ["Party"] = "小队",
-    ["Raid"] = "团队",
-    ["RaidWarning"] = "团队警告"
+    ["Emote"] = "Emote",
+    ["Yell"] = "Yell",
+    ["Party"] = "Party",
+    ["Raid"] = "Raid",
+    ["RaidWarning"] = "Raid Warning"
 }
