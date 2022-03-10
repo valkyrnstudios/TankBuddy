@@ -7,9 +7,9 @@ end
 -- by Huijie Wei
 
 L["DisableInBG"] = "战场内禁用";
-L["Done"] = "done!";
+L["Done"] = "结束!";
 L["EnableTankBuddy"] = "开启坦克助手";
-L["EnterNewMBRecoveryText"] = "Enter new announcement text for recovered taunts:";
+L["EnterNewMBRecoveryText"] = "输入新的通告文本当嘲讽被重置:";
 L["General"] = "通用";
 L["Help"] = "帮助";
 L["output_buffremoved"] = "移除, 匹配"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
@@ -37,46 +37,46 @@ L["Auras"] = {
 L["Abilities"] = {
     ["CR"] = {
         ["Name"] = "挑战咆哮",
-        ["Default"] = "- I activated Challenging Roar! I will need a lot of healing for $sec seconds! -",
-        ["Prompt"] = "Enter new announcement text for using challenging roar:"
+        ["Default"] = "- 我开启了群嘲! 在 $sec 秒内加好我! -",
+        ["Prompt"] = "输入新的通告文本当开启挑战咆哮后:"
     },
     ["CS"] = {
         ["Name"] = "挑战怒吼",
-        ["Default"] = "- I activated Challenging Shout! I will need a lot of healing for $sec seconds! -",
-        ["Prompt"] = "Enter new announcement text for using challenging shout:"
+        ["Default"] = "- 我开启了群嘲! 在 $sec 秒内加好我! -",
+        ["Prompt"] = "输入新的通告文本当开启挑战怒吼后:"
     },
     ["Growl"] = {
         ["Name"] = "低吼",
-        ["Default"] = "- My Growl has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted growls:",
-        ["Immune"] = "- $tn is immune to Growl! -"
+        ["Default"] = "- 我的低吼被 $tn 抵抗了! -",
+        ["Prompt"] = "输入新的通告文本当低吼被抵抗后:",
+        ["Immune"] = "- $tn 免疫了低吼! -"
     },
     ["LS"] = {
         ["Name"] = "破釜沉舟",
-        ["Default"] = "- I activated Last Stand! In $sec seconds I will lose $hpHP! -",
-        ["Prompt"] = "Enter new announcement text for using last stand:"
+        ["Default"] = "- 我开启了破釜沉舟! $sec 秒后我会损失 $hp 血量! -",
+        ["Prompt"] = "输入新的通告文本当开启破釜沉舟后:"
     },
     ["MB"] = {
         ["Name"] = "惩戒痛击",
-        ["Default"] = "- My Mocking Blow failed against $tn! -",
-        ["Prompt"] = "Enter new announcement text for failed mocking blows:"
+        ["Default"] = "- 我的惩戒痛击攻击 $tn 失败了! -",
+        ["Prompt"] = "输入新的通告文本当惩戒痛击攻击失败后:"
     },
     ["RD"] = {
         ["Name"] = "正义防御",
-        ["Default"] = "- My Righteous Defense has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted Righteous Defense:",
-        ["Immune"] = "- $tn is immune to Righteous Defense! -"
+        ["Default"] = "- 我的正义防御被 $tn 抵抗了! -",
+        ["Prompt"] = "输入新的通告文本当正义防御被抵抗后:",
+        ["Immune"] = "- $tn 免疫了正义防御! -"
     },
     ["SW"] = {
         ["Name"] = "盾墙",
-        ["Default"] = "- I activated Shield Wall and will be taking 75% less damage for $sec seconds! -",
-        ["Prompt"] = "Enter new announcement text for using shield wall:"
+        ["Default"] = "- 我开启了盾墙! 在 $sec 秒内受到伤害降低 75%! -",
+        ["Prompt"] = "输入新的通告文本当开启盾墙后:"
     },
     ["Taunt"] = {
         ["Name"] = "嘲讽",
-        ["Default"] = "- My Taunt has been resisted by $tn! -",
-        ["Prompt"] = "Enter new announcement text for resisted taunts:",
-        ["Immune"] = "- $tn is immune to Taunt! -"
+        ["Default"] = "- 我的嘲讽被 $tn 抵抗了! -",
+        ["Prompt"] = "输入新的通告文本当嘲讽被抵抗后:",
+        ["Immune"] = "- $tn 免疫了嘲讽! -"
     }
 }
 
