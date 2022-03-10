@@ -9,7 +9,7 @@ end
 L["DisableInBG"] = "战场内禁用";
 L["Done"] = "结束!";
 L["EnableTankBuddy"] = "开启坦克助手";
-L["EnterNewMBRecoveryText"] = "输入新的通告文本当嘲讽被重置:";
+L["EnterNewMBRecoveryText"] = "输入新的通告文本当嘲讽补救失败:";
 L["General"] = "通用";
 L["Help"] = "帮助";
 L["output_buffremoved"] = "移除, 匹配"; -- As in ["Greater Blessing of Salvation" removed, matched "Salvation"]
