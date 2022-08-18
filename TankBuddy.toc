@@ -1,4 +1,6 @@
-## Interface: 20503
+## Interface: 20504
+## Interface-BCC: 20504
+## Interface-Wrath: 30400
 ## Title: Tank Buddy
 ## Author: SabreValkyrn
 ## Version: @project-version@
@@ -7,6 +9,7 @@
 ## SavedVariables: TankBuddyDB
 ## X-Credits: Kane, Kolthor, Raespark
 ## X-Curse-Project-ID: 491423
+## X-Wago-ID: PANzEDG4
 ## X-Embeds: Ace3
 
 embeds.xml
