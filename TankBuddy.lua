@@ -748,8 +748,8 @@ function addon:UpdateCache()
 end
 
 function addon:SendMessage(msg)
-    if DEFAULT_CHAT_FRAME then
-        DEFAULT_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 0.0, 1.0, 0.0, 1.0);
+    if SELECTED_CHAT_FRAME then
+        SELECTED_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 0.0, 1.0, 0.0, 1.0);
     end
 end
 
@@ -757,8 +757,8 @@ function addon:SendWarning(msg)
     if UIErrorsFrame then
         UIErrorsFrame:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 1.0, 0.1, 0.1, 5.0);
     end
-    if DEFAULT_CHAT_FRAME then
-        DEFAULT_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 1.0, 0.1, 0.1, 1.0);
+    if SELECTED_CHAT_FRAME then
+        SELECTED_CHAT_FRAME:AddMessage(fmt("%s: %s", L["TankBuddy"], msg), 1.0, 0.1, 0.1, 1.0);
     end
 end
 
