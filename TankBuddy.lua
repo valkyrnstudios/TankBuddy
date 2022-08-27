@@ -557,7 +557,7 @@ function addon:Announce(abilityData, announceArgs)
     end
 
     if abilityData.Name == L["Abilities"].Taunt.Name or abilityData.Name == L["Abilities"].MB.Name or abilityData.Name ==
-        L["Abilities"].Growl.Name or abilityData.Name == L["Abilities"].RD.Name .. 'I' or abilityData.Name ==
+        L["Abilities"].Growl.Name or abilityData.Name == L["Abilities"].RD.Name or abilityData.Name ==
         L["Abilities"].Taunt.Name .. 'I' or abilityData.Name == L["Abilities"].MB.Name or abilityData.Name ==
         L["Abilities"].Growl.Name .. 'I' or abilityData.Name == L["Abilities"].RD.Name .. 'I' then
 
