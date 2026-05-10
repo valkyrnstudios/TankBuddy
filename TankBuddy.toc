@@ -1,5 +1,5 @@
-## Interface: 20504
-## Interface-BCC: 20504
+## Interface: 20505
+## Interface-BCC: 20505
 ## Interface-Wrath: 30400
 ## Title: Tank Buddy
 ## Author: SabreValkyrn

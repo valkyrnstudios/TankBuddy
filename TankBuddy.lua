@@ -1,7 +1,8 @@
 ﻿local addonName, TankBuddy = ...
 
 local addon = nil
-
+local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or _G.GetAddOnMetadata
+local SendChatMessage = C_ChatInfo and C_ChatInfo.SendChatMessage or _G.SendChatMessage
 addon = LibStub("AceAddon-3.0"):NewAddon(TankBuddy, addonName, "AceConsole-3.0", "AceEvent-3.0")
 
 addon.Version = GetAddOnMetadata(addonName, "Version")
@@ -25,8 +26,12 @@ local options = {
             name = L["TankBuddy"],
             guiHidden = true,
             func = function()
-                InterfaceOptionsFrame_OpenToCategory(L[addonName])
-                InterfaceOptionsFrame_OpenToCategory(L[addonName])
+                if Settings and Settings.OpenToCategory then
+                    Settings.OpenToCategory(L[addonName])
+                else
+                    InterfaceOptionsFrame_OpenToCategory(L[addonName])
+                    InterfaceOptionsFrame_OpenToCategory(L[addonName])
+                end
             end
         },
         enable = {
@@ -706,8 +711,12 @@ function addon:ChatCommand(input)
     local cmd = input:trim()
 
     if not cmd or cmd == "" then
-        InterfaceOptionsFrame_OpenToCategory(L[addonName])
-        InterfaceOptionsFrame_OpenToCategory(L[addonName])
+        if Settings and Settings.OpenToCategory then
+            Settings.OpenToCategory(L[addonName])
+        else
+            InterfaceOptionsFrame_OpenToCategory(L[addonName])
+            InterfaceOptionsFrame_OpenToCategory(L[addonName])
+        end
     elseif cmd == "reset" then
         self:SendMessage("Reset settings")
         self.db:ResetProfile()
